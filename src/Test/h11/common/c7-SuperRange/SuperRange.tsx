@@ -1,5 +1,4 @@
 import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes} from "react";
-import s from "./SuperRange.module.css";
 import Slider from '@material-ui/core/Slider';
 import {makeStyles} from '@material-ui/core/styles';
 
