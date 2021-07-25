@@ -2,10 +2,11 @@ import s from './Register.module.css'
 import {Formik} from 'formik';
 import {CreateUserThunk} from '../state/register-reducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {LinearProgress, TextField} from '@material-ui/core';
+import {TextField} from '@material-ui/core';
 import {AppRootStateType} from '../state/store';
 import { Redirect } from 'react-router-dom';
 import React from 'react';
+import {ErrorSnackbar} from '../Snackbar/ErrorSnackBar';
 
 
 export const Register: React.FC = () => {
@@ -25,7 +26,27 @@ export const Register: React.FC = () => {
                 <div className={s.form}>
                     <Formik
                         initialValues={{email: '', password: '', confirmPassword: ''}}
-
+                        validate={values => {
+                            const errors:any = {};
+                            if (!values.email) {
+                                errors.email = 'Required';
+                            } else if (
+                                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                            ) {
+                                errors.email = 'Invalid email address';
+                            }
+                            if (!values.password) {
+                                errors.password = 'Required';
+                            } else if (values.password.length < 7) {
+                                errors.password = 'Password too short';
+                            }
+                            if (!values.confirmPassword) {
+                                errors.confirmPassword = 'Required';
+                            } else if (values.password != values.confirmPassword) {
+                                errors.password = `Password don't match`;
+                            }
+                            return errors;
+                        }}
                         onSubmit={(values, {setSubmitting}) => {
                             dispatch(CreateUserThunk(values.email, values.password))
                             setSubmitting(false);
@@ -48,24 +69,36 @@ export const Register: React.FC = () => {
                                                onChange={handleChange}
                                                onBlur={handleBlur}
                                                value={values.email}
-                                               placeholder={'Email'}/>
-                                    {errors.email && touched.email && errors.email}
-                                    <TextField required id="filled-password-input"
+                                               placeholder={'Email'}
+                                               helperText={
+                                                   errors.email && touched.email
+                                                       ? errors.email
+                                                       : 'Enter email-id'
+                                               }/>
+                                    <TextField id="password"
                                                type="password"
                                                name="password"
                                                onChange={handleChange}
                                                onBlur={handleBlur}
                                                value={values.password}
+                                               helperText={
+                                                   errors.password && touched.password
+                                                       ? errors.password
+                                                       : 'Enter password'
+                                               }
                                                placeholder={'Password'}/>
-                                    {errors.password && touched.password && errors.password}
-                                    <TextField required id="filled-password-input"
-                                               type="confirmPassword"
+                                    <TextField id="confirmPassword"
+                                               type="password"
                                                name="confirmPassword"
                                                onChange={handleChange}
                                                onBlur={handleBlur}
                                                value={values.confirmPassword}
-                                               placeholder={'Confirm Password'}/>
-                                    {errors.confirmPassword && touched.confirmPassword && errors.confirmPassword}
+                                               placeholder={'Confirm Password'}
+                                               helperText={
+                                                   errors.confirmPassword && touched.confirmPassword
+                                                       ? errors.confirmPassword
+                                                       : 'Enter the password again'
+                                               }/>
                                     <div className={s.buttonBlock}>
                                         <button className={s.cancelButton}>
                                             Cancel
@@ -80,6 +113,7 @@ export const Register: React.FC = () => {
                     </Formik>
                 </div>
             </div>
+            <ErrorSnackbar/>
         </div>
     )
 };

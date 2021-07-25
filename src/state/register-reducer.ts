@@ -4,7 +4,7 @@ import {AuthAPI} from '../dal/api';
 
 type setErrorACType = {
     type: 'APP/SET-ERROR'
-    error?: string
+    error?: string | null
 }
 
 type setStatusACType = {
@@ -35,13 +35,9 @@ export const registerReducer = (state: initialStateType = initialState, action: 
     let copyState = {...state}
     switch (action.type) {
         case 'APP/SET-ERROR':
-            if (action.error) {
-                return {
-                    ...state,
-                    error: action.error
-                }
-            } else {
-                return copyState
+            return {
+                ...state,
+                error: action.error
             }
         case 'APP/SET-STATUS':
             return {
@@ -58,9 +54,12 @@ export const registerReducer = (state: initialStateType = initialState, action: 
     }
 }
 
-export const setStatusAC = (status: boolean) => ({type: 'APP/SET-STATUS', status} as const)
-export const setErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
-export const setRegisterStatus = (isRegister: boolean) => ({type: 'APP/SET-REGISTER-STATUS', isRegister} as const)
+export const setStatusAC = (status: boolean): setStatusACType => ({type: 'APP/SET-STATUS', status})
+export const setErrorAC = (error: string | null): setErrorACType => ({type: 'APP/SET-ERROR', error})
+export const setRegisterStatus = (isRegister: boolean): setRegisterStatusACType => ({
+    type: 'APP/SET-REGISTER-STATUS',
+    isRegister
+} as const)
 
 export const CreateUserThunk = (email: string, password: string) => {
     return (dispatch: Dispatch) => {
@@ -70,9 +69,12 @@ export const CreateUserThunk = (email: string, password: string) => {
                 dispatch(setStatusAC(false))
                 dispatch(setRegisterStatus(true))
             })
-            .catch((res) => {
-                const error = res.error
-                dispatch(setErrorAC(error))
+            .catch((error) => {
+                if (!error.error) {
+                    dispatch(setErrorAC('Some Error! More details in console.'))
+                } else {
+                    dispatch(setErrorAC(error.error))
+                }
                 dispatch(setStatusAC(false))
             })
     }
