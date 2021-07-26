@@ -12,7 +12,7 @@ export function Profile() {
     (state) => state.login.isLoggedIn
   );
 
-  const userData = useSelector<AppRootStateType, ResponseLoginType | {} >(state=> state.login.user)
+  // const userData = useSelector<AppRootStateType, ResponseLoginType | {} >(state=> state.login.user)
 
   const dispatch = useDispatch();
 
