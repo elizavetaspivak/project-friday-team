@@ -4,7 +4,7 @@
     align-items: center;
     background: linear-gradient(#E6D4DE, #9890C7);
     height: 100vh;
-    min-width: 100%;
+    width: 100%;
 }
 
 .registerBlock {
@@ -21,7 +21,7 @@
 }
 
 .form{
-    width: 350px;
+    max-width: 350px;
 }
 
 
@@ -71,4 +71,46 @@
     -moz-box-shadow: 0 0 20px rgba(60, 170, 214, 0.5);
     -webkit-box-shadow: 0 0 20px rgba(60, 170, 214, 0.5);
     box-shadow: 0 0 20px rgba(60, 170, 214, 0.5);
+}
+
+@media screen and (max-width: 420px){
+    .registerBlock{
+        width: 350px;
+    }
+    .form{
+        max-width: 300px;
+    }
+    .formInput div {
+        width: 300px;
+        padding: 3px;
+    }
+    .cancelButton{
+        width: 100px;
+        height: 30px;
+    }
+    .registerButton{
+        width: 160px;
+        height: 30px;
+    }
+}
+
+@media screen and (max-width: 370px){
+    .registerBlock{
+        width: 300px;
+    }
+    .form{
+        max-width: 260px;
+    }
+    .formInput div {
+        width: 260px;
+        padding: 2px;
+    }
+    .cancelButton{
+        width: 80px;
+        height: 30px;
+    }
+    .registerButton{
+        width: 140px;
+        height: 30px;
+    }
 }
