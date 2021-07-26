@@ -16,6 +16,7 @@ export function Profile() {
 
   const dispatch = useDispatch();
 
+
   useEffect(()=> {
   axios.post("https://neko-back.herokuapp.com/2.0/auth/me", {}, {withCredentials: true}).then(res=>{
     //   debugger
@@ -23,9 +24,12 @@ export function Profile() {
   })
   },[])
 
+
+
   const logoutHandler = () => {
     dispatch(logoutTC());
   };
+
 
   if (!isLoginIn) {
     return <Redirect to={"/login"} />;

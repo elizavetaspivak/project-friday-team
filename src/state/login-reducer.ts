@@ -50,7 +50,6 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
     .catch();
 };
 
-
 // export const getUserDataTC =
 //   (data: ResponseLoginType) => (dispatch: Dispatch<ActionsType>) => {
 //     debugger
