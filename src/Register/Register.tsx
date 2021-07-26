@@ -12,6 +12,7 @@ import {ErrorSnackbar} from '../Snackbar/ErrorSnackBar';
 export const Register: React.FC = () => {
     let dispatch = useDispatch()
 
+
     let isRegister = useSelector<AppRootStateType, boolean>(state => state.register.isRegister)
 
     if(isRegister){
