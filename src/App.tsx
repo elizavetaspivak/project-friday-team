@@ -9,11 +9,18 @@ import {TypeNewPassword} from './TypeNewPassword/TypeNewPassword';
 import {Nav} from './Nav/Nav';
 import {TestPage} from './Test/Test';
 import {Error} from './Error/Error';
+import {useSelector} from 'react-redux';
+import {AppRootStateType} from './state/store';
+import {LinearProgress} from '@material-ui/core';
+import {ErrorSnackbar} from './Snackbar/ErrorSnackBar';
 
 function App() {
+    let status = useSelector<AppRootStateType, boolean>(state => state.register.status)
+
     return (
         <div className="App">
             <Nav/>
+            {status && <LinearProgress color='secondary' />}
                 <Switch>
                     <Route path="/login"
                            component={Login}/>
