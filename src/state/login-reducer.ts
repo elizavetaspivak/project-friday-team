@@ -3,7 +3,16 @@ import { loginApi, LoginType, ResponseLoginType } from "../Login/loginApi";
 
 const initialState = {
   isLoggedIn: false as boolean,
-  user: {} as ResponseLoginType | {},
+  user: { _id: ''	,
+    email: ''	,
+    name: ''	,	
+    publicCardPacksCount: 0, // количество колод	 
+    created: Date, 	
+    updated: Date,	
+    isAdmin: false,	
+    verified: false, // подтвердил ли почту	
+    rememberMe: false
+  } as ResponseLoginType | {},
 };
 
 export const loginReducer = (
@@ -25,11 +34,13 @@ export const loginReducer = (
 export const setIsLoggedInAC = (value: boolean) =>
   ({ type: "LOGIN/SET-IS-LOGGED-IN", value } as const);
 
-export const setUserDataAC = (userData: ResponseLoginType) =>
-  ({
+export const setUserDataAC = (userData: ResponseLoginType) =>{
+  //  debugger
+  return (
+    {
     type: "LOGIN/SET_USER_DATA",
     userData,
-  } as const);
+  } as const);}
 
 // thunks
 export const loginTC =
