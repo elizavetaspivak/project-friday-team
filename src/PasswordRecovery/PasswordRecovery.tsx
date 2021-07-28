@@ -1,11 +1,12 @@
 import s from './PasswordRecovery.module.css'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import FormGroup from "@material-ui/core/FormGroup";
 import {TextField} from "@material-ui/core";
-import {NavLink} from "react-router-dom";
-import React from "react";
+import {NavLink, Redirect} from "react-router-dom";
+import React, {useEffect} from "react";
 import {passwordRecoveryTC} from "../state/password-reducer";
+import {AppRootStateType} from "../state/store";
 
 type FormikErrorType = {
     email?: string;
@@ -13,6 +14,10 @@ type FormikErrorType = {
 
 export function PasswordRecovery() {
     const dispatch = useDispatch();
+
+    const emailIsSent = useSelector<AppRootStateType, boolean>((state) => state.password.emailIsSent);
+
+
 
 
     const formik = useFormik({
@@ -35,6 +40,11 @@ export function PasswordRecovery() {
             formik.resetForm();
         }
     })
+
+    if (emailIsSent) {
+        return <Redirect to={"/recoveryconfirmation"}/>;
+
+    }
 
     return (
         <div className={s.recovery}>
@@ -60,5 +70,7 @@ export function PasswordRecovery() {
                 </form>
             </div>
         </div>
+
     )
+
 }

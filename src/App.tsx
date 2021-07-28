@@ -13,6 +13,7 @@ import {useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 import {LinearProgress} from '@material-ui/core';
 import {ErrorSnackbar} from './Snackbar/ErrorSnackBar';
+import {PasswordRecoveryConfirmation} from "./PasswordRecovery/PasswordRecoveryConfirmation";
 
 function App() {
     let status = useSelector<AppRootStateType, boolean>(state => state.register.status)
@@ -30,6 +31,8 @@ function App() {
                            render={() => <Profile/>}/>
                     <Route exact path="/recovery"
                            render={() => <PasswordRecovery/>}/>
+                    <Route exact path="/recoveryconfirmation"
+                           render={() => <PasswordRecoveryConfirmation/>}/>
                     <Route exact path="/newpassword"
                            render={() => <TypeNewPassword/>}/>
                     <Route exact path="/testpage"

@@ -1,10 +1,10 @@
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import s from './Nav.module.css'
 import {LinearProgress} from '@material-ui/core';
 import React from 'react';
 
 export function Nav() {
-    return(
+    return (
         <div className={s.nav}>
             <div className={s.item}>
                 <NavLink to='/login' activeClassName={s.active}>Login</NavLink>
@@ -21,6 +21,9 @@ export function Nav() {
             <div className={s.item}>
                 <NavLink to='/recovery' activeClassName={s.active}>Password Recovery</NavLink>
             </div>
+            {/*<div className={s.item}>*/}
+            {/*    <NavLink to='/recoveryconfirmation' activeClassName={s.active}>RecoveryConfirmation</NavLink>*/}
+            {/*</div>*/}
             <div className={s.item}>
                 <NavLink to='/newpassword' activeClassName={s.active}>Type New Password</NavLink>
             </div>
