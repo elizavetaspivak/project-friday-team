@@ -5,6 +5,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import {TextField} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
 import React from "react";
+import {passwordRecoveryTC} from "../state/password-reducer";
 
 type FormikErrorType = {
     email?: string;
@@ -30,7 +31,7 @@ export function PasswordRecovery() {
             return errors;
         },
         onSubmit: (values) => {
-            // dispatch(submitTC(values));
+            dispatch(passwordRecoveryTC(values.email));
             formik.resetForm();
         }
     })
@@ -49,7 +50,7 @@ export function PasswordRecovery() {
                             <div style={{color: "red"}}>{formik.errors.email}</div>
                         ) : null}
                         <div className={s.buttonBlock}>
-                            <button className={s.recoveryButton}> Get Instructions</button>
+                            <button className={s.recoveryButton}>Get Instructions</button>
                         </div>
                     </FormGroup>
                     <div className={s.navlinkBlock}>
