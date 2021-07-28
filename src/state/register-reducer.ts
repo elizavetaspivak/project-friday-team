@@ -1,50 +1,26 @@
 import {Dispatch} from 'redux'
 import {AuthAPI} from '../dal/api';
+import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from './app-reducer';
 
-
-type setErrorACType = {
-    type: 'APP/SET-ERROR'
-    error?: string | null
-}
-
-type setStatusACType = {
-    type: 'APP/SET-STATUS'
-    status: boolean
-}
 
 type setRegisterStatusACType = {
-    type: 'APP/SET-REGISTER-STATUS'
+    type: 'SET-REGISTER-STATUS'
     isRegister: boolean
 }
 
 type initialStateType = {
     isRegister: boolean
-    status: boolean
-    error?: string | null
 }
 
 const initialState = {
-    isRegister: false,
-    status: false,
-    error: null
+    isRegister: false
 }
 
 type ActionsType = setErrorACType | setStatusACType | setRegisterStatusACType
 
 export const registerReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
-    let copyState = {...state}
     switch (action.type) {
-        case 'APP/SET-ERROR':
-            return {
-                ...state,
-                error: action.error
-            }
-        case 'APP/SET-STATUS':
-            return {
-                ...state,
-                status: action.status
-            }
-        case 'APP/SET-REGISTER-STATUS':
+        case 'SET-REGISTER-STATUS':
             return {
                 ...state,
                 isRegister: action.isRegister
@@ -53,11 +29,8 @@ export const registerReducer = (state: initialStateType = initialState, action: 
             return state
     }
 }
-
-export const setStatusAC = (status: boolean): setStatusACType => ({type: 'APP/SET-STATUS', status})
-export const setErrorAC = (error: string | null): setErrorACType => ({type: 'APP/SET-ERROR', error})
 export const setRegisterStatus = (isRegister: boolean): setRegisterStatusACType => ({
-    type: 'APP/SET-REGISTER-STATUS',
+    type: 'SET-REGISTER-STATUS',
     isRegister
 } as const)
 
