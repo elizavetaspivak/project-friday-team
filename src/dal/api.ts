@@ -52,9 +52,6 @@ export const AuthAPI = {
   me() {
     return instance.post<ResponseLoginType>(`auth/me`, {});
   
-  },
-  createUser(email: string, password: string) {
-    return instance.post<CreateUserType>('/auth/register', {email, password});
   }
 }
 
