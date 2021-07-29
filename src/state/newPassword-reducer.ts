@@ -1,6 +1,5 @@
 import {Dispatch} from "redux";
 import {RestoreAPI} from "../PasswordRecovery/PasswordRecoveryAPI";
-import * as React from "react";
 
 
 type ActionsType = ReturnType<typeof passwordSentAC>

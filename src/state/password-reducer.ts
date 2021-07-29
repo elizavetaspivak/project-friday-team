@@ -1,9 +1,5 @@
 import {Dispatch} from "redux";
 import {RestoreAPI} from "../PasswordRecovery/PasswordRecoveryAPI";
-import {Redirect} from "react-router-dom";
-import * as React from "react";
-import {RedirectProps} from "react-router";
-import {setIsLoggedInAC} from "./login-reducer";
 
 
 type InitialStateType = {
