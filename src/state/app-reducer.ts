@@ -1,4 +1,3 @@
-
 export type setErrorACType = {
     type: 'APP/SET-ERROR'
     error?: string | null

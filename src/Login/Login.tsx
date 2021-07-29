@@ -5,9 +5,9 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
 import { ErrorSnackbar } from "../Snackbar/ErrorSnackBar";
-import { loginTC } from "../state/login-reducer";
 import { AppRootStateType } from "../state/store";
 import s from "./Login.module.css";
+import {loginTC} from '../state/login-reducer';
 
 type FormikErrorType = {
   email?: string;
