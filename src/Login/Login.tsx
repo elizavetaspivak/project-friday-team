@@ -4,6 +4,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
+import { ErrorSnackbar } from "../Snackbar/ErrorSnackBar";
 import { loginTC } from "../state/login-reducer";
 import { AppRootStateType } from "../state/store";
 import s from "./Login.module.css";
@@ -19,7 +20,6 @@ export function Login() {
     (state) => state.login.isLoggedIn
   );
   const dispath = useDispatch();
-
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +45,6 @@ export function Login() {
     },
 
     onSubmit: (values) => {
-      // alert(JSON.stringify(values));
       dispath(loginTC(values));
       formik.resetForm();
     },
@@ -57,46 +56,51 @@ export function Login() {
 
   return (
     <div className={s.login}>
-      <div>
-        <form onSubmit={formik.handleSubmit}>
-          <FormGroup>
-            <TextField type="email" {...formik.getFieldProps("email")} />
-            {formik.touched.email && formik.errors.email ? (
-              <div style={{ color: "red" }}>{formik.errors.email}</div>
-            ) : null}
-
-            <TextField type="password" {...formik.getFieldProps("password")} />
-            {formik.touched.password && formik.errors.password ? (
-              <div style={{ color: "red" }}>{formik.errors.password}</div>
-            ) : null}
-
-            <div>
-              <FormControlLabel
-                label={"Remember me"}
-                control={
-                  <Checkbox
-                    // name="rememberMe"
-                    // onChange={formik.handleChange}
-                    // value={formik.values.rememberMe}
-                    {...formik.getFieldProps("rememberMe")}
-                  />
-                }
-
-                // ошибка Type 'boolean' is not assignable to type 'string | number | readonly string[] | undefined'.
-                // поэт надо не value а  checked={formik.values.rememberMe}
-                //   value={formik.values.rememberMe}
-                // {...formik.getFieldProps("rememberMe")}
+      <div className={s.loginBlock}>
+        <h1>It-incubator</h1>
+        <h2>Sign In</h2>
+        <div className={s.form}>
+          <form onSubmit={formik.handleSubmit}>
+            <FormGroup>
+              <TextField
+                type="email"
+                placeholder={"Email"}
+                {...formik.getFieldProps("email")}
               />
-            </div>
+              {formik.touched.email && formik.errors.email ? (
+                <div style={{ color: "red" }}>{formik.errors.email}</div>
+              ) : null}
 
-            <button> Sing In </button>
-          </FormGroup>
-          <div className={s.navlinkLogin}>
-            <NavLink to={"/register"}>Not registered?</NavLink>
-            <NavLink to={"/recovery"}>Forgot password?</NavLink>
-          </div>
-        </form>
+              <TextField
+                type="password"
+                placeholder={"Password"}
+                {...formik.getFieldProps("password")}
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <div style={{ color: "red" }}>{formik.errors.password}</div>
+              ) : null}
+              <div className={s.rememberMe}>
+                <FormControlLabel
+                  label={"Remember me"}
+                  control={<Checkbox {...formik.getFieldProps("rememberMe")} />}
+                />
+              </div>
+            </FormGroup>
+
+            <div className={s.forgot}>
+              <NavLink to={"/recovery"}>Forgot password?</NavLink>
+            </div>
+            <div className={s.loginButton}>
+              <button> Login </button>
+            </div>
+          </form>
+        </div>
+        <div className={s.singIn}>
+          <p>Don't have an account?</p>
+          <NavLink to={"/register"}>Sign Up</NavLink>
+        </div>
       </div>
+      <ErrorSnackbar />
     </div>
   );
 }

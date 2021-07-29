@@ -18,7 +18,7 @@ export function ErrorSnackbar() {
         if (reason === 'clickaway') {
             return;
         }
-        debugger
+        // debugger
         dispatch(setErrorAC(null))
     };
 

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { ResponseLoginType } from "../Login/loginApi";
+import { Redirect, useParams } from "react-router-dom";
+import { ResponseLoginType } from "../dal/api";
 import { logoutTC, setIsLoggedInAC, setUserDataAC } from "../state/login-reducer";
+import { getMeTC } from "../state/profile-reducer";
 import { AppRootStateType } from "../state/store";
 import s from "./Profile.module.css";
 
@@ -12,24 +13,15 @@ export function Profile() {
     (state) => state.login.isLoggedIn
   );
 
-  // const userData = useSelector<AppRootStateType, ResponseLoginType | {} >(state=> state.login.user)
-
   const dispatch = useDispatch();
-
-
-  useEffect(()=> {
-  axios.post<ResponseLoginType>("https://neko-back.herokuapp.com/2.0/auth/me", {}, {withCredentials: true}).then(res=>{
-      // debugger
-    dispatch(setIsLoggedInAC(true));
-    dispatch(setUserDataAC(res.data));
-  })
-  },[])
-
-
 
   const logoutHandler = () => {
     dispatch(logoutTC());
   };
+  const getMeHandler = () => {
+    dispatch(getMeTC());
+  };
+
 
 
   if (!isLoginIn) {
@@ -39,6 +31,7 @@ export function Profile() {
     <div className={s.profile}>
       <p>
          Profile
+         <button onClick={getMeHandler}>Get me</button>
       </p>
 
       <div></div>
