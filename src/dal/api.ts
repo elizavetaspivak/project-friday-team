@@ -60,7 +60,7 @@ export const RestoreAPI = {
         return instance.post<RestoreResponseType>('auth/forgot',
             {
                 email,
-                message: "password recovery link: <a href='http://localhost:3000/project-friday-team#/newpassword/$token$'>link</a>"
+                message: "password recovery link: <a href='https://elizavetaspivak.github.io/project-friday-team#/newpassword/$token$'>link</a>"
             },);
     },
     create(password: string, token: any) {
