@@ -28,6 +28,8 @@ const initialState = {
   } as ResponseLoginType | {},
 };
 
+
+// reducer
 export const loginReducer = (
   state: InitialStateType = initialState,
   action: ActionsType
@@ -89,10 +91,3 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
       dispatch(setStatusAC(false));
     });
 };
-
-// export const getUserDataTC =
-//   (data: ResponseLoginType) => (dispatch: Dispatch<ActionsType>) => {
-//     debugger
-//     dispatch(setUserDataAC(data));
-//     dispatch(setIsLoggedInAC(true));
-//   };
