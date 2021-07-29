@@ -7,6 +7,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import React, {useEffect} from "react";
 import {passwordRecoveryTC} from "../state/password-reducer";
 import {AppRootStateType} from "../state/store";
+import {ErrorSnackbar} from '../Snackbar/ErrorSnackBar';
 
 type FormikErrorType = {
     email?: string;
@@ -15,7 +16,7 @@ type FormikErrorType = {
 export function PasswordRecovery() {
     const dispatch = useDispatch();
 
-    const emailIsSent = useSelector<AppRootStateType, boolean>((state) => state.password.emailIsSent);
+    const emailIsSent = useSelector<AppRootStateType, boolean>((state) => state.passwordRecovery.emailIsSent);
 
 
 
@@ -43,7 +44,6 @@ export function PasswordRecovery() {
 
     if (emailIsSent) {
         return <Redirect to={"/recoveryconfirmation"}/>;
-
     }
 
     return (
@@ -69,6 +69,7 @@ export function PasswordRecovery() {
                     </div>
                 </form>
             </div>
+            <ErrorSnackbar/>
         </div>
 
     )

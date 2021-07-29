@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
-import {RestoreAPI} from "../PasswordRecovery/PasswordRecoveryAPI";
+import {setErrorAC, setStatusAC} from './app-reducer';
+import {RestoreAPI} from '../dal/api';
 
 
 type InitialStateType = {
@@ -24,16 +25,22 @@ export const passwordRecoveryReducer = (state: InitialStateType = initialState, 
 
 export const emailIsSentAC = (emailIsSent: boolean) => ({type: 'APP/EMAIL-IS-SENT', emailIsSent})
 
-
-
 export const passwordRecoveryTC = (email: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setStatusAC(true))
         RestoreAPI.restore(email)
-            .then()
-            .catch(err => (console.log("Error")))
-        dispatch(emailIsSentAC(true))
-
-
+            .then(() => {
+                dispatch(emailIsSentAC(true))
+                dispatch(setStatusAC(false))
+            })
+            .catch(res => {
+                if(!res.error){
+                    dispatch(setErrorAC('Some Error! More details in console.'))
+                } else {
+                    dispatch(setErrorAC(res.error))
+                }
+                dispatch(setStatusAC(false))
+            })
     }
 }
 

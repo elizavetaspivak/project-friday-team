@@ -1,5 +1,6 @@
-import {Dispatch} from "redux";
-import {RestoreAPI} from "../PasswordRecovery/PasswordRecoveryAPI";
+import {Dispatch} from 'redux';
+import {setErrorAC, setStatusAC} from './app-reducer';
+import {RestoreAPI} from '../dal/api';
 
 
 type ActionsType = ReturnType<typeof passwordSentAC>
@@ -30,12 +31,20 @@ export const passwordSentAC = (passwordSent: boolean) => ({type: 'APP/PASSWORD-S
 
 export const createNewPasswordTC = (password: string, token: any) => {
     return (dispatch: Dispatch) => {
+        dispatch(setStatusAC(true))
         RestoreAPI.create(password, token)
-            .then(res=> alert("Success"))
-            .catch(err => (console.log("Error")))
-        dispatch(passwordSentAC(true))
-
-
+            .then(res => {
+                dispatch(passwordSentAC(true))
+                dispatch(setStatusAC(false))
+            })
+            .catch(res => {
+                if (!res.error) {
+                    dispatch(setErrorAC('Some Error! More details in console.'))
+                } else {
+                    dispatch(setErrorAC(res.error))
+                }
+                dispatch(setStatusAC(false))
+            })
     }
 }
 
