@@ -1,40 +1,44 @@
-import {Dispatch} from "redux";
+import {Dispatch} from 'redux';
 import {setErrorAC, setStatusAC} from './app-reducer';
 import {RestoreAPI} from '../dal/api';
 
 
+type ActionsType = ReturnType<typeof passwordSentAC>
+
+
 type InitialStateType = {
-    emailIsSent: boolean
+    passwordSent: boolean
 }
 
 const initialState = {
-    emailIsSent: false
+    passwordSent: false
 }
 
-export const passwordRecoveryReducer = (state: InitialStateType = initialState, action: ActionsType) => {
+export const newPasswordReducer = (state: InitialStateType = initialState, action: ActionsType) => {
     switch (action.type) {
-        case 'APP/EMAIL-IS-SENT':
+        case 'APP/PASSWORD-SENT':
             return {
                 ...state,
-                emailIsSent: action.emailIsSent
+                passwordSent: action.passwordSent
             }
         default:
             return state
     }
 }
 
-export const emailIsSentAC = (emailIsSent: boolean) => ({type: 'APP/EMAIL-IS-SENT', emailIsSent})
+export const passwordSentAC = (passwordSent: boolean) => ({type: 'APP/PASSWORD-SENT', passwordSent})
 
-export const passwordRecoveryTC = (email: string) => {
+
+export const createNewPasswordTC = (password: string, token: any) => {
     return (dispatch: Dispatch) => {
         dispatch(setStatusAC(true))
-        RestoreAPI.restore(email)
-            .then(() => {
-                dispatch(emailIsSentAC(true))
+        RestoreAPI.create(password, token)
+            .then(res => {
+                dispatch(passwordSentAC(true))
                 dispatch(setStatusAC(false))
             })
             .catch(res => {
-                if(!res.error){
+                if (!res.error) {
                     dispatch(setErrorAC('Some Error! More details in console.'))
                 } else {
                     dispatch(setErrorAC(res.error))
@@ -44,4 +48,3 @@ export const passwordRecoveryTC = (email: string) => {
     }
 }
 
-type ActionsType = ReturnType<typeof emailIsSentAC>
