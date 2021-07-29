@@ -5,14 +5,13 @@ import {Login} from './Login/Login';
 import {Register} from './Register/Register';
 import {Profile} from './Profile/Profile';
 import {PasswordRecovery} from './PasswordRecovery/PasswordRecovery';
-import {TypeNewPassword} from './TypeNewPassword/TypeNewPassword';
+import {CreateNewPassword} from "./TypeNewPassword/CreateNewPassword";
 import {Nav} from './Nav/Nav';
 import {TestPage} from './Test/Test';
 import {Error} from './Error/Error';
 import {useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 import {LinearProgress} from '@material-ui/core';
-import {ErrorSnackbar} from './Snackbar/ErrorSnackBar';
 import {PasswordRecoveryConfirmation} from "./PasswordRecovery/PasswordRecoveryConfirmation";
 
 function App() {
@@ -33,8 +32,8 @@ function App() {
                            render={() => <PasswordRecovery/>}/>
                     <Route exact path="/recoveryconfirmation"
                            render={() => <PasswordRecoveryConfirmation/>}/>
-                    <Route exact path="/newpassword"
-                           render={() => <TypeNewPassword/>}/>
+                    <Route exact path="/newpassword/:token"
+                           render={() => <CreateNewPassword/>}/>
                     <Route exact path="/testpage"
                            render={() => <TestPage/>}/>
                     <Route exact path="*"

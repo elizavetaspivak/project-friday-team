@@ -21,11 +21,8 @@ export function Nav() {
             <div className={s.item}>
                 <NavLink to='/recovery' activeClassName={s.active}>Password Recovery</NavLink>
             </div>
-            {/*<div className={s.item}>*/}
-            {/*    <NavLink to='/recoveryconfirmation' activeClassName={s.active}>RecoveryConfirmation</NavLink>*/}
-            {/*</div>*/}
             <div className={s.item}>
-                <NavLink to='/newpassword' activeClassName={s.active}>Type New Password</NavLink>
+                <NavLink to='/newpassword/:token' activeClassName={s.active}>Type New Password</NavLink>
             </div>
             <div className={s.item}>
                 <NavLink to='/testpage' activeClassName={s.active}>Test Page</NavLink>
