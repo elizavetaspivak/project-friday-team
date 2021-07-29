@@ -3,6 +3,8 @@ import thunk from 'redux-thunk'
 import {loginReducer} from './login-reducer';
 import {profileReducer} from './profile-reducer';
 import {registerReducer} from './register-reducer';
+import {passwordRecoveryReducer} from './password-reducer';
+import {newPasswordReducer} from "./newPassword-reducer";
 import {passwordReducer} from './password-reducer';
 import {appReducer} from './app-reducer';
 
@@ -10,6 +12,8 @@ const rootReducer = combineReducers({
     login: loginReducer,
     profile: profileReducer,
     register: registerReducer,
+    password: passwordRecoveryReducer,
+    newPassword: newPasswordReducer
     password: passwordReducer,
     app: appReducer
 })
