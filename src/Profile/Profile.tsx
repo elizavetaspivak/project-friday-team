@@ -7,8 +7,8 @@ import s from './Profile.module.css';
 import {useEffect} from 'react';
 
 export function Profile() {
-
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getMeTC())
     }, []);
