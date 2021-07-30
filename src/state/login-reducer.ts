@@ -3,8 +3,6 @@ import {LoginType, ResponseLoginType, AuthAPI} from '../dal/api';
 import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from './app-reducer';
 
 // types
-type InitialStateType = typeof initialState;
-
 export type setIsLoggedInACType = ReturnType<typeof setIsLoggedInAC>;
 type ActionsType =
     | ReturnType<typeof setIsLoggedInAC>
@@ -12,8 +10,8 @@ type ActionsType =
     | setErrorACType
     | setStatusACType
 
-const initialState = {
-    isLoggedIn: false as boolean,
+const initialState:initialStateType = {
+    isLoggedIn: false,
     user: {
         _id: '',
         email: '',
@@ -24,15 +22,30 @@ const initialState = {
         isAdmin: false,
         verified: false, // подтвердил ли почту
         rememberMe: false,
-    } as ResponseLoginType | {}
+    }
+}
+
+type initialStateType = {
+    isLoggedIn: boolean
+    user: {
+        _id: string,
+        email: string,
+        name: string,
+        publicCardPacksCount: number, // количество колод
+        created: any,
+        updated: any,
+        isAdmin: boolean,
+        verified: boolean, // подтвердил ли почту
+        rememberMe: boolean,
+    }
 }
 
 
 // reducer
         export const loginReducer = (
-            state: InitialStateType = initialState,
+            state: initialStateType = initialState,
             action: ActionsType
-        ): InitialStateType => {
+        ): initialStateType => {
             switch (action.type) {
                 case 'LOGIN/SET-IS-LOGGED-IN':
                     return {...state, isLoggedIn: action.value};

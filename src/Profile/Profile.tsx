@@ -13,6 +13,8 @@ export function Profile() {
         dispatch(getMeTC())
     }, []);
 
+    let email = useSelector<AppRootStateType>(state => state.login.user.email)
+
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
     );
@@ -26,6 +28,10 @@ export function Profile() {
     }
     return (
         <div className={s.profile}>
+            <h1>Profile</h1>
+            <div>
+                Email: {email}
+            </div>
             <div>
                 <button onClick={logoutHandler}>Sing out</button>
             </div>
