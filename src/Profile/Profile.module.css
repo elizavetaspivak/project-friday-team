@@ -3,5 +3,39 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
+    background: linear-gradient(#e6d4de, #9890c7);
+    height: 100vh;
+    width: 100%;
+}
+
+.profileContainer{
+    flex-direction: row;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    width: 1300px;
+}
+
+.photoProfile{
+    align-content: center;
+    align-items: center;
+}
+
+.photoProfile img{
+    width: 200px;
+}
+
+.profileInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 290px;
+    align-items: center;
+    background-color: #d7d8ef;
+    height: 600px;
+}
+
+.table{
+    height: 600px;
+    background-color: white;
 }

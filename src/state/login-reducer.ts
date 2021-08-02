@@ -95,14 +95,15 @@ export const loginTC =
     };
 
 export const getMeTC = () => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true))
     AuthAPI.me().then((res) => {
         dispatch(setIsLoggedInAC(true));
         dispatch(setUserDataAC(res.data));
-        debugger
+        dispatch(setStatusAC(false))
     });
 };
 
-export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
+export const logoutTC = () => (dispatch: Dispatch) => {
     dispatch(setStatusAC(true));
     AuthAPI.logout()
         .then((res) => {

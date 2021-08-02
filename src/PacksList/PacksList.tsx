@@ -11,6 +11,7 @@ export function PacksList() {
     const dispatch = useDispatch()
 
     const profile = useSelector<AppRootStateType, any>(state => state.login.user)
+
     const {cardPacks, minCardsCount } = useSelector((state: AppRootStateType) => state.table)
 
     useEffect(() => {
@@ -18,7 +19,7 @@ export function PacksList() {
     }, [])
 
     const CreateNewPackList = () => {
-      dispatch(CreatNewPackListTC({cardsPack: {name: 'newPackName', path: profile.name}}, {user_id: profile._id}))
+      dispatch(CreatNewPackListTC({cardsPack: {name: 'fhjdskhjf', path: profile.name}}, {user_id: profile._id}))
     }
 
     const useStyles = makeStyles({
@@ -54,19 +55,27 @@ export function PacksList() {
                     </TableHead>
                     <TableBody>
                         {cardPacks.map((row) => {
-                                return (
+                            return (
                                     <TableRow key={row._id}>
                                         <TableCell component="th" scope="row">{row.name} </TableCell>
                                         <TableCell align="center">{row.cardsCount}</TableCell>
                                         <TableCell align="center">{row.updated}</TableCell>
                                         <TableCell align="center">{row.path}</TableCell>
                                         <TableCell align="center">
+                                            {row.user_id == profile._id ? <div>
+                                            <Button
+                                                variant="contained"
+                                                color="secondary">Delete</Button>
                                             <Button
                                                 variant="contained"
                                                 color="primary">Edit</Button>
                                             <Button
                                                 variant="contained"
                                                 color="primary">Learn</Button>
+                                        </div>:
+                                            <Button
+                                                variant="contained"
+                                                color="primary">Learn</Button>}
                                         </TableCell>
                                     </TableRow>
                                 )

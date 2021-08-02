@@ -1,7 +1,3 @@
-import {Dispatch} from 'redux';
-import {AuthAPI} from '../dal/api';
-import {setIsLoggedInAC, setUserDataAC} from './login-reducer';
-
 export type setErrorACType = {
     type: 'APP/SET-ERROR'
     error?: string | null
@@ -18,15 +14,13 @@ type initialStateType = {
     isInitialized: boolean
 }
 
-export type SetIsInitializedActionType = ReturnType<typeof setIsInitializedAC>
-
 const initialState = {
     status: false,
     error: null,
     isInitialized: false
 }
 
-type ActionsType = setErrorACType | setStatusACType | SetIsInitializedActionType
+type ActionsType = setErrorACType | setStatusACType
 
 export const appReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
@@ -40,8 +34,6 @@ export const appReducer = (state: initialStateType = initialState, action: Actio
                 ...state,
                 status: action.status
             }
-        case 'APP/SET-IS-INITIALIZED':
-            return {...state, isInitialized: action.isInitialized}
         default:
             return state
     }
@@ -49,23 +41,3 @@ export const appReducer = (state: initialStateType = initialState, action: Actio
 
 export const setStatusAC = (status: boolean): setStatusACType => ({type: 'APP/SET-STATUS', status})
 export const setErrorAC = (error: string | null): setErrorACType => ({type: 'APP/SET-ERROR', error})
-export const setIsInitializedAC = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized}) as const
-
-
-export const initializeAppTC = () => (dispatch: Dispatch) => {
-    dispatch(setStatusAC(true))
-    AuthAPI.me().then(res => {
-        dispatch(setStatusAC(false))
-        dispatch(setIsLoggedInAC(true))
-        dispatch(setUserDataAC(res.data));
-    })
-        .catch((e) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', error)
-            dispatch(setStatusAC(false))
-        }).finally(() => {
-        dispatch(setIsInitializedAC(true))
-    })
-}

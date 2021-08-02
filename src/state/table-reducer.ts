@@ -28,7 +28,7 @@ const InitialState = {
     maxCardsCount: 4,
     minCardsCount: 0,
     page: 1,
-    pageCount: 4,
+    pageCount: 6,
     token: '',
     tokenDeathTime: 0,
     sortPacks: '',
@@ -68,7 +68,6 @@ export const setPacksListTC = (params: GetPackParams = {}) =>
             user_id: tablesReducer.user_id,
             ...params
         }
-        debugger
         tableAPI.getCardsPack(cardsParamsModel).then(res => {
                 dispatch(setPacksListAC(res.data))
             }

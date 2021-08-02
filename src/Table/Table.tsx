@@ -6,24 +6,23 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../state/store';
 import Button from '@material-ui/core/Button';
 
-export type TablePropsType = {
-    userId: string
-}
 
-
-export function Tables(props: TablePropsType) {
+export function Tables() {
     let dispatch = useDispatch()
 
+    let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
+    console.log('userId', userId)
+
     useEffect(() => {
-        dispatch(setPacksListTC({user_id: props.userId}))
-    }, [])
+        userId && dispatch(setPacksListTC({user_id: userId}))
+    }, [userId])
 
     const {cardPacks} = useSelector((state: AppRootStateType) => state.table)
 
     return (
         <div
             style={{
-                margin: '0 10px',
+                margin: '0 0',
                 display: 'flex',
                 flexFlow: 'column',
                 alignItems: 'center',
@@ -51,6 +50,12 @@ export function Tables(props: TablePropsType) {
                                         <TableCell align="center">{row.updated}</TableCell>
                                         <TableCell align="center">{row.path}</TableCell>
                                         <TableCell align="center">
+                                            <Button
+                                                variant="contained"
+                                                color="secondary">Delete</Button>
+                                            <Button
+                                                variant="contained"
+                                                color="primary">Edit</Button>
                                             <Button
                                                 variant="contained"
                                                 color="primary">Learn</Button>

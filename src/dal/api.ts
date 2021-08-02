@@ -85,9 +85,10 @@ export const AuthAPI = {
         return instance.post<ResponseLoginType>(`auth/login`, data);
     },
     logout() {
-        return instance.delete<DeleteLoginResponseType>(`auth/me`);
+        return instance.delete<DeleteLoginResponseType>(`auth/me`, {});
     },
     me() {
+        debugger
         return instance.post<ResponseLoginType>(`auth/me`, {});
 
     }
@@ -108,8 +109,9 @@ export const RestoreAPI = {
 
 export const tableAPI = {
     getCardsPack(getPackParams: GetPackParams) {
-        return instance.get(`cards/pack`, {
-            params: {params: {...getPackParams}}
+        return instance.get(`cards/pack`, {params: {...getPackParams}
+        }).then(res => {
+            return res
         })
     },
     createNewCardsPack(createData: CreateParamsType){

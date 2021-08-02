@@ -19,7 +19,7 @@ export function Login() {
   const isLoginIn = useSelector<AppRootStateType, boolean>(
     (state) => state.login.isLoggedIn
   );
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +45,7 @@ export function Login() {
     },
 
     onSubmit: (values) => {
-      dispath(loginTC(values));
+      dispatch(loginTC(values));
       formik.resetForm();
     },
   });
