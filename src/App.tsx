@@ -15,6 +15,7 @@ import {LinearProgress, Table} from '@material-ui/core';
 import {PasswordRecoveryConfirmation} from './PasswordRecovery/PasswordRecoveryConfirmation';
 import {getMeTC} from './state/login-reducer';
 import {PacksList} from './PacksList/PacksList';
+import {Cards} from './Cards/Cards';
 
 function App() {
     let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
@@ -47,6 +48,8 @@ function App() {
                        render={() => <TestPage/>}/>
                 <Route exact path="/packslist"
                        render={() => <PacksList/>}/>
+                <Route exact path="/cards/:cardsId"
+                       render={() => <Cards/>}/>
                 <Route exact path="*"
                        render={() => <Error/>}/>
             </Switch>

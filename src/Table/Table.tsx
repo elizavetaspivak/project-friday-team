@@ -1,13 +1,15 @@
 import React, {useEffect} from 'react';
 import {Paper, TableBody, TableContainer, TableHead, TableRow, Table} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
-import {setPacksListTC} from '../state/table-reducer';
+import {DeletePackListTC, setPacksListTC} from '../state/table-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../state/store';
 import Button from '@material-ui/core/Button';
+import {useHistory} from 'react-router-dom';
 
 
 export function Tables() {
+    const history = useHistory();
     let dispatch = useDispatch()
 
     let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
@@ -43,6 +45,12 @@ export function Tables() {
                     </TableHead>
                     <TableBody>
                         {cardPacks.map((row) => {
+                                const removePack = () => {
+                                    dispatch(DeletePackListTC(row._id, {user_id: userId}))
+                                }
+                                const getCards = () => {
+                                    history.push(`/cards/${row._id}`, row.name)
+                                }
                                 return (
                                     <TableRow>
                                         <TableCell component="th" scope="row">{row.name} </TableCell>
@@ -50,15 +58,15 @@ export function Tables() {
                                         <TableCell align="center">{row.updated}</TableCell>
                                         <TableCell align="center">{row.path}</TableCell>
                                         <TableCell align="center">
-                                            <Button
-                                                variant="contained"
-                                                color="secondary">Delete</Button>
+                                            <Button onClick={removePack}
+                                                    variant="contained"
+                                                    color="secondary">Delete</Button>
                                             <Button
                                                 variant="contained"
                                                 color="primary">Edit</Button>
-                                            <Button
-                                                variant="contained"
-                                                color="primary">Learn</Button>
+                                            <Button onClick={getCards}
+                                                    variant="contained"
+                                                    color="primary">Learn</Button>
                                         </TableCell>
                                     </TableRow>
                                 )
