@@ -39,21 +39,6 @@ export type RestoreResponseType = {
     error: string
 }
 
-export type ResponsePackType = {
-    _id: string
-    user_id: string
-    name: string
-    path: string
-    cardsCount: number
-    grade: number
-    shots: number
-    rating: number
-    type: string
-    created: string
-    updated: string
-    _v: number
-}
-
 export type CreateParamsType = {
     cardsPack: {
         name?: string
@@ -116,5 +101,62 @@ export const tableAPI = {
     },
     createNewCardsPack(createData: CreateParamsType){
         return instance.post(`cards/pack`, {...createData})
+    },
+    deleteCardsPack(id: string){
+        return instance.delete(`cards/pack`, {params: {id}})
+    }
+}
+
+export type CreateCardParamsType = {
+    card: {
+        cardsPack_id: string
+        question?: string
+        answer?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        answerImg?: string
+        questionImg?: string
+        questionVideo?: string
+        answerVideo?: string
+        type?: string
+    }
+}
+
+export type GetCardsParams = {
+    cardAnswer?: string
+    cardQuestion?: string
+    cardsPack_id: string
+    min?: number
+    max?: number
+    sortCards?: number
+    page?: number
+    pageCount?: number
+}
+
+export type CardType = {
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    __v: number
+    _id: string
+}
+
+export const cardsAPI = {
+    getCardsCard(getParams: GetCardsParams){
+        return instance.get(`cards/card`, {params: {...getParams}})
+    },
+    createNewCardsCard(createData: CreateCardParamsType){
+        return instance.post(`cards/card`, {...createData})
+    },
+    deleteCardsCard(id: string){
+        return instance.delete(`cards/card`, {params : {id}})
     }
 }

@@ -1,0 +1,17 @@
+.cards{
+    background: linear-gradient(#e6d4de, #9890c7);
+    height: 100vh;
+}
+
+.cardsContainer{
+    background-color: white;
+    width: 1200px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardsTable{
+    width: 1000px;
+}

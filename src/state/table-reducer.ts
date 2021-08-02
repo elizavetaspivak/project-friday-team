@@ -1,16 +1,14 @@
 import {Dispatch} from 'redux';
 import {
     CreateParamsType, GetPackParams,
-    ResponsePackType,
     tableAPI
 } from '../dal/api';
-import {setErrorAC} from './app-reducer';
 import {AppRootStateType} from './store';
 
 const InitialState = {
     cardPacks: [
         {
-            _id: null,
+            _id: '',
             user_id: null,
             name: "no Name",
             path: null,
@@ -76,6 +74,16 @@ export const setPacksListTC = (params: GetPackParams = {}) =>
 
 export const CreatNewPackListTC = (newPackData: CreateParamsType, getPackParams: GetPackParams) => (dispatch: Dispatch) => {
     tableAPI.createNewCardsPack(newPackData)
+        .then(() =>
+            tableAPI.getCardsPack(getPackParams).then(res => {
+                    dispatch(setPacksListAC(res.data))
+                }
+            )
+        )
+}
+
+export const DeletePackListTC = (id: string, getPackParams: GetPackParams = {}) => (dispatch: Dispatch) => {
+    tableAPI.deleteCardsPack(id)
         .then(() =>
             tableAPI.getCardsPack(getPackParams).then(res => {
                     dispatch(setPacksListAC(res.data))
