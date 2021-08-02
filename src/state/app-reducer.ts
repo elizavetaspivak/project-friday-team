@@ -1,5 +1,6 @@
 import {Dispatch} from 'redux';
 import {AuthAPI} from '../dal/api';
+import {setIsLoggedInAC, setUserDataAC} from './login-reducer';
 
 export type setErrorACType = {
     type: 'APP/SET-ERROR'
@@ -55,7 +56,8 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
     dispatch(setStatusAC(true))
     AuthAPI.me().then(res => {
         dispatch(setStatusAC(false))
-        console.log(res)
+        dispatch(setIsLoggedInAC(true))
+        dispatch(setUserDataAC(res.data));
     })
         .catch((e) => {
             const error = e.response

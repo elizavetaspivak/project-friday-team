@@ -13,7 +13,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 import {LinearProgress, Table} from '@material-ui/core';
 import {PasswordRecoveryConfirmation} from './PasswordRecovery/PasswordRecoveryConfirmation';
-import {PacksList} from './PacksList/PacksList';
 import {initializeAppTC} from './state/app-reducer';
 
 function App() {
