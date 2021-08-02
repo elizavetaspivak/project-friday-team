@@ -1,10 +1,10 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {logoutTC} from '../state/login-reducer';
-import {getMeTC} from '../state/profile-reducer';
+import {getMeTC, logoutTC} from '../state/login-reducer';
 import {AppRootStateType} from '../state/store';
 import s from './Profile.module.css';
 import {useEffect} from 'react';
+import {Tables} from '../Table/Table';
 
 export function Profile() {
     const dispatch = useDispatch();
@@ -14,6 +14,7 @@ export function Profile() {
     }, []);
 
     let email = useSelector<AppRootStateType>(state => state.login.user.email)
+    let userId = useSelector<AppRootStateType, any>(state => state.login.userId)
 
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
@@ -32,6 +33,7 @@ export function Profile() {
             <div>
                 Email: {email}
             </div>
+            <Tables userId={userId}/>
             <div>
                 <button onClick={logoutHandler}>Sing out</button>
             </div>

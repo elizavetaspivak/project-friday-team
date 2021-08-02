@@ -16,9 +16,6 @@ export function Nav() {
                 <NavLink to='/profile' activeClassName={s.active}>Profile</NavLink>
             </div>
             <div className={s.item}>
-                <NavLink to='*' activeClassName={s.active}>Error 404</NavLink>
-            </div>
-            <div className={s.item}>
                 <NavLink to='/recovery' activeClassName={s.active}>Password Recovery</NavLink>
             </div>
             <div className={s.item}>
@@ -26,6 +23,12 @@ export function Nav() {
             </div>
             <div className={s.item}>
                 <NavLink to='/testpage' activeClassName={s.active}>Test Page</NavLink>
+            </div>
+            <div className={s.item}>
+                <NavLink to='/packslist' activeClassName={s.active}>Packs list</NavLink>
+            </div>
+            <div className={s.item}>
+                <NavLink to='*' activeClassName={s.active}>Error 404</NavLink>
             </div>
         </div>
     )
