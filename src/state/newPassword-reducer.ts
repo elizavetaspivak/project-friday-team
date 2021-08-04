@@ -2,10 +2,9 @@ import {Dispatch} from 'redux';
 import {setErrorAC, setStatusAC} from './app-reducer';
 import {RestoreAPI} from '../dal/api';
 
-
-type ActionsType = ReturnType<typeof passwordSentAC>
-
-
+//types
+type passwordSentACType = ReturnType<typeof passwordSentAC>
+type ActionsType = passwordSentACType
 type InitialStateType = {
     passwordSent: boolean
 }
@@ -14,6 +13,7 @@ const initialState = {
     passwordSent: false
 }
 
+//reducer
 export const newPasswordReducer = (state: InitialStateType = initialState, action: ActionsType) => {
     switch (action.type) {
         case 'APP/PASSWORD-SENT':
@@ -26,9 +26,10 @@ export const newPasswordReducer = (state: InitialStateType = initialState, actio
     }
 }
 
-export const passwordSentAC = (passwordSent: boolean) => ({type: 'APP/PASSWORD-SENT', passwordSent})
+//actions
+export const passwordSentAC = (passwordSent: boolean) => ({type: 'APP/PASSWORD-SENT', passwordSent} as const)
 
-
+//thunks
 export const createNewPasswordTC = (password: string, token: any) => {
     return (dispatch: Dispatch) => {
         dispatch(setStatusAC(true))

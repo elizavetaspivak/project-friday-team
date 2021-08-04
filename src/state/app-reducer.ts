@@ -1,12 +1,7 @@
-export type setErrorACType = {
-    type: 'APP/SET-ERROR'
-    error?: string | null
-}
 
-export type setStatusACType = {
-    type: 'APP/SET-STATUS'
-    status: boolean
-}
+export type setErrorACType = ReturnType<typeof setErrorAC>
+export type setStatusACType = ReturnType<typeof setStatusAC>
+type ActionsType = setErrorACType | setStatusACType
 
 type initialStateType = {
     status: boolean
@@ -19,8 +14,6 @@ const initialState = {
     error: null,
     isInitialized: false
 }
-
-type ActionsType = setErrorACType | setStatusACType
 
 export const appReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
@@ -39,5 +32,5 @@ export const appReducer = (state: initialStateType = initialState, action: Actio
     }
 }
 
-export const setStatusAC = (status: boolean): setStatusACType => ({type: 'APP/SET-STATUS', status})
-export const setErrorAC = (error: string | null): setErrorACType => ({type: 'APP/SET-ERROR', error})
+export const setStatusAC = (status: boolean) => ({type: 'APP/SET-STATUS', status} as const)
+export const setErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)

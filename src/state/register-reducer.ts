@@ -2,12 +2,9 @@ import {Dispatch} from 'redux'
 import {AuthAPI} from '../dal/api';
 import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from './app-reducer';
 
-
-type setRegisterStatusACType = {
-    type: 'SET-REGISTER-STATUS'
-    isRegister: boolean
-}
-
+//types
+type setRegisterStatusACType = ReturnType<typeof setRegisterStatusAC>
+type ActionsType = setErrorACType | setStatusACType | setRegisterStatusACType
 type initialStateType = {
     isRegister: boolean
 }
@@ -16,8 +13,7 @@ const initialState = {
     isRegister: false
 }
 
-type ActionsType = setErrorACType | setStatusACType | setRegisterStatusACType
-
+//reducers
 export const registerReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
         case 'SET-REGISTER-STATUS':
@@ -29,18 +25,19 @@ export const registerReducer = (state: initialStateType = initialState, action: 
             return state
     }
 }
-export const setRegisterStatus = (isRegister: boolean): setRegisterStatusACType => ({
+export const setRegisterStatusAC = (isRegister: boolean) => ({
     type: 'SET-REGISTER-STATUS',
     isRegister
 } as const)
 
+//thunks
 export const CreateUserThunk = (email: string, password: string) => {
     return (dispatch: Dispatch) => {
         dispatch(setStatusAC(true))
         AuthAPI.createUser(email, password)
             .then((res) => {
                 dispatch(setStatusAC(false))
-                dispatch(setRegisterStatus(true))
+                dispatch(setRegisterStatusAC(true))
             })
             .catch((error) => {
                 if (!error.error) {
