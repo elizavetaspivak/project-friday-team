@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../state/store';
 import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
+import moment from 'moment';
 
 
 export function Tables() {
@@ -55,7 +56,7 @@ export function Tables() {
                                     <TableRow>
                                         <TableCell component="th" scope="row">{row.name} </TableCell>
                                         <TableCell align="center">{row.cardsCount}</TableCell>
-                                        <TableCell align="center">{row.updated}</TableCell>
+                                        <TableCell align="center">{moment(row.updated).format("DD.MM.YYYY")}</TableCell>
                                         <TableCell align="center">{row.path}</TableCell>
                                         <TableCell align="center">
                                             <Button onClick={removePack}

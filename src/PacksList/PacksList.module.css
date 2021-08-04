@@ -13,7 +13,7 @@
 
 .mainPacks{
     background-color: #ECECF9;
-    height: 600px;
+    height: 650px;
     width: 300px;
     border-radius: 25px 0 0 25px;
     display: flex;
@@ -23,6 +23,16 @@
 
 .packTable{
     background-color: white;
-    height: 600px;
+    height: 650px;
     border-radius: 0 25px 25px 0;
+}
+
+.table{
+    width: 800px;
+}
+
+.search{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

@@ -59,7 +59,7 @@ export const Paginator = ({
 								s.pageNumber
 							)}
 						>
-							{p}
+							{p + " "}
 						</span>
 					)
 				})}

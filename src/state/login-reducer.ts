@@ -17,12 +17,14 @@ const initialState: initialStateType = {
         _id: '',
         email: '',
         name: '',
+        avatar: null,
         publicCardPacksCount: 0, // количество колод
         created: Date,
         updated: Date,
         isAdmin: false,
         verified: false, // подтвердил ли почту
         rememberMe: false,
+        error: null
     }
 }
 
@@ -33,12 +35,14 @@ type initialStateType = {
         _id: string,
         email: string,
         name: string,
+        avatar?: string | null
         publicCardPacksCount: number, // количество колод
         created: any,
         updated: any,
         isAdmin: boolean,
         verified: boolean, // подтвердил ли почту
         rememberMe: boolean,
+        error?: string | null
     }
 }
 

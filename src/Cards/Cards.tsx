@@ -5,12 +5,17 @@ import TableCell from '@material-ui/core/TableCell';
 import {useDispatch, useSelector} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import {AppRootStateType} from '../state/store';
-import {useParams} from 'react-router-dom';
+import {Redirect, useHistory, useParams} from 'react-router-dom';
 import {createCardTC, getCardsTC, removeCardTC} from '../state/cards-reducer';
 import s from './Cards.module.css'
+import moment from 'moment';
 
 export function Cards() {
     let dispatch = useDispatch()
+    const history = useHistory()
+    const isLoginIn = useSelector<AppRootStateType, boolean>(
+        (state) => state.login.isLoggedIn
+    );
     const {cardsId} = useParams<{ cardsId: string }>()
 
     useEffect(() => {
@@ -38,6 +43,10 @@ export function Cards() {
     }
 
     const classes = useStyles();
+
+    if (!isLoginIn) {
+        return <Redirect to={'/login'}/>;
+    }
     return (
         <div className={s.cards}
              style={{
@@ -51,6 +60,7 @@ export function Cards() {
             <div className={s.cardsContainer}>
 
                 <div className={s.cardsTable}>
+                    <Button onClick={history.goBack}>Back</Button>
 
                     {cards.packUserId == userId ? <Button onClick={addCardHandler}
                                                           variant="contained"
@@ -75,7 +85,7 @@ export function Cards() {
                                             <TableRow key={row._id}>
                                                 <TableCell component="th" scope="row">{row.question} </TableCell>
                                                 <TableCell align="center">{row.answer}</TableCell>
-                                                <TableCell align="center">{row.updated}</TableCell>
+                                                <TableCell align="center">{moment(row.updated).format("DD.MM.YYYY")}</TableCell>
                                                 <TableCell align="center">{row.grade}</TableCell>
                                                 {cards.packUserId == userId ? <TableCell align="center">
                                                     <Button onClick={removeHandler} variant="contained"
