@@ -4,27 +4,13 @@ import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from './app-re
 
 // types
 export type setIsLoggedInACType = ReturnType<typeof setIsLoggedInAC>;
+export type setUserDataACType = ReturnType<typeof setUserDataAC>;
+
 type ActionsType =
-    | ReturnType<typeof setIsLoggedInAC>
-    | ReturnType<typeof setUserDataAC>
+    | setIsLoggedInACType
+    | setUserDataACType
     | setErrorACType
     | setStatusACType
-
-const initialState: initialStateType = {
-    isLoggedIn: false,
-    userId: '',
-    user: {
-        _id: '',
-        email: '',
-        name: '',
-        publicCardPacksCount: 0, // количество колод
-        created: Date,
-        updated: Date,
-        isAdmin: false,
-        verified: false, // подтвердил ли почту
-        rememberMe: false,
-    }
-}
 
 type initialStateType = {
     isLoggedIn: boolean
@@ -39,6 +25,22 @@ type initialStateType = {
         isAdmin: boolean,
         verified: boolean, // подтвердил ли почту
         rememberMe: boolean,
+    }
+}
+
+const initialState: initialStateType = {
+    isLoggedIn: false,
+    userId: '',
+    user: {
+        _id: '',
+        email: '',
+        name: '',
+        publicCardPacksCount: 0, // количество колод
+        created: Date,
+        updated: Date,
+        isAdmin: false,
+        verified: false, // подтвердил ли почту
+        rememberMe: false,
     }
 }
 

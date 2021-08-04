@@ -24,10 +24,6 @@ export type DeleteLoginResponseType = {
     error: string;
 };
 
-const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0/',
-    withCredentials: true,
-});
 
 export type CreateUserType = {
     email: string;
@@ -37,7 +33,7 @@ export type CreateUserType = {
 export type RestoreResponseType = {
     info: string
     error: string
-}
+};
 
 export type CreateParamsType = {
     cardsPack: {
@@ -50,7 +46,7 @@ export type CreateParamsType = {
         private?: boolean
         type?: string
     }
-}
+};
 
 export type GetPackParams = {
     packName?:string
@@ -60,7 +56,54 @@ export type GetPackParams = {
     page?:number
     pageCount?:number
     user_id?:string
-}
+};
+
+export type CreateCardParamsType = {
+    card: {
+        cardsPack_id: string
+        question?: string
+        answer?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        answerImg?: string
+        questionImg?: string
+        questionVideo?: string
+        answerVideo?: string
+        type?: string
+    }
+};
+
+export type GetCardsParams = {
+    cardAnswer?: string
+    cardQuestion?: string
+    cardsPack_id: string
+    min?: number
+    max?: number
+    sortCards?: number
+    page?: number
+    pageCount?: number
+};
+
+export type CardType = {
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    __v: number
+    _id: string
+};
+
+const instance = axios.create({
+    baseURL: 'http://localhost:7542/2.0/',
+    withCredentials: true,
+});
 
 export const AuthAPI = {
     createUser(email: string, password: string) {
@@ -107,47 +150,6 @@ export const tableAPI = {
     }
 }
 
-export type CreateCardParamsType = {
-    card: {
-        cardsPack_id: string
-        question?: string
-        answer?: string
-        grade?: number
-        shots?: number
-        rating?: number
-        answerImg?: string
-        questionImg?: string
-        questionVideo?: string
-        answerVideo?: string
-        type?: string
-    }
-}
-
-export type GetCardsParams = {
-    cardAnswer?: string
-    cardQuestion?: string
-    cardsPack_id: string
-    min?: number
-    max?: number
-    sortCards?: number
-    page?: number
-    pageCount?: number
-}
-
-export type CardType = {
-    answer: string
-    question: string
-    cardsPack_id: string
-    grade: number
-    rating: number
-    shots: number
-    type: string
-    user_id: string
-    created: string
-    updated: string
-    __v: number
-    _id: string
-}
 
 export const cardsAPI = {
     getCardsCard(getParams: GetCardsParams){

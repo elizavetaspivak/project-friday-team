@@ -2,7 +2,9 @@ import {Dispatch} from "redux";
 import {setErrorAC, setStatusAC} from './app-reducer';
 import {RestoreAPI} from '../dal/api';
 
-
+//types
+type emailIsSentACType =  ReturnType<typeof emailIsSentAC>
+type ActionsType = emailIsSentACType
 type InitialStateType = {
     emailIsSent: boolean
 }
@@ -11,6 +13,7 @@ const initialState = {
     emailIsSent: false
 }
 
+//reducer
 export const passwordRecoveryReducer = (state: InitialStateType = initialState, action: ActionsType) => {
     switch (action.type) {
         case 'APP/EMAIL-IS-SENT':
@@ -23,8 +26,9 @@ export const passwordRecoveryReducer = (state: InitialStateType = initialState, 
     }
 }
 
+//actions
 export const emailIsSentAC = (emailIsSent: boolean) => ({type: 'APP/EMAIL-IS-SENT', emailIsSent})
-
+//thunks
 export const passwordRecoveryTC = (email: string) => {
     return (dispatch: Dispatch) => {
         dispatch(setStatusAC(true))
@@ -44,4 +48,3 @@ export const passwordRecoveryTC = (email: string) => {
     }
 }
 
-type ActionsType = ReturnType<typeof emailIsSentAC>

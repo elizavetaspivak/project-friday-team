@@ -5,6 +5,12 @@ import {
 } from '../dal/api';
 import {AppRootStateType} from './store';
 
+
+//types
+type InitialStateType = typeof InitialState
+export type setPacksListACType = ReturnType<typeof setPacksListAC>
+export type ActionsTableType = setPacksListACType
+
 const InitialState = {
     cardPacks: [
         {
@@ -36,8 +42,7 @@ const InitialState = {
     user_id: undefined
 }
 
-type InitialStateType = typeof InitialState
-
+//reducer
 export const tableReducer = (state: InitialStateType = InitialState, action: ActionsTableType): InitialStateType => {
     switch (action.type) {
         case 'SET_PACKS': {
@@ -48,11 +53,11 @@ export const tableReducer = (state: InitialStateType = InitialState, action: Act
     }
 }
 
+//actions
 const setPacksListAC = (data: InitialStateType) => ({type: 'SET_PACKS', data} as const)
 
-export type SetPacksListAT = ReturnType<typeof setPacksListAC>
-export type ActionsTableType = SetPacksListAT
 
+//thunks
 export const setPacksListTC = (params: GetPackParams = {}) =>
     (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const tablesReducer = getState().table

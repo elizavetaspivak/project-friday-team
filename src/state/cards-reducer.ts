@@ -1,6 +1,13 @@
 import {Dispatch} from 'redux';
 import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams} from '../dal/api';
 
+//types
+type initialStateType = typeof initialState
+export type GetCardsActionType = ReturnType<typeof getCardsAC>
+export type CreateCardActionType = ReturnType<typeof addCardAC>
+export type ActionsCardsType = GetCardsActionType | CreateCardActionType
+
+
 const initialState = {
     cards: [
         {
@@ -26,8 +33,8 @@ const initialState = {
     packUserId: ''
 }
 
-type initialStateType = typeof initialState
 
+//reducer
 export const cardsReducer = (state: initialStateType = initialState, action: ActionsCardsType): initialStateType => {
     switch (action.type) {
         case 'GET_CARDS': {
@@ -42,13 +49,12 @@ export const cardsReducer = (state: initialStateType = initialState, action: Act
     return state
 }
 
+//actions
 const getCardsAC = (cards: initialStateType) => ({type: 'GET_CARDS', cards} as const)
 const addCardAC = (card: CardType) => ({type: 'CREATE_NEW_CARD', card} as const)
 
-export type GetCardsActionType = ReturnType<typeof getCardsAC>
-export type CreateCardActionType = ReturnType<typeof addCardAC>
-export type ActionsCardsType = GetCardsActionType | CreateCardActionType
 
+//thunks
 export const getCardsTC = (getParams: GetCardsParams) => (dispatch: Dispatch) => {
     cardsAPI.getCardsCard(getParams).then(res => {
             dispatch(getCardsAC(res.data))
