@@ -41,8 +41,7 @@ export const Paginator = ({
 		<div className={s.pagiator}>
 			{/* {portionNumber > 1 && ( */}
 				<button onClick={prevPortionNumberHandler}>PREV</button>
-			{/* ) */}
-         {/* } */}
+			 {/* )  } */}
 			{pages
 				.filter(
 					(p) => p >= leftPortionPageNumber && p <= rightPortionPageNumber
@@ -65,7 +64,7 @@ export const Paginator = ({
 				})}
 			{/* {portionCount > portionNumber && ( */}
 				<button onClick={nextPortionNumberHandler}>NEXT</button>
-			{/* )} */}
+			{/*   )}  */}
 		</div>
 	)
 }

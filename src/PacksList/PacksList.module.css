@@ -26,3 +26,7 @@
     height: 600px;
     border-radius: 0 25px 25px 0;
 }
+.search{
+    display: flex;
+    flex-direction: row;
+}

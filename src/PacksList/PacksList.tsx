@@ -15,17 +15,15 @@ import TableCell from "@material-ui/core/TableCell"
 import {
 	CreatNewPackListTC,
 	DeletePackListTC,
-	InitialStateType,
 	setPacksListTC,
 	setPageAC,
-	SetValuesType,
-	updateValuesAC,
+
 } from "../state/table-reducer"
 import { useHistory } from "react-router-dom"
 import s from "./PacksList.module.css"
 import { Paginator } from "../common/Pagination/Pagination"
-import { SearchBox } from "../common/Search/SearchBox"
-// import { Pagination } from "@material-ui/lab"
+import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
+
 
 export function PacksList() {
 	const dispatch = useDispatch()
@@ -51,26 +49,23 @@ export function PacksList() {
 	)
 	const onPageChanged = useCallback(
 		(page: number) => {
+            // debugger
 			dispatch(setPageAC(page)) //что бы менялась страница по клику // походу ее надо засунуть в thunk перед api
 			dispatch(setPacksListTC({ page })) //что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
 	)
-    // const pageNumberRequest = (page: number) => setParams({page})
 	//!
 
 	//search
-	const cardsPackState = useSelector<AppRootStateType, InitialStateType>(
-		(state) => state.table
-	)
-	const setParams = (params: SetValuesType) => {
-		dispatch(updateValuesAC(params))
-		dispatch(setPacksListTC())
-	}
-	const searchPack = (searchText: string) => setParams({ packName: searchText })
+	const [inputValue, setInputValue] = useState<string>("")
+	const inputHandler = (e: ChangeEvent<HTMLInputElement>) =>
+		setInputValue(e.currentTarget.value)
+
+	const onSearch = () =>
+		dispatch(setPacksListTC({ page, pageCount, packName: inputValue }))
 
 
-   
 
 	useEffect(() => {
 		dispatch(setPacksListTC())
@@ -123,11 +118,16 @@ export function PacksList() {
 					>
 						Add new pack
 					</Button>
-
-					<SearchBox
-						searchCallback={searchPack}
-						searchTextRequest={cardsPackState.packName}
-					/>
+					<div className={s.search}>
+						<SuperInputText
+							className={s.searchBoxInput}
+							placeholder={"Search..."}
+							onChange={inputHandler}
+						/>
+						<Button variant='contained' color='primary' onClick={onSearch}>
+							search
+						</Button>
+					</div>
 
 					<TableContainer component={Paper}>
 						<Table className={classes.table} aria-label='simple table'>
@@ -201,12 +201,7 @@ export function PacksList() {
 						pageCount={pageCount}
 						totalItemsCount={cardsTotalCount}
 					/>
-					{/* <Paginator
-						page={cardsPackState.page}
-						onPageChanged={pageNumberRequest}
-						pageCount={cardsPackState.pageCount}
-						totalItemsCount={cardsPackState.cardPacksTotalCount}
-					/> */}
+					
 				</div>
 			</div>
 		</div>
