@@ -34,24 +34,60 @@ const InitialState = {
     minParam: 0,
     maxParam: 103,
     user_id: undefined
+    // user_id: ''
+}
+export type SetValuesType = {
+    maxCardsCount?: number,
+    minCardsCount?: number,
+    page?: number,
+    pageCount?: number,
+    sortPacks?: string,
+    packName?: string,
+    user_id?: string
 }
 
-type InitialStateType = typeof InitialState
+export type InitialStateType = typeof InitialState
 
 export const tableReducer = (state: InitialStateType = InitialState, action: ActionsTableType): InitialStateType => {
     switch (action.type) {
         case 'SET_PACKS': {
             return {...action.data}
         }
+        case 'SET_PAGE': {
+            return {...state, page:action.page}
+        }
+        case 'SET_PACKS_TOTAL_COUNT': {
+            // debugger
+            return {...state, cardPacksTotalCount:action.count}
+        }
+        case 'UPDATE_VALUES':
+            
         default:
             return state
     }
 }
 
+//action
 const setPacksListAC = (data: InitialStateType) => ({type: 'SET_PACKS', data} as const)
+//pagination
+export const setPageAC = (page:number) => ({type: 'SET_PAGE', page} as const)
+export const setPacksTotalCountAC = (count:number) => ({type: 'SET_PACKS_TOTAL_COUNT', count} as const)
+//search
+export const updateValuesAC = (data: SetValuesType) => ({
+    type: 'UPDATE_VALUES',
+    data
+} as const)
 
+// type action
 export type SetPacksListAT = ReturnType<typeof setPacksListAC>
-export type ActionsTableType = SetPacksListAT
+export type SetPageACT = ReturnType<typeof setPageAC>
+export type setPacksTotalCountACT = ReturnType<typeof setPacksTotalCountAC>
+export type updateValuesACT = ReturnType<typeof updateValuesAC>
+export type ActionsTableType = SetPacksListAT |SetPageACT | setPacksTotalCountACT |  updateValuesACT
+
+
+
+// thunk
 
 export const setPacksListTC = (params: GetPackParams = {}) =>
     (dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -66,8 +102,10 @@ export const setPacksListTC = (params: GetPackParams = {}) =>
             user_id: tablesReducer.user_id,
             ...params
         }
+        // dispatch(setPageAC(params.page))
         tableAPI.getCardsPack(cardsParamsModel).then(res => {
                 dispatch(setPacksListAC(res.data))
+                // dispatch(setPacksTotalCountAC(res.data));
             }
         )
     }

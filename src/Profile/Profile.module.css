@@ -36,6 +36,9 @@
 }
 
 .table{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 600px;
     background-color: white;
     border-radius: 0 25px 25px 0;
