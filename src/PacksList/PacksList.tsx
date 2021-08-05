@@ -25,6 +25,7 @@ import { Paginator } from "../common/Pagination/Pagination"
 import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
 import moment from 'moment';
 import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange';
+import { SortElement } from "../components/SortElement/SortElement"
 
 export function PacksList() {
 	const dispatch = useDispatch()
@@ -43,7 +44,7 @@ export function PacksList() {
 		(state) => state.login.user
 	)
 
-	let { cardPacks } = useSelector<AppRootStateType,any>(
+	let { cardPacks, sortPacks } = useSelector<AppRootStateType,any>(
 		(state: AppRootStateType) => state.table
 	)
 
@@ -62,7 +63,7 @@ export function PacksList() {
 			if(filter === 'my'){
 				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
 			} else {
-				dispatch(setPacksListTC({ page, pageCount, packName: inputValue , min: value1, max:value2 }))
+				dispatch(setPacksListTC({ page, pageCount, packName: inputValue , min: value1, max:value2 , sortPacks}))
 			}//что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
@@ -105,13 +106,28 @@ export function PacksList() {
 		dispatch(setPacksListTC())
 	}
 
-	const Sort = () => {
+	// const Sort = () => {
+	// 	if(filter === 'my'){
+	// 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: '1updated'}))
+	// 	} else {
+	// 		profile._id && dispatch(setPacksListTC({sortPacks: '1updated'}))
+	// 	}
+	// }
+	const sortHandler1 = (sortTitle:string) => {
 		if(filter === 'my'){
-			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: '1updated'}))
+			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
 		} else {
-			profile._id && dispatch(setPacksListTC({sortPacks: '1updated'}))
+			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
 		}
 	}
+	const sortHandler0 = (sortTitle:string) => {
+		if(filter === 'my'){
+			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+		} else {
+			profile._id && dispatch(setPacksListTC({page, sortPacks: sortTitle}))
+		}
+	}
+	 
 
 	const maxCardsCount = useSelector<AppRootStateType, number>(
 		(state) => state.table.cardPacksTotalCount)
@@ -121,6 +137,7 @@ export function PacksList() {
 
 	const [value1, setValue1] = useState<number>(minCardsCount);
 	const [value2, setValue2] = useState<number>(maxCardsCount);
+	
 
 
 	if (!isLoginIn) {
@@ -177,7 +194,11 @@ export function PacksList() {
 									<TableRow>
 										<TableCell>Name</TableCell>
 										<TableCell align='center'>Cards</TableCell>
-										<TableCell align='center'>Last updated <Button onClick={Sort}>ᐁ</Button></TableCell>
+										{/* <TableCell align='center'>Last updated <Button onClick={Sort}>ᐁ</Button></TableCell> */}
+									
+										<TableCell align='center'>Last updated <SortElement sortHandler1={sortHandler1}
+                                                                                 sortHandler0={sortHandler0}
+                                                                                 sortTitle={"updated"}/></TableCell>
 										<TableCell align='center'>Created by</TableCell>
 										<TableCell align='center'> Actions</TableCell>
 									</TableRow>
