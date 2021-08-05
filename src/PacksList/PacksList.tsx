@@ -29,6 +29,12 @@ import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDouble
 export function PacksList() {
 	const dispatch = useDispatch()
 	const history = useHistory()
+	const [filter, setFilter] = useState('all');
+	console.log(filter)
+	useEffect(() => {
+		dispatch(setPacksListTC())
+	}, [])
+
 	const isLoginIn = useSelector<AppRootStateType, boolean>(
 		(state) => state.login.isLoggedIn
 	);
@@ -56,9 +62,9 @@ export function PacksList() {
 			dispatch(setPacksListTC({ page, pageCount, packName: inputValue  })) //что бы менялась страница по клику при запросе на сервер
 			dispatch(setPageAC(page)) //что бы менялась страница по клику // походу ее надо засунуть в thunk перед api
 			if(filter === 'my'){
-				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
-			} else {
-				dispatch(setPacksListTC({ page }))
+				profile._id && dispatch(setPacksListTC({user_id: profile._id, page}))
+			 } else if(filter === 'all') {
+				filter === 'all' && dispatch(setPacksListTC({user_id: '', page }))
 			}//что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
@@ -75,10 +81,6 @@ export function PacksList() {
 
    
 
-	useEffect(() => {
-		dispatch(setPacksListTC())
-	}, [])
-
 	const CreateNewPackList = () => {
 		dispatch(
 			CreatNewPackListTC(
@@ -94,7 +96,6 @@ export function PacksList() {
 		},
 	})
 	const classes = useStyles()
-	const [filter, setFilter] = useState('all');
 
 	const onClickSetMyFilter = () => {
 		setFilter('my')

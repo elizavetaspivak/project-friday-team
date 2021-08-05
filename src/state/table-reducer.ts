@@ -1,11 +1,6 @@
 import { CreateParamsType, GetPackParams, tableAPI } from "../dal/api"
 import { AppRootStateType } from "./store"
 import {Dispatch} from 'redux';
-import {
-    CreateParamsType, GetPackParams,
-    tableAPI
-} from '../dal/api';
-import {AppRootStateType} from './store';
 import {setStatusAC} from './app-reducer';
 
 const InitialState = {
