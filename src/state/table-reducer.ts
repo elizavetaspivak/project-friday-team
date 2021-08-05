@@ -4,6 +4,7 @@ import {
     tableAPI
 } from '../dal/api';
 import {AppRootStateType} from './store';
+import {setStatusAC} from './app-reducer';
 
 const InitialState = {
     cardPacks: [
@@ -97,28 +98,34 @@ export const setPacksListTC = (params: GetPackParams = {}) =>
         // debugger
         // dispatch(setPageAC(params.page))
         // dispatch(setFilter(params.packName))
+        dispatch(setStatusAC(true));
         tableAPI.getCardsPack(cardsParamsModel).then(res => {
                 dispatch(setPacksListAC(res.data))
                 dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
+            dispatch(setStatusAC(false));
             }
         )
     }
 
 export const CreatNewPackListTC = (newPackData: CreateParamsType, getPackParams: GetPackParams) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
     tableAPI.createNewCardsPack(newPackData)
         .then(() =>
             tableAPI.getCardsPack(getPackParams).then(res => {
                     dispatch(setPacksListAC(res.data))
+                dispatch(setStatusAC(false));
                 }
             )
         )
 }
 
 export const DeletePackListTC = (id: string, getPackParams: GetPackParams = {}) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
     tableAPI.deleteCardsPack(id)
         .then(() =>
             tableAPI.getCardsPack(getPackParams).then(res => {
                     dispatch(setPacksListAC(res.data))
+                dispatch(setStatusAC(false));
                 }
             )
         )
