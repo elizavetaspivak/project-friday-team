@@ -184,7 +184,6 @@ export function PacksList() {
                                 search
                             </Button>
                         </div>
-
                         <Button
                             onClick={CreateNewPackList}
                             variant="contained"
