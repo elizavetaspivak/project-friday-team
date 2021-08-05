@@ -22,8 +22,9 @@ import { Redirect, useHistory } from "react-router-dom"
 import s from "./PacksList.module.css"
 import { Paginator } from "../common/Pagination/Pagination"
 import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
-import moment from "moment"
-import SuperDoubleRange from "../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange"
+import moment from 'moment';
+import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange';
+import { SortElement } from "../components/SortElement/SortElement"
 
 export function PacksList() {
 	const dispatch = useDispatch()
@@ -42,7 +43,8 @@ export function PacksList() {
 		(state) => state.login.user
 	)
 
-	let { cardPacks, sortPacks } = useSelector<AppRootStateType, any>(
+
+	let { cardPacks, sortPacks } = useSelector<AppRootStateType,any>(
 		(state: AppRootStateType) => state.table
 	)
 
@@ -62,6 +64,7 @@ export function PacksList() {
 				profile._id &&
 					dispatch(setPacksListTC({ user_id: profile._id, page: page }))
 			} else {
+
 				dispatch(
 					setPacksListTC({
 						page,
@@ -121,6 +124,7 @@ export function PacksList() {
 	// 	}
 	// }
 	const [sortTitle, setSortTitle]=useState(sortPacks)
+        
 	const Sort1 = () => {
 		if(filter === 'my'){
 			setSortTitle('1updated')
@@ -139,6 +143,21 @@ export function PacksList() {
 			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
 		}
 	}
+	// const sortHandler1 = (sortTitle:string) => {
+	// 	if(filter === 'my'){
+	// 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+	// 	} else {
+	// 		profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
+	// 	}
+	// }
+	// const sortHandler0 = (sortTitle:string) => {
+	// 	if(filter === 'my'){
+	// 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+	// 	} else {
+	// 		profile._id && dispatch(setPacksListTC({page, sortPacks: sortTitle}))
+	// 	}
+	// }
+	 
 
 
 	const maxCardsCount = useSelector<AppRootStateType, number>(
@@ -185,24 +204,28 @@ export function PacksList() {
 					</div>
 				</div>
 
-				<div className={s.packTable}>
-					<Button
-						onClick={CreateNewPackList}
-						variant='contained'
-						color='primary'
-					>
-						Add new pack
-					</Button>
-					<div className={s.search}>
-						<SuperInputText
-							className={s.searchBoxInput}
-							placeholder={"Search..."}
-							onChange={inputHandler}
-						/>
-						<Button variant='contained' color='primary' onClick={onSearch}>
-							search
-						</Button>
-					</div>
+					<div className={s.packTable}>
+						<h3>Packs list</h3>
+						<div className={s.searchBlock}>
+							<div className={s.search}>
+								<SuperInputText
+									className={s.searchBoxInput}
+									placeholder={"Search..."}
+									onChange={inputHandler}
+								/>
+								<Button variant='contained' color='primary' onClick={onSearch}>
+									search
+								</Button>
+							</div>
+							<Button
+								onClick={CreateNewPackList}
+								variant='contained'
+								color='primary'
+							>
+								Add new pack
+							</Button>
+						</div>
+
 
 					<div className={s.table}>
 						<TableContainer component={Paper} className={s.tableContainer}>
@@ -252,7 +275,7 @@ export function PacksList() {
 															</Button>
 															<Button variant='contained' color='primary'>
 																Edit
-															</Button>
+															</Button> :
 															<Button
 																onClick={getCards}
 																variant='contained'
@@ -260,38 +283,30 @@ export function PacksList() {
 															>
 																Learn
 															</Button>
-														</div>
-													) : (
-														<Button
-															onClick={getCards}
-															variant='contained'
-															color='primary'
-														>
-															Learn
-														</Button>
-													)}
-												</TableCell>
-											</TableRow>
-										)
-									})}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</div>
+														)}
+													</TableCell>
+												</TableRow>
+											)
+										})}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</div>
 
-					<Paginator
-						page={page}
-						onPageChanged={onPageChanged}
-						pageCount={pageCount}
-						totalItemsCount={cardsTotalCount}
-					/>
+						<Paginator
+							page={page}
+							onPageChanged={onPageChanged}
+							pageCount={pageCount}
+							totalItemsCount={cardsTotalCount}
+						/>
+				</div>
+
 					{/* <Paginator
 						page={cardsPackState.page}
 						onPageChanged={pageNumberRequest}
 						pageCount={cardsPackState.pageCount}
 						totalItemsCount={cardsPackState.cardPacksTotalCount}
 					/> */}
-				</div>
 			</div>
 		</div>
 	)

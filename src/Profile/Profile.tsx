@@ -5,6 +5,7 @@ import {AppRootStateType} from '../state/store';
 import s from './Profile.module.css';
 import {Tables} from '../Table/Table';
 import userAva from '../common/images/UserAvatar.png'
+import {Button} from '@material-ui/core';
 
 export function Profile() {
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export function Profile() {
         <div className={s.profile}>
             <div className={s.profileContainer}>
                 <div className={s.profileInfo}>
-                    <div>
+                    <div className={s.profileMain}>
                         <div className={s.photoProfile}>
                             {!user.avatar ?  <img src={userAva} alt=""/> : <img src={user.avatar} alt=""/> }
                         </div>
@@ -34,10 +35,15 @@ export function Profile() {
                             <p>{user.name}</p>
                         </div>
                         <div>
-                            <button onClick={logoutHandler}>Sing out</button>
+                            <Button>
+                            Edit profile
+                        </Button>
+                        </div>
+                        <div>
+                            <Button onClick={logoutHandler}>Sing out</Button>
                         </div>
                     </div>
-                   <div>
+                   <div className={s.numberOfCards}>
                        <p>Number of cards</p>
                    </div>
                 </div>

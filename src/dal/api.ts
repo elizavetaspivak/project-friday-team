@@ -116,7 +116,7 @@ export const AuthAPI = {
         return instance.delete<DeleteLoginResponseType>(`auth/me`, {});
     },
     me() {
-        debugger
+        // debugger
         return instance.post<ResponseLoginType>(`auth/me`, {});
 
     }
