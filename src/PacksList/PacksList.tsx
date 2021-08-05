@@ -15,9 +15,7 @@ import TableCell from '@material-ui/core/TableCell'
 import {
     CreatNewPackListTC,
     DeletePackListTC,
-    setPacksListTC,
-    setPageAC,
-
+    setPacksListTC
 } from '../state/table-reducer'
 import {Redirect, useHistory} from 'react-router-dom'
 import s from './PacksList.module.css'
@@ -25,46 +23,44 @@ import {Paginator} from '../common/Pagination/Pagination'
 import SuperInputText from '../Test/h4/common/c1-SuperInputText/SuperInputText'
 import moment from 'moment';
 import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange';
-import {SortElement} from '../components/SortElement/SortElement'
 
 export function PacksList() {
     const dispatch = useDispatch()
     const history = useHistory()
     const [filter, setFilter] = useState('all')
 
+
     useEffect(() => {
         dispatch(setPacksListTC())
     }, [])
 
-    const isLoginIn = useSelector<AppRootStateType, boolean>(
-        (state) => state.login.isLoggedIn
+    const {isLoginIn, user} = useSelector<AppRootStateType, any>(
+        (state) => state.login
     )
 
-    const profile = useSelector<AppRootStateType, any>(
-        (state) => state.login.user
-    )
-
-
-    let {cardPacks, sortPacks} = useSelector<AppRootStateType, any>(
+    let {
+        cardPacks,
+        sortPacks,
+        pageCount,
+        cardPacksTotalCount,
+        page,
+        minCardsCount
+    } = useSelector<AppRootStateType, any>(
         (state: AppRootStateType) => state.table
     )
 
-    // pagination
-    const pageCount = useSelector<AppRootStateType, number>(
-        (state) => state.table.pageCount
-    )
-    const cardsTotalCount = useSelector<AppRootStateType, number>(
-        (state) => state.table.cardPacksTotalCount
-    )
-    const page = useSelector<AppRootStateType, number | undefined>(
-        (state) => state.table.page
-    )
+    const [sortTitle, setSortTitle] = useState(sortPacks)
+   
+    useEffect(() => {
+        dispatch(setPacksListTC())
+    }, [])
+
     const onPageChanged = useCallback(
         (page: number) => {
             if (filter === 'my') {
-                profile._id &&
+                user.profile._id &&
                 dispatch(setPacksListTC({
-                    user_id: profile._id,
+                    user_id: user.profile._id,
                     page,
                     pageCount,
                     packName: inputValue,
@@ -81,57 +77,58 @@ export function PacksList() {
                         sortPacks: sortTitle
                     })
                 )
-            } //что бы менялась страница по клику при запросе на сервер
+            }
         },
         [page]
     )
 
-
-    //search
-    const [inputValue, setInputValue] = useState<string>('')
-    const inputHandler = (e: ChangeEvent<HTMLInputElement>) =>
-        setInputValue(e.currentTarget.value)
-
-    const onSearch = () => dispatch(setPacksListTC({packName: inputValue}))
-
     const CreateNewPackList = () => {
         dispatch(
             CreatNewPackListTC(
-                {cardsPack: {name: 'fhjdskhjf', path: profile.name}},
+                {cardsPack: {name: 'fhjdskhjf', path: user.profile.name}},
                 {}
             )
         )
     }
 
+    const inputHandler = (e: ChangeEvent<HTMLInputElement>) =>
+        setInputValue(e.currentTarget.value)
+
+    const onSearch = () => dispatch(setPacksListTC({packName: inputValue}))
+
+
     const onClickSetMyFilter = () => {
         setFilter('my')
-        profile._id && dispatch(setPacksListTC({user_id: profile._id}))
+        user.profile._id && dispatch(setPacksListTC({user_id: user.profile._id}))
     }
 
     const onClickSetAllFilter = () => {
         setFilter('all')
         dispatch(setPacksListTC())
     }
+
     const [sortTitle, setSortTitle] = useState(sortPacks)
 
+
     const Sort1 = () => {
+        setSortTitle('1updated')
         if (filter === 'my') {
-            setSortTitle('1updated')
-            sortTitle && profile._id && dispatch(setPacksListTC({user_id: profile._id, sortPacks: sortTitle}))
+            sortTitle && user.profile._id && dispatch(setPacksListTC(
+                {user_id: user.profile._id, sortPacks: sortTitle}))
         } else {
-            setSortTitle('1updated')
             sortTitle && dispatch(setPacksListTC({sortPacks: sortTitle}))
         }
     }
     const Sort2 = () => {
+        setSortTitle('0updated')
         if (filter === 'my') {
-            setSortTitle('0updated')
-            sortTitle && profile._id && dispatch(setPacksListTC({user_id: profile._id, sortPacks: sortTitle}))
+            sortTitle && user.profile._id && dispatch(setPacksListTC(
+                {user_id: user.profile._id, sortPacks: sortTitle}))
         } else {
-            setSortTitle('0updated')
             sortTitle && dispatch(setPacksListTC({sortPacks: sortTitle}))
         }
     }
+
 
 
     const maxCardsCount = useSelector<AppRootStateType, number>(
@@ -145,9 +142,17 @@ export function PacksList() {
     const [value1, setValue1] = useState<number>(minCardsCount)
     const [value2, setValue2] = useState<number>(maxCardsCount)
 
+
     if (!isLoginIn) {
         return <Redirect to={'/login'}/>
     }
+
+    const useStyles = makeStyles({
+        table: {
+            minWidth: 550,
+        },
+    })
+    const classes = useStyles()
 
     return (
         <div
@@ -170,7 +175,6 @@ export function PacksList() {
                         />
                     </div>
                 </div>
-
                 <div className={s.packTable}>
                     <h2>Packs list</h2>
                     <div className={s.searchBlock}>
@@ -193,8 +197,6 @@ export function PacksList() {
                             Add new pack
                         </Button>
                     </div>
-
-
                     <div className={s.table}>
                         <TableContainer component={Paper} className={s.tableContainer}>
                             <Table aria-label="simple table" className={s.tableContainer}>
@@ -217,7 +219,7 @@ export function PacksList() {
                                         }
                                         const removePack = () => {
                                             dispatch(
-                                                DeletePackListTC(row._id, {user_id: profile._id})
+                                                DeletePackListTC(row._id, {user_id: user.profile._id})
                                             )
                                         }
                                         return (
@@ -231,7 +233,7 @@ export function PacksList() {
                                                 </TableCell>
                                                 <TableCell align="center">{row.path}</TableCell>
                                                 <TableCell align="center">
-                                                    {row.user_id == profile._id ? <div>
+                                                    {row.user_id == user.profile._id ? <div>
                                                             <Button
                                                                 onClick={removePack}
                                                                 variant="contained"
@@ -271,15 +273,9 @@ export function PacksList() {
                         page={page}
                         onPageChanged={onPageChanged}
                         pageCount={pageCount}
-                        totalItemsCount={cardsTotalCount}
+                        totalItemsCount={cardPacksTotalCount}
                     />
                 </div>
-                {/* <Paginator
-						page={cardsPackState.page}
-						onPageChanged={pageNumberRequest}
-						pageCount={cardsPackState.pageCount}
-						totalItemsCount={cardsPackState.cardPacksTotalCount}
-					/> */}
             </div>
         </div>
     )
