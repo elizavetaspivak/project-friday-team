@@ -1,6 +1,7 @@
 import classnames from "classnames"
 import React, { useState } from "react"
 import s from "./Pagination.module.css"
+import {Button} from '@material-ui/core';
 
 type PropsType = {
 	page: number | undefined
@@ -40,7 +41,7 @@ export const Paginator = ({
 	return (
 		<div className={s.pagiator}>
 			{portionNumber > 1 && (
-				<button onClick={prevPortionNumberHandler}>PREV</button>
+				<Button onClick={prevPortionNumberHandler}>PREV</Button>
 			)}
 			{pages
 				.filter(
@@ -63,7 +64,7 @@ export const Paginator = ({
 					)
 				})}
 			{portionCount > portionNumber && (
-				<button onClick={nextPortionNumberHandler}>NEXT</button>
+				<Button onClick={nextPortionNumberHandler}>NEXT</Button>
 			)}
 		</div>
 	)
