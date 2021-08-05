@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Paper, TableBody, TableContainer, TableHead, TableRow, Table} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import {DeletePackListTC, setPacksListTC} from '../state/table-reducer';
@@ -22,6 +22,10 @@ export function Tables() {
 
     const {cardPacks} = useSelector((state: AppRootStateType) => state.table)
 
+    const Sort = () => {
+        userId && dispatch(setPacksListTC({sortPacks: '1updated', user_id: userId}))
+    }
+
     return (
         <div
             style={{
@@ -38,7 +42,7 @@ export function Tables() {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="center">Cards</TableCell>
-                            <TableCell align="center">Last updated</TableCell>
+                            <TableCell align="center">Last updated<Button onClick={Sort}>ᐁ</Button></TableCell>
                             <TableCell align="center">Created by</TableCell>
                             <TableCell align="center"> Actions</TableCell>
                             <TableCell align="center"><span>{''}</span></TableCell>

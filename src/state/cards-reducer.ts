@@ -1,5 +1,6 @@
 import {Dispatch} from 'redux';
 import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams} from '../dal/api';
+import {setStatusAC} from './app-reducer';
 
 //types
 type initialStateType = typeof initialState
@@ -56,15 +57,19 @@ const addCardAC = (card: CardType) => ({type: 'CREATE_NEW_CARD', card} as const)
 
 //thunks
 export const getCardsTC = (getParams: GetCardsParams) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
     cardsAPI.getCardsCard(getParams).then(res => {
             dispatch(getCardsAC(res.data))
+        dispatch(setStatusAC(false));
         }
     )
 }
 
 export const createCardTC = (createData: CreateCardParamsType, getParams: GetCardsParams) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
     cardsAPI.createNewCardsCard(createData).then(res => {
             dispatch(addCardAC(res.data))
+        dispatch(setStatusAC(false));
         }
     ).then(() =>
         cardsAPI.getCardsCard(getParams).then(res => {
@@ -75,9 +80,11 @@ export const createCardTC = (createData: CreateCardParamsType, getParams: GetCar
 }
 
 export const removeCardTC = (id: string, cardsPack_id: string) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
     cardsAPI.deleteCardsCard(id).then(() =>
         cardsAPI.getCardsCard({cardsPack_id}).then(res => {
                 dispatch(getCardsAC(res.data))
+            dispatch(setStatusAC(false));
             }
         )
     )

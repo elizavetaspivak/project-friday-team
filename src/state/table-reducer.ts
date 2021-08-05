@@ -1,6 +1,12 @@
-import { Dispatch } from "redux"
 import { CreateParamsType, GetPackParams, tableAPI } from "../dal/api"
 import { AppRootStateType } from "./store"
+import {Dispatch} from 'redux';
+import {
+    CreateParamsType, GetPackParams,
+    tableAPI
+} from '../dal/api';
+import {AppRootStateType} from './store';
+import {setStatusAC} from './app-reducer';
 
 const InitialState = {
 	cardPacks: [
@@ -87,6 +93,7 @@ export type ActionsTableType =
 
 // thunk
 
+
 export const setPacksListTC =
 	(params: GetPackParams = {}) =>
 	(dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -110,16 +117,6 @@ export const setPacksListTC =
 		})
 	}
 
-export const CreatNewPackListTC =
-	(newPackData: CreateParamsType, getPackParams: GetPackParams) =>
-	(dispatch: Dispatch) => {
-		tableAPI.createNewCardsPack(newPackData).then(() =>
-			tableAPI.getCardsPack(getPackParams).then((res) => {
-				dispatch(setPacksListAC(res.data))
-			})
-		)
-	}
-
 export const DeletePackListTC =
 	(id: string, getPackParams: GetPackParams = {}) =>
 	(dispatch: Dispatch) => {
@@ -129,3 +126,16 @@ export const DeletePackListTC =
 			})
 		)
 	}
+
+
+export const CreatNewPackListTC = (newPackData: CreateParamsType, getPackParams: GetPackParams) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
+    tableAPI.createNewCardsPack(newPackData)
+        .then(() =>
+            tableAPI.getCardsPack(getPackParams).then(res => {
+                    dispatch(setPacksListAC(res.data))
+                dispatch(setStatusAC(false));
+                }
+            )
+        )
+}

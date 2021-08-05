@@ -23,8 +23,8 @@ import {Redirect, useHistory} from 'react-router-dom'
 import s from "./PacksList.module.css"
 import { Paginator } from "../common/Pagination/Pagination"
 import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
-// import { SearchBox } from "../common/Search/SearchBox"
 import moment from 'moment';
+import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange';
 
 export function PacksList() {
 	const dispatch = useDispatch()
@@ -37,7 +37,7 @@ export function PacksList() {
 		(state) => state.login.user
 	)
 
-	const { cardPacks, minCardsCount } = useSelector(
+	let { cardPacks } = useSelector<AppRootStateType,any>(
 		(state: AppRootStateType) => state.table
 	)
 
@@ -54,6 +54,12 @@ export function PacksList() {
 	const onPageChanged = useCallback(
 		(page: number) => {
 			dispatch(setPacksListTC({ page, pageCount, packName: inputValue  })) //что бы менялась страница по клику при запросе на сервер
+			dispatch(setPageAC(page)) //что бы менялась страница по клику // походу ее надо засунуть в thunk перед api
+			if(filter === 'my'){
+				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
+			} else {
+				dispatch(setPacksListTC({ page }))
+			}//что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
 	)
@@ -67,7 +73,7 @@ export function PacksList() {
 	const onSearch = () =>
 		dispatch(setPacksListTC({ packName: inputValue }))
 
-
+   
 
 	useEffect(() => {
 		dispatch(setPacksListTC())
@@ -88,6 +94,35 @@ export function PacksList() {
 		},
 	})
 	const classes = useStyles()
+	const [filter, setFilter] = useState('all');
+
+	const onClickSetMyFilter = () => {
+		setFilter('my')
+		profile._id && dispatch(setPacksListTC({user_id: profile._id}))
+	}
+
+	const onClickSetAllFilter = () => {
+		setFilter('all')
+		dispatch(setPacksListTC())
+	}
+
+	const Sort = () => {
+		if(filter === 'my'){
+			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: '1updated'}))
+		} else {
+			profile._id && dispatch(setPacksListTC({sortPacks: '1updated'}))
+		}
+	}
+
+	const maxCardsCount = useSelector<AppRootStateType, number>(
+		(state) => state.table.cardPacksTotalCount)
+
+	const minCardsCount = useSelector<AppRootStateType, number>(
+		(state) => state.table.minCardsCount)
+
+	const [value1, setValue1] = useState<number>(minCardsCount);
+	const [value2, setValue2] = useState<number>(maxCardsCount);
+
 
 	if (!isLoginIn) {
 		return <Redirect to={'/login'}/>;
@@ -108,11 +143,12 @@ export function PacksList() {
 				<div className={s.mainPacks}>
 					<p>Show packs cards</p>
 					<div>
-						<Button>My</Button>
-						<Button>All</Button>
+						<Button onClick={onClickSetMyFilter}>My</Button>
+						<Button onClick={onClickSetAllFilter}>All</Button>
 					</div>
-					<div>
+					<div className={s.numberOfCards}>
 						<p>Number of cards</p>
+						<SuperDoubleRange value1={value1} setValue1={setValue1} setValue2={setValue2} value2={value2}/>
 					</div>
 				</div>
 
@@ -136,19 +172,19 @@ export function PacksList() {
 					</div>
 
 					<div className={s.table}>
-						<TableContainer component={Paper}>
+						<TableContainer component={Paper} className={s.tableContainer}>
 							<Table className={classes.table} aria-label='simple table'>
 								<TableHead>
 									<TableRow>
 										<TableCell>Name</TableCell>
 										<TableCell align='center'>Cards</TableCell>
-										<TableCell align='center'>Last updated</TableCell>
+										<TableCell align='center'>Last updated <Button onClick={Sort}>ᐁ</Button></TableCell>
 										<TableCell align='center'>Created by</TableCell>
 										<TableCell align='center'> Actions</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{cardPacks.map((row) => {
+									{cardPacks.map((row:any) => {
 										const getCards = () => {
 											history.push(`/cards/${row._id}`)
 										}
@@ -210,7 +246,12 @@ export function PacksList() {
 						pageCount={pageCount}
 						totalItemsCount={cardsTotalCount}
 					/>
-					
+					{/* <Paginator
+						page={cardsPackState.page}
+						onPageChanged={pageNumberRequest}
+						pageCount={cardsPackState.pageCount}
+						totalItemsCount={cardsPackState.cardPacksTotalCount}
+					/> */}
 				</div>
 			</div>
 		</div>
