@@ -48,7 +48,7 @@ export function Profile() {
                    </div>
                 </div>
                 <div className={s.table}>
-                    <h3>My packs list</h3>
+                    <h2>My packs list</h2>
                     <Tables/> 
                      {/*<Paginator/>*/}
                 </div>

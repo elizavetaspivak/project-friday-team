@@ -1,6 +1,6 @@
 .nav{
     width: 80%;
-    height: 50px;
+    height: 60px;
     margin: 0 auto;
     overflow-x: hidden;
     display: flex;
@@ -9,6 +9,18 @@
     align-items: center;
     flex-wrap: nowrap;
     z-index: 1;
+    background-color: #EBE0E9;
+}
+
+.head{
+    width: 300px;
+}
+
+.item{
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 a {
@@ -25,7 +37,19 @@ a:hover {
      transition: all 0.4s ease;
  }
 
+.item:hover{
+    height: 56px;
+    width: 150px;
+    border-bottom: 3px solid #1a4394;
+    background: rgba(0,0,0,.2)
+}
+
 .active {
-    color: lightcoral;
-    transition: all 0.4s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    width: 150px;
+    border-bottom: 3px solid #1a4394;
+    background: rgba(0,0,0,.2)
 }

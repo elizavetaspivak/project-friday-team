@@ -28,7 +28,11 @@ export function PacksList() {
     const dispatch = useDispatch()
     const history = useHistory()
     const [filter, setFilter] = useState('all')
-    const [inputValue, setInputValue] = useState<string>('')
+
+
+    useEffect(() => {
+        dispatch(setPacksListTC())
+    }, [])
 
     const {isLoginIn, user} = useSelector<AppRootStateType, any>(
         (state) => state.login
@@ -46,9 +50,7 @@ export function PacksList() {
     )
 
     const [sortTitle, setSortTitle] = useState(sortPacks)
-    const [value1, setValue1] = useState<number>(minCardsCount)
-    const [value2, setValue2] = useState<number>(cardPacksTotalCount)
-
+   
     useEffect(() => {
         dispatch(setPacksListTC())
     }, [])
@@ -94,6 +96,7 @@ export function PacksList() {
 
     const onSearch = () => dispatch(setPacksListTC({packName: inputValue}))
 
+
     const onClickSetMyFilter = () => {
         setFilter('my')
         user.profile._id && dispatch(setPacksListTC({user_id: user.profile._id}))
@@ -103,6 +106,9 @@ export function PacksList() {
         setFilter('all')
         dispatch(setPacksListTC())
     }
+
+    const [sortTitle, setSortTitle] = useState(sortPacks)
+
 
     const Sort1 = () => {
         setSortTitle('1updated')
@@ -123,6 +129,20 @@ export function PacksList() {
         }
     }
 
+
+
+    const maxCardsCount = useSelector<AppRootStateType, number>(
+        (state) => state.table.cardPacksTotalCount
+    )
+
+    const minCardsCount = useSelector<AppRootStateType, number>(
+        (state) => state.table.minCardsCount
+    )
+
+    const [value1, setValue1] = useState<number>(minCardsCount)
+    const [value2, setValue2] = useState<number>(maxCardsCount)
+
+
     if (!isLoginIn) {
         return <Redirect to={'/login'}/>
     }
@@ -137,13 +157,6 @@ export function PacksList() {
     return (
         <div
             className={s.packList}
-            style={{
-                margin: '0 0px',
-                display: 'flex',
-                flexFlow: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
         >
             <div className={s.packContainer}>
                 <div className={s.mainPacks}>
@@ -163,7 +176,7 @@ export function PacksList() {
                     </div>
                 </div>
                 <div className={s.packTable}>
-                    <h3>Packs list</h3>
+                    <h2>Packs list</h2>
                     <div className={s.searchBlock}>
                         <div className={s.search}>
                             <SuperInputText
@@ -179,13 +192,14 @@ export function PacksList() {
                             onClick={CreateNewPackList}
                             variant="contained"
                             color="primary"
+                            className={s.addNewPack}
                         >
                             Add new pack
                         </Button>
                     </div>
                     <div className={s.table}>
                         <TableContainer component={Paper} className={s.tableContainer}>
-                            <Table className={classes.table} aria-label="simple table">
+                            <Table aria-label="simple table" className={s.tableContainer}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Name</TableCell>
@@ -229,6 +243,13 @@ export function PacksList() {
                                                             </Button>
                                                             <Button variant="contained" color="primary">
                                                                 Edit
+                                                            </Button>
+                                                            <Button
+                                                                onClick={getCards}
+                                                                variant="contained"
+                                                                color="primary"
+                                                            >
+                                                                Learn
                                                             </Button>
                                                         </div>
                                                         :

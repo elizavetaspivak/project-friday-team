@@ -65,11 +65,16 @@ export function Cards() {
             <div className={s.cardsContainer}>
 
                 <div className={s.cardsTable}>
-                    <Button onClick={history.goBack}>Back</Button>
+                    <div className={s.buttons}>
+                        <Button className={s.backButton} onClick={history.goBack}>⇦</Button>
 
-                    {cards.packUserId == userId ? <Button onClick={addCardHandler}
-                                                          variant="contained"
-                                                          color="primary">Add card</Button> : ''}
+                        <div>
+                            {cards.packUserId == userId ? <Button className={s.addCardButton} onClick={addCardHandler}
+                                                                  variant="contained"
+                                                                  color="primary">Add card</Button> : ''}
+                        </div>
+                    </div>
+
                     <TableContainer component={Paper}>
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
