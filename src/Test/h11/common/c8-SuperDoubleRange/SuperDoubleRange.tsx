@@ -44,7 +44,7 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
         <div className={classes.root}>
             <Slider
                 value={[value1, value2]}
-                onChange={onChangeCallback}
+                onChangeCommitted={onChangeCallback}
                 aria-labelledby="range-slider"
                 valueLabelDisplay="on"
                 // min={value1}
