@@ -15,18 +15,16 @@ import TableCell from "@material-ui/core/TableCell"
 import {
 	CreatNewPackListTC,
 	DeletePackListTC,
-	InitialStateType,
 	setPacksListTC,
 	setPageAC,
-	SetValuesType,
-	updateValuesAC,
+
 } from "../state/table-reducer"
 import {Redirect, useHistory} from 'react-router-dom'
 import s from "./PacksList.module.css"
 import { Paginator } from "../common/Pagination/Pagination"
+import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
 import { SearchBox } from "../common/Search/SearchBox"
 import moment from 'moment';
-// import { Pagination } from "@material-ui/lab"
 
 export function PacksList() {
 	const dispatch = useDispatch()
@@ -55,26 +53,23 @@ export function PacksList() {
 	)
 	const onPageChanged = useCallback(
 		(page: number) => {
+            // debugger
 			dispatch(setPageAC(page)) //что бы менялась страница по клику // походу ее надо засунуть в thunk перед api
 			dispatch(setPacksListTC({ page })) //что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
 	)
-    // const pageNumberRequest = (page: number) => setParams({page})
 	//!
 
 	//search
-	const cardsPackState = useSelector<AppRootStateType, InitialStateType>(
-		(state) => state.table
-	)
-	const setParams = (params: SetValuesType) => {
-		dispatch(updateValuesAC(params))
-		dispatch(setPacksListTC())
-	}
-	const searchPack = (searchText: string) => setParams({ packName: searchText })
+	const [inputValue, setInputValue] = useState<string>("")
+	const inputHandler = (e: ChangeEvent<HTMLInputElement>) =>
+		setInputValue(e.currentTarget.value)
+
+	const onSearch = () =>
+		dispatch(setPacksListTC({ page, pageCount, packName: inputValue }))
 
 
-   
 
 	useEffect(() => {
 		dispatch(setPacksListTC())
@@ -124,18 +119,21 @@ export function PacksList() {
 				</div>
 
 				<div className={s.packTable}>
-					<h3>Packs list</h3>
+					<Button
+						onClick={CreateNewPackList}
+						variant='contained'
+						color='primary'
+					>
+						Add new pack
+					</Button>
 					<div className={s.search}>
-						<SearchBox
-							searchCallback={searchPack}
-							searchTextRequest={cardsPackState.packName}
+						<SuperInputText
+							className={s.searchBoxInput}
+							placeholder={"Search..."}
+							onChange={inputHandler}
 						/>
-						<Button
-							onClick={CreateNewPackList}
-							variant='contained'
-							color='primary'
-						>
-							Add new pack
+						<Button variant='contained' color='primary' onClick={onSearch}>
+							search
 						</Button>
 					</div>
 
@@ -214,12 +212,7 @@ export function PacksList() {
 						pageCount={pageCount}
 						totalItemsCount={cardsTotalCount}
 					/>
-					{/* <Paginator
-						page={cardsPackState.page}
-						onPageChanged={pageNumberRequest}
-						pageCount={cardsPackState.pageCount}
-						totalItemsCount={cardsPackState.cardPacksTotalCount}
-					/> */}
+					
 				</div>
 			</div>
 		</div>

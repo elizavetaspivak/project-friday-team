@@ -36,15 +36,6 @@ const InitialState = {
     user_id: undefined
     // user_id: ''
 }
-export type SetValuesType = {
-    maxCardsCount?: number,
-    minCardsCount?: number,
-    page?: number,
-    pageCount?: number,
-    sortPacks?: string,
-    packName?: string,
-    user_id?: string
-}
 
 export type InitialStateType = typeof InitialState
 
@@ -60,7 +51,8 @@ export const tableReducer = (state: InitialStateType = InitialState, action: Act
             // debugger
             return {...state, cardPacksTotalCount:action.count}
         }
-        case 'UPDATE_VALUES':
+        // case 'SET-PACK-NAME':
+        //     return {...state, packName: action.packName}
             
         default:
             return state
@@ -72,18 +64,18 @@ const setPacksListAC = (data: InitialStateType) => ({type: 'SET_PACKS', data} as
 //pagination
 export const setPageAC = (page:number) => ({type: 'SET_PAGE', page} as const)
 export const setPacksTotalCountAC = (count:number) => ({type: 'SET_PACKS_TOTAL_COUNT', count} as const)
-//search
-export const updateValuesAC = (data: SetValuesType) => ({
-    type: 'UPDATE_VALUES',
-    data
-} as const)
+// export const setFilter = (packName: string) => ({
+//     type: 'SET-PACK-NAME', packName
+// } as const)
 
 // type action
 export type SetPacksListAT = ReturnType<typeof setPacksListAC>
 export type SetPageACT = ReturnType<typeof setPageAC>
 export type setPacksTotalCountACT = ReturnType<typeof setPacksTotalCountAC>
-export type updateValuesACT = ReturnType<typeof updateValuesAC>
-export type ActionsTableType = SetPacksListAT |SetPageACT | setPacksTotalCountACT |  updateValuesACT
+// export type setFilterACT=ReturnType<typeof setFilter>
+
+export type ActionsTableType = SetPacksListAT |SetPageACT | setPacksTotalCountACT 
+// |setFilterACT
 
 
 
@@ -102,10 +94,12 @@ export const setPacksListTC = (params: GetPackParams = {}) =>
             user_id: tablesReducer.user_id,
             ...params
         }
+        // debugger
         // dispatch(setPageAC(params.page))
+        // dispatch(setFilter(params.packName))
         tableAPI.getCardsPack(cardsParamsModel).then(res => {
                 dispatch(setPacksListAC(res.data))
-                // dispatch(setPacksTotalCountAC(res.data));
+                dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
             }
         )
     }
