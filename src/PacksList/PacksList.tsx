@@ -62,7 +62,7 @@ export function PacksList() {
 			if(filter === 'my'){
 				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
 			} else {
-				dispatch(setPacksListTC({ page, pageCount, packName: inputValue}))
+				dispatch(setPacksListTC({ page, pageCount, packName: inputValue , min: value1, max:value2 }))
 			}//что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
