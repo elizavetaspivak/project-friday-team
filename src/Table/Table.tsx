@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Paper, TableBody, TableContainer, TableHead, TableRow, Table} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import {DeletePackListTC, setPacksListTC} from '../state/table-reducer';
@@ -7,6 +7,7 @@ import {AppRootStateType} from '../state/store';
 import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
 import moment from 'moment';
+import s from './Table.module.css'
 
 
 export function Tables() {
@@ -36,8 +37,8 @@ export function Tables() {
                 justifyContent: 'center'
             }}
         >
-            <TableContainer component={Paper}>
-                <Table aria-label="simple table">
+            <TableContainer component={Paper} className={s.tableContainer}>
+                <Table aria-label="simple table" className={s.tableContainer}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>

@@ -20,6 +20,7 @@ import {Cards} from './Cards/Cards';
 function App() {
     let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
     let status = useSelector<AppRootStateType, boolean>(state => state.app.status)
+    let isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     let dispatch = useDispatch()
 
     useEffect(() => {
@@ -29,7 +30,9 @@ function App() {
 
     return (
         <div className="App">
-            <Nav/>
+            <div className={'nav'}>
+                {isLoggedIn ? <Nav/> : ''}
+            </div>
             {status && <LinearProgress color="secondary"/>}
             <Switch>
                 <Route path="/login"

@@ -1,6 +1,6 @@
 .cards{
     background: linear-gradient(#e6d4de, #9890c7);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .cardsContainer{
@@ -10,8 +10,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .cardsTable{
     width: 1000px;
+}
+
+.backButton{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
