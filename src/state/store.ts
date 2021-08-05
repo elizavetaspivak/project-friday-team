@@ -9,6 +9,8 @@ import {appReducer} from './app-reducer';
 import {tableReducer} from './table-reducer';
 import {cardsReducer} from './cards-reducer';
 
+export type AppRootStateType = ReturnType<typeof rootReducer>
+
 const rootReducer = combineReducers({
     login: loginReducer,
     profile: profileReducer,
@@ -22,7 +24,6 @@ const rootReducer = combineReducers({
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
-export type AppRootStateType = ReturnType<typeof rootReducer>
 
 // @ts-ignore
 window.store = store;

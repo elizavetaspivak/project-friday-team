@@ -5,8 +5,6 @@ import {AppRootStateType} from '../state/store';
 import s from './Profile.module.css';
 import {Tables} from '../Table/Table';
 import userAva from '../common/images/UserAvatar.png'
-// import { Paginator } from '../common/Pagination/Pagination';
-// import { Pagination } from '@material-ui/lab';
 
 export function Profile() {
     const dispatch = useDispatch();
@@ -21,16 +19,16 @@ export function Profile() {
         dispatch(logoutTC());
     };
 
-    // if (!isLoginIn) {
-    //     return <Redirect to={'/login'}/>;
-    // }
+    if (!isLoginIn) {
+        return <Redirect to={'/login'}/>;
+    }
     return (
         <div className={s.profile}>
             <div className={s.profileContainer}>
                 <div className={s.profileInfo}>
                     <div>
                         <div className={s.photoProfile}>
-                            <img src={userAva} alt=""/>
+                            {!user.avatar ?  <img src={userAva} alt=""/> : <img src={user.avatar} alt=""/> }
                         </div>
                         <div>
                             <p>{user.name}</p>
@@ -44,8 +42,9 @@ export function Profile() {
                    </div>
                 </div>
                 <div className={s.table}>
+                    <h3>My packs list</h3>
                     <Tables/> 
-                    {/* <Paginator/> */}
+                     {/*<Paginator/>*/}
                 </div>
                 
             </div>

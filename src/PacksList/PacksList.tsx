@@ -19,15 +19,19 @@ import {
 	setPageAC,
 
 } from "../state/table-reducer"
-import { useHistory } from "react-router-dom"
+import {Redirect, useHistory} from 'react-router-dom'
 import s from "./PacksList.module.css"
 import { Paginator } from "../common/Pagination/Pagination"
 import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
-
+import { SearchBox } from "../common/Search/SearchBox"
+import moment from 'moment';
 
 export function PacksList() {
 	const dispatch = useDispatch()
 	const history = useHistory()
+	const isLoginIn = useSelector<AppRootStateType, boolean>(
+		(state) => state.login.isLoggedIn
+	);
 
 	const profile = useSelector<AppRootStateType, any>(
 		(state) => state.login.user
@@ -75,7 +79,7 @@ export function PacksList() {
 		dispatch(
 			CreatNewPackListTC(
 				{ cardsPack: { name: "fhjdskhjf", path: profile.name } },
-				{ user_id: profile._id }
+				{ }
 			)
 		)
 	}
@@ -86,6 +90,10 @@ export function PacksList() {
 		},
 	})
 	const classes = useStyles()
+
+	if (!isLoginIn) {
+		return <Redirect to={'/login'}/>;
+	}
 
 	return (
 		<div
@@ -129,48 +137,58 @@ export function PacksList() {
 						</Button>
 					</div>
 
-					<TableContainer component={Paper}>
-						<Table className={classes.table} aria-label='simple table'>
-							<TableHead>
-								<TableRow>
-									<TableCell>Name</TableCell>
-									<TableCell align='center'>Cards</TableCell>
-									<TableCell align='center'>Last updated</TableCell>
-									<TableCell align='center'>Created by</TableCell>
-									<TableCell align='center'> Actions</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{cardPacks.map((row) => {
-									const getCards = () => {
-										history.push(`/cards/${row._id}`)
-									}
-									const removePack = () => {
-										dispatch(
-											DeletePackListTC(row._id, { user_id: profile._id })
-										)
-									}
-									return (
-										<TableRow key={row._id}>
-											<TableCell component='th' scope='row'>
-												{row.name}{" "}
-											</TableCell>
-											<TableCell align='center'>{row.cardsCount}</TableCell>
-											<TableCell align='center'>{row.updated}</TableCell>
-											<TableCell align='center'>{row.path}</TableCell>
-											<TableCell align='center'>
-												{row.user_id == profile._id ? (
-													<div>
-														<Button
-															onClick={removePack}
-															variant='contained'
-															color='secondary'
-														>
-															Delete
-														</Button>
-														<Button variant='contained' color='primary'>
-															Edit
-														</Button>
+					<div className={s.table}>
+						<TableContainer component={Paper}>
+							<Table className={classes.table} aria-label='simple table'>
+								<TableHead>
+									<TableRow>
+										<TableCell>Name</TableCell>
+										<TableCell align='center'>Cards</TableCell>
+										<TableCell align='center'>Last updated</TableCell>
+										<TableCell align='center'>Created by</TableCell>
+										<TableCell align='center'> Actions</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{cardPacks.map((row) => {
+										const getCards = () => {
+											history.push(`/cards/${row._id}`)
+										}
+										const removePack = () => {
+											dispatch(
+												DeletePackListTC(row._id, { user_id: profile._id })
+											)
+										}
+										return (
+											<TableRow key={row._id}>
+												<TableCell component='th' scope='row'>
+													{row.name}{" "}
+												</TableCell>
+												<TableCell align='center'>{row.cardsCount}</TableCell>
+												<TableCell align='center'>{moment(row.updated).format("DD.MM.YYYY")}</TableCell>
+												<TableCell align='center'>{row.path}</TableCell>
+												<TableCell align='center'>
+													{row.user_id == profile._id ? (
+														<div>
+															<Button
+																onClick={removePack}
+																variant='contained'
+																color='secondary'
+															>
+																Delete
+															</Button>
+															<Button variant='contained' color='primary'>
+																Edit
+															</Button>
+															<Button
+																onClick={getCards}
+																variant='contained'
+																color='primary'
+															>
+																Learn
+															</Button>
+														</div>
+													) : (
 														<Button
 															onClick={getCards}
 															variant='contained'
@@ -178,23 +196,16 @@ export function PacksList() {
 														>
 															Learn
 														</Button>
-													</div>
-												) : (
-													<Button
-														onClick={getCards}
-														variant='contained'
-														color='primary'
-													>
-														Learn
-													</Button>
-												)}
-											</TableCell>
-										</TableRow>
-									)
-								})}
-							</TableBody>
-						</Table>
-					</TableContainer>
+													)}
+												</TableCell>
+											</TableRow>
+										)
+									})}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+
 					<Paginator
 						page={page}
 						onPageChanged={onPageChanged}
