@@ -29,6 +29,12 @@ import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDouble
 export function PacksList() {
 	const dispatch = useDispatch()
 	const history = useHistory()
+	const [filter, setFilter] = useState('all');
+	console.log(filter)
+	useEffect(() => {
+		dispatch(setPacksListTC())
+	}, [])
+
 	const isLoginIn = useSelector<AppRootStateType, boolean>(
 		(state) => state.login.isLoggedIn
 	);
@@ -73,10 +79,6 @@ export function PacksList() {
 
    
 
-	useEffect(() => {
-		dispatch(setPacksListTC())
-	}, [])
-
 	const CreateNewPackList = () => {
 		dispatch(
 			CreatNewPackListTC(
@@ -92,7 +94,6 @@ export function PacksList() {
 		},
 	})
 	const classes = useStyles()
-	const [filter, setFilter] = useState('all');
 
 	const onClickSetMyFilter = () => {
 		setFilter('my')
