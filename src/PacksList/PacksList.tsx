@@ -17,19 +17,18 @@ import {
 	DeletePackListTC,
 	setPacksListTC,
 	setPageAC,
-
 } from "../state/table-reducer"
-import {Redirect, useHistory} from 'react-router-dom'
+import { Redirect, useHistory } from "react-router-dom"
 import s from "./PacksList.module.css"
 import { Paginator } from "../common/Pagination/Pagination"
 import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
-import moment from 'moment';
-import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange';
+import moment from "moment"
+import SuperDoubleRange from "../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange"
 
 export function PacksList() {
 	const dispatch = useDispatch()
 	const history = useHistory()
-	const [filter, setFilter] = useState('all');
+	const [filter, setFilter] = useState("all")
 	console.log(filter)
 	useEffect(() => {
 		dispatch(setPacksListTC())
@@ -37,13 +36,13 @@ export function PacksList() {
 
 	const isLoginIn = useSelector<AppRootStateType, boolean>(
 		(state) => state.login.isLoggedIn
-	);
+	)
 
 	const profile = useSelector<AppRootStateType, any>(
 		(state) => state.login.user
 	)
 
-	let { cardPacks } = useSelector<AppRootStateType,any>(
+	let { cardPacks, sortPacks } = useSelector<AppRootStateType, any>(
 		(state: AppRootStateType) => state.table
 	)
 
@@ -59,31 +58,37 @@ export function PacksList() {
 	)
 	const onPageChanged = useCallback(
 		(page: number) => {
-			if(filter === 'my'){
-				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
+			if (filter === "my") {
+				profile._id &&
+					dispatch(setPacksListTC({ user_id: profile._id, page: page }))
 			} else {
-				dispatch(setPacksListTC({ page, pageCount, packName: inputValue , min: value1, max:value2 }))
-			}//что бы менялась страница по клику при запросе на сервер
+				dispatch(
+					setPacksListTC({
+						page,
+						pageCount,
+						packName: inputValue,
+						min: value1,
+						max: value2,
+						sortPacks:sortTitle
+					})
+				)
+			} //что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
 	)
-	
 
 	//search
 	const [inputValue, setInputValue] = useState<string>("")
 	const inputHandler = (e: ChangeEvent<HTMLInputElement>) =>
 		setInputValue(e.currentTarget.value)
 
-	const onSearch = () =>
-		dispatch(setPacksListTC({ packName: inputValue }))
-
-   
+	const onSearch = () => dispatch(setPacksListTC({ packName: inputValue }))
 
 	const CreateNewPackList = () => {
 		dispatch(
 			CreatNewPackListTC(
 				{ cardsPack: { name: "fhjdskhjf", path: profile.name } },
-				{ }
+				{}
 			)
 		)
 	}
@@ -96,35 +101,59 @@ export function PacksList() {
 	const classes = useStyles()
 
 	const onClickSetMyFilter = () => {
-		setFilter('my')
-		profile._id && dispatch(setPacksListTC({user_id: profile._id}))
+		setFilter("my")
+		profile._id && dispatch(setPacksListTC({ user_id: profile._id }))
 	}
 
 	const onClickSetAllFilter = () => {
-		setFilter('all')
+		setFilter("all")
 		dispatch(setPacksListTC())
 	}
 
-	const Sort = () => {
+	// const Sort = () => {
+	// 	if (filter === "my") {
+	// 		profile._id &&
+	// 			dispatch(
+	// 				setPacksListTC({ user_id: profile._id, sortPacks: "1updated" })
+	// 			)
+	// 	} else {
+	// 		profile._id && dispatch(setPacksListTC({ sortPacks: "1updated" }))
+	// 	}
+	// }
+	const [sortTitle, setSortTitle]=useState(sortPacks)
+	const Sort1 = () => {
 		if(filter === 'my'){
-			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: '1updated'}))
+			setSortTitle('1updated')
+			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
 		} else {
-			profile._id && dispatch(setPacksListTC({sortPacks: '1updated'}))
+			setSortTitle('1updated')
+			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
+		}
+	}
+	const Sort2 = () => {
+		if(filter === 'my'){
+			setSortTitle('0updated')
+			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+		} else {
+			setSortTitle('0updated')
+			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
 		}
 	}
 
+
 	const maxCardsCount = useSelector<AppRootStateType, number>(
-		(state) => state.table.cardPacksTotalCount)
+		(state) => state.table.cardPacksTotalCount
+	)
 
 	const minCardsCount = useSelector<AppRootStateType, number>(
-		(state) => state.table.minCardsCount)
+		(state) => state.table.minCardsCount
+	)
 
-	const [value1, setValue1] = useState<number>(minCardsCount);
-	const [value2, setValue2] = useState<number>(maxCardsCount);
-
+	const [value1, setValue1] = useState<number>(minCardsCount)
+	const [value2, setValue2] = useState<number>(maxCardsCount)
 
 	if (!isLoginIn) {
-		return <Redirect to={'/login'}/>;
+		return <Redirect to={"/login"} />
 	}
 
 	return (
@@ -147,7 +176,12 @@ export function PacksList() {
 					</div>
 					<div className={s.numberOfCards}>
 						<p>Number of cards</p>
-						<SuperDoubleRange value1={value1} setValue1={setValue1} setValue2={setValue2} value2={value2}/>
+						<SuperDoubleRange
+							value1={value1}
+							setValue1={setValue1}
+							setValue2={setValue2}
+							value2={value2}
+						/>
 					</div>
 				</div>
 
@@ -177,13 +211,17 @@ export function PacksList() {
 									<TableRow>
 										<TableCell>Name</TableCell>
 										<TableCell align='center'>Cards</TableCell>
-										<TableCell align='center'>Last updated <Button onClick={Sort}>ᐁ</Button></TableCell>
+										{/* <TableCell align='center'>Last updated <Button onClick={Sort}>ᐁ</Button></TableCell> */}
+										<TableCell align='center'>
+											Last updated <Button onClick={Sort1}>ᐁ</Button>
+											<Button onClick={Sort2}>/\</Button>
+										</TableCell>
 										<TableCell align='center'>Created by</TableCell>
 										<TableCell align='center'> Actions</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{cardPacks.map((row:any) => {
+									{cardPacks.map((row: any) => {
 										const getCards = () => {
 											history.push(`/cards/${row._id}`)
 										}
@@ -198,7 +236,9 @@ export function PacksList() {
 													{row.name}{" "}
 												</TableCell>
 												<TableCell align='center'>{row.cardsCount}</TableCell>
-												<TableCell align='center'>{moment(row.updated).format("DD.MM.YYYY")}</TableCell>
+												<TableCell align='center'>
+													{moment(row.updated).format("DD.MM.YYYY")}
+												</TableCell>
 												<TableCell align='center'>{row.path}</TableCell>
 												<TableCell align='center'>
 													{row.user_id == profile._id ? (
