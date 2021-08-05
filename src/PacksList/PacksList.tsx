@@ -53,12 +53,10 @@ export function PacksList() {
 	)
 	const onPageChanged = useCallback(
 		(page: number) => {
-			dispatch(setPacksListTC({ page, pageCount, packName: inputValue  })) //что бы менялась страница по клику при запросе на сервер
-			dispatch(setPageAC(page)) //что бы менялась страница по клику // походу ее надо засунуть в thunk перед api
 			if(filter === 'my'){
 				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
 			} else {
-				dispatch(setPacksListTC({ page }))
+				dispatch(setPacksListTC({ page, pageCount, packName: inputValue}))
 			}//что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
