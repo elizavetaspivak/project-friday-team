@@ -23,7 +23,7 @@ import {Redirect, useHistory} from 'react-router-dom'
 import s from "./PacksList.module.css"
 import { Paginator } from "../common/Pagination/Pagination"
 import SuperInputText from "../Test/h4/common/c1-SuperInputText/SuperInputText"
-import { SearchBox } from "../common/Search/SearchBox"
+// import { SearchBox } from "../common/Search/SearchBox"
 import moment from 'moment';
 
 export function PacksList() {
@@ -41,25 +41,23 @@ export function PacksList() {
 		(state: AppRootStateType) => state.table
 	)
 
-	//! pagination
+	// pagination
 	const pageCount = useSelector<AppRootStateType, number>(
 		(state) => state.table.pageCount
 	)
 	const cardsTotalCount = useSelector<AppRootStateType, number>(
 		(state) => state.table.cardPacksTotalCount
 	)
-	const page = useSelector<AppRootStateType, number>(
+	const page = useSelector<AppRootStateType, number | undefined>(
 		(state) => state.table.page
 	)
 	const onPageChanged = useCallback(
 		(page: number) => {
-            // debugger
-			dispatch(setPageAC(page)) //что бы менялась страница по клику // походу ее надо засунуть в thunk перед api
-			dispatch(setPacksListTC({ page })) //что бы менялась страница по клику при запросе на сервер
+			dispatch(setPacksListTC({ page, pageCount, packName: inputValue  })) //что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
 	)
-	//!
+	
 
 	//search
 	const [inputValue, setInputValue] = useState<string>("")
@@ -67,7 +65,7 @@ export function PacksList() {
 		setInputValue(e.currentTarget.value)
 
 	const onSearch = () =>
-		dispatch(setPacksListTC({ page, pageCount, packName: inputValue }))
+		dispatch(setPacksListTC({ packName: inputValue }))
 
 
 
