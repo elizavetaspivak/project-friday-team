@@ -179,24 +179,28 @@ const [sortTitle, setSortTitle]=useState(sortPacks)
 					</div>
 				</div>
 
-				<div className={s.packTable}>
-					<Button
-						onClick={CreateNewPackList}
-						variant='contained'
-						color='primary'
-					>
-						Add new pack
-					</Button>
-					<div className={s.search}>
-						<SuperInputText
-							className={s.searchBoxInput}
-							placeholder={"Search..."}
-							onChange={inputHandler}
-						/>
-						<Button variant='contained' color='primary' onClick={onSearch}>
-							search
-						</Button>
-					</div>
+					<div className={s.packTable}>
+						<h3>Packs list</h3>
+						<div className={s.searchBlock}>
+							<div className={s.search}>
+								<SuperInputText
+									className={s.searchBoxInput}
+									placeholder={"Search..."}
+									onChange={inputHandler}
+								/>
+								<Button variant='contained' color='primary' onClick={onSearch}>
+									search
+								</Button>
+							</div>
+							<Button
+								onClick={CreateNewPackList}
+								variant='contained'
+								color='primary'
+							>
+								Add new pack
+							</Button>
+						</div>
+
 
 					<div className={s.table}>
 						<TableContainer component={Paper} className={s.tableContainer}>
@@ -245,7 +249,7 @@ const [sortTitle, setSortTitle]=useState(sortPacks)
 															</Button>
 															<Button variant='contained' color='primary'>
 																Edit
-															</Button>
+															</Button> :
 															<Button
 																onClick={getCards}
 																variant='contained'
@@ -253,38 +257,30 @@ const [sortTitle, setSortTitle]=useState(sortPacks)
 															>
 																Learn
 															</Button>
-														</div>
-													) : (
-														<Button
-															onClick={getCards}
-															variant='contained'
-															color='primary'
-														>
-															Learn
-														</Button>
-													)}
-												</TableCell>
-											</TableRow>
-										)
-									})}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</div>
+														)}
+													</TableCell>
+												</TableRow>
+											)
+										})}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</div>
 
-					<Paginator
-						page={page}
-						onPageChanged={onPageChanged}
-						pageCount={pageCount}
-						totalItemsCount={cardsTotalCount}
-					/>
+						<Paginator
+							page={page}
+							onPageChanged={onPageChanged}
+							pageCount={pageCount}
+							totalItemsCount={cardsTotalCount}
+						/>
+				</div>
+
 					{/* <Paginator
 						page={cardsPackState.page}
 						onPageChanged={pageNumberRequest}
 						pageCount={cardsPackState.pageCount}
 						totalItemsCount={cardsPackState.cardPacksTotalCount}
 					/> */}
-				</div>
 			</div>
 		</div>
 	)
