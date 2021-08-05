@@ -63,7 +63,7 @@ export function PacksList() {
 			if(filter === 'my'){
 				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
 			} else {
-				dispatch(setPacksListTC({ page, pageCount, packName: inputValue , min: value1, max:value2 , sortPacks}))
+				dispatch(setPacksListTC({ page, pageCount, packName: inputValue , min: value1, max:value2 , sortPacks:sortTitle}))
 			}//что бы менялась страница по клику при запросе на сервер
 		},
 		[page]
@@ -105,28 +105,39 @@ export function PacksList() {
 		setFilter('all')
 		dispatch(setPacksListTC())
 	}
-
-	// const Sort = () => {
-	// 	if(filter === 'my'){
-	// 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: '1updated'}))
-	// 	} else {
-	// 		profile._id && dispatch(setPacksListTC({sortPacks: '1updated'}))
-	// 	}
-	// }
-	const sortHandler1 = (sortTitle:string) => {
+const [sortTitle, setSortTitle]=useState(sortPacks)
+	const Sort1 = () => {
 		if(filter === 'my'){
+			setSortTitle('1updated')
 			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
 		} else {
+			setSortTitle('1updated')
 			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
 		}
 	}
-	const sortHandler0 = (sortTitle:string) => {
+	const Sort2 = () => {
 		if(filter === 'my'){
+			setSortTitle('0updated')
 			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
 		} else {
-			profile._id && dispatch(setPacksListTC({page, sortPacks: sortTitle}))
+			setSortTitle('0updated')
+			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
 		}
 	}
+	// const sortHandler1 = (sortTitle:string) => {
+	// 	if(filter === 'my'){
+	// 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+	// 	} else {
+	// 		profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
+	// 	}
+	// }
+	// const sortHandler0 = (sortTitle:string) => {
+	// 	if(filter === 'my'){
+	// 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+	// 	} else {
+	// 		profile._id && dispatch(setPacksListTC({page, sortPacks: sortTitle}))
+	// 	}
+	// }
 	 
 
 	const maxCardsCount = useSelector<AppRootStateType, number>(
@@ -194,11 +205,12 @@ export function PacksList() {
 									<TableRow>
 										<TableCell>Name</TableCell>
 										<TableCell align='center'>Cards</TableCell>
-										{/* <TableCell align='center'>Last updated <Button onClick={Sort}>ᐁ</Button></TableCell> */}
+										<TableCell align='center'>Last updated <Button onClick={Sort1}>ᐁ</Button>
+										<Button onClick={Sort2}>/\</Button></TableCell>
 									
-										<TableCell align='center'>Last updated <SortElement sortHandler1={sortHandler1}
+										{/* <TableCell align='center'>Last updated <SortElement sortHandler1={sortHandler1}
                                                                                  sortHandler0={sortHandler0}
-                                                                                 sortTitle={"updated"}/></TableCell>
+                                                                                 sortTitle={"updated"}/></TableCell> */}
 										<TableCell align='center'>Created by</TableCell>
 										<TableCell align='center'> Actions</TableCell>
 									</TableRow>
