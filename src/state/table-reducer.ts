@@ -1,7 +1,7 @@
 import { CreateParamsType, GetPackParams, tableAPI } from "../dal/api"
 import { AppRootStateType } from "./store"
-import {Dispatch} from 'redux';
-import {setStatusAC} from './app-reducer';
+import { Dispatch } from "redux"
+import { setStatusAC } from "./app-reducer"
 
 const InitialState = {
 	cardPacks: [
@@ -27,7 +27,7 @@ const InitialState = {
 	pageCount: 6,
 	token: "",
 	tokenDeathTime: 0,
-	sortPacks: "",
+	sortPacks: "" as string | undefined,
 	packName: "" as string | undefined,
 	minParam: 0,
 	maxParam: 103,
@@ -53,6 +53,9 @@ export const tableReducer = (
 		}
 		case "SET-PACK-NAME":
 			return { ...state, packName: action.packName }
+		case "SET-FILTERS":
+			// debugger
+			return { ...state, sortPacks: action.sortPacks }
 
 		default:
 			return state
@@ -63,7 +66,7 @@ export const tableReducer = (
 const setPacksListAC = (data: InitialStateType) =>
 	({ type: "SET_PACKS", data } as const)
 
-//pagination
+//pagination action
 export const setPageAC = (page: number | undefined) =>
 	({ type: "SET_PAGE", page } as const)
 export const setPacksTotalCountAC = (count: number) =>
@@ -73,21 +76,28 @@ export const setSearch = (packName: string | undefined) =>
 		type: "SET-PACK-NAME",
 		packName,
 	} as const)
+//filter action
+export const setFiltersAC = (sortPacks: string | undefined) =>
+	({
+		type: "SET-FILTERS",
+		sortPacks,
+	} as const)
 
 // type action
 export type SetPacksListAT = ReturnType<typeof setPacksListAC>
 export type SetPageACT = ReturnType<typeof setPageAC>
 export type setPacksTotalCountACT = ReturnType<typeof setPacksTotalCountAC>
-export type setFilterACT = ReturnType<typeof setSearch>
+export type setSearchACT = ReturnType<typeof setSearch>
+export type setFiltersACT = ReturnType<typeof setFiltersAC>
 
 export type ActionsTableType =
 	| SetPacksListAT
 	| SetPageACT
 	| setPacksTotalCountACT
-	| setFilterACT
+	| setSearchACT
+	| setFiltersACT
 
 // thunk
-
 
 export const setPacksListTC =
 	(params: GetPackParams = {}) =>
@@ -106,6 +116,11 @@ export const setPacksListTC =
 			...params,
 		}
 
+
+		dispatch(setPageAC(params.page))
+		dispatch(setSearch(params.packName))
+		dispatch(setFiltersAC(params.sortPacks))
+
 		tableAPI.getCardsPack(cardsParamsModel).then((res) => {
 			dispatch(setPacksListAC(res.data))
 			dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
@@ -122,15 +137,14 @@ export const DeletePackListTC =
 		)
 	}
 
-
-export const CreatNewPackListTC = (newPackData: CreateParamsType, getPackParams: GetPackParams) => (dispatch: Dispatch) => {
-    dispatch(setStatusAC(true));
-    tableAPI.createNewCardsPack(newPackData)
-        .then(() =>
-            tableAPI.getCardsPack(getPackParams).then(res => {
-                    dispatch(setPacksListAC(res.data))
-                dispatch(setStatusAC(false));
-                }
-            )
-        )
-}
+export const CreatNewPackListTC =
+	(newPackData: CreateParamsType, getPackParams: GetPackParams) =>
+	(dispatch: Dispatch) => {
+		dispatch(setStatusAC(true))
+		tableAPI.createNewCardsPack(newPackData).then(() =>
+			tableAPI.getCardsPack(getPackParams).then((res) => {
+				dispatch(setPacksListAC(res.data))
+				dispatch(setStatusAC(false))
+			})
+		)
+	}
