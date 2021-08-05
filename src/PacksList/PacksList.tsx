@@ -17,6 +17,7 @@ import {
 	DeletePackListTC,
 	setPacksListTC,
 	setPageAC,
+
 } from "../state/table-reducer"
 import { Redirect, useHistory } from "react-router-dom"
 import s from "./PacksList.module.css"
@@ -79,6 +80,7 @@ export function PacksList() {
 		},
 		[page]
 	)
+	
 
 	//search
 	const [inputValue, setInputValue] = useState<string>("")
@@ -124,23 +126,23 @@ export function PacksList() {
 	// 	}
 	// }
 	const [sortTitle, setSortTitle]=useState(sortPacks)
-        
+
 	const Sort1 = () => {
 		if(filter === 'my'){
 			setSortTitle('1updated')
-			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+			sortTitle && profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
 		} else {
 			setSortTitle('1updated')
-			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
+			sortTitle && dispatch(setPacksListTC({sortPacks: sortTitle}))
 		}
 	}
 	const Sort2 = () => {
 		if(filter === 'my'){
 			setSortTitle('0updated')
-			profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
+			sortTitle && profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
 		} else {
 			setSortTitle('0updated')
-			profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
+			sortTitle && dispatch(setPacksListTC({sortPacks: sortTitle}))
 		}
 	}
 	// const sortHandler1 = (sortTitle:string) => {
@@ -264,8 +266,7 @@ export function PacksList() {
 												</TableCell>
 												<TableCell align='center'>{row.path}</TableCell>
 												<TableCell align='center'>
-													{row.user_id == profile._id ? (
-														<div>
+													{row.user_id == profile._id ? <div>
 															<Button
 																onClick={removePack}
 																variant='contained'
@@ -275,15 +276,16 @@ export function PacksList() {
 															</Button>
 															<Button variant='contained' color='primary'>
 																Edit
-															</Button> :
+															</Button>
+														</div>
+															:
 															<Button
 																onClick={getCards}
 																variant='contained'
 																color='primary'
 															>
 																Learn
-															</Button>
-														)}
+															</Button>}
 													</TableCell>
 												</TableRow>
 											)
