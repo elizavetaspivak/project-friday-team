@@ -41,18 +41,19 @@ export function PacksList() {
 		(state: AppRootStateType) => state.table
 	)
 
-	//! pagination
+	// pagination
 	const pageCount = useSelector<AppRootStateType, number>(
 		(state) => state.table.pageCount
 	)
 	const cardsTotalCount = useSelector<AppRootStateType, number>(
 		(state) => state.table.cardPacksTotalCount
 	)
-	const page = useSelector<AppRootStateType, number>(
+	const page = useSelector<AppRootStateType, number | undefined>(
 		(state) => state.table.page
 	)
 	const onPageChanged = useCallback(
 		(page: number) => {
+			dispatch(setPacksListTC({ page, pageCount, packName: inputValue  })) //что бы менялась страница по клику при запросе на сервер
 			dispatch(setPageAC(page)) //что бы менялась страница по клику // походу ее надо засунуть в thunk перед api
 			if(filter === 'my'){
 				profile._id && dispatch(setPacksListTC({user_id: profile._id, page: page}))
@@ -62,7 +63,7 @@ export function PacksList() {
 		},
 		[page]
 	)
-	//!
+	
 
 	//search
 	const [inputValue, setInputValue] = useState<string>("")
@@ -70,7 +71,7 @@ export function PacksList() {
 		setInputValue(e.currentTarget.value)
 
 	const onSearch = () =>
-		dispatch(setPacksListTC({ page, pageCount, packName: inputValue }))
+		dispatch(setPacksListTC({ packName: inputValue }))
 
    
 

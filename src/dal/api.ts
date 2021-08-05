@@ -142,7 +142,6 @@ export const tableAPI = {
         // если такая запись, то будет ошибка в URL, будет дважды повторяться: page=40&pageCount=6page=40&pageCount=6
         // return instance.get(`cards/pack?page=${getPackParams.page}&pageCount=${getPackParams.pageCount}`, {params: {...getPackParams}
         }).then(res => {
-            // debugger
             return res
         })
     },
