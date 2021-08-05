@@ -28,6 +28,10 @@
 }
 
 .table{
+    width: 900px;
+}
+
+.tableContainer{
     width: 850px;
 }
 
@@ -35,4 +39,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.numberOfCards p{
+    margin-bottom: 50px;
 }

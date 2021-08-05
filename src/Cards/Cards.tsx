@@ -9,6 +9,7 @@ import {Redirect, useHistory, useParams} from 'react-router-dom';
 import {createCardTC, getCardsTC, removeCardTC} from '../state/cards-reducer';
 import s from './Cards.module.css'
 import moment from 'moment';
+import {setPacksListTC} from '../state/table-reducer';
 
 export function Cards() {
     let dispatch = useDispatch()
@@ -44,6 +45,10 @@ export function Cards() {
 
     const classes = useStyles();
 
+    const Sort = () => {
+        userId && dispatch(setPacksListTC({sortPacks: '1updated'}))
+    }
+
     if (!isLoginIn) {
         return <Redirect to={'/login'}/>;
     }
@@ -71,7 +76,7 @@ export function Cards() {
                                 <TableRow>
                                     <TableCell>Question</TableCell>
                                     <TableCell align="center">Answer</TableCell>
-                                    <TableCell align="center">Last Updated</TableCell>
+                                    <TableCell align="center">Last Updated<Button onClick={Sort}>ᐁ</Button></TableCell>
                                     <TableCell align="center">Grade</TableCell>
                                     {cards.packUserId == userId ? <TableCell align="center">Actions</TableCell> : ''}
                                 </TableRow>

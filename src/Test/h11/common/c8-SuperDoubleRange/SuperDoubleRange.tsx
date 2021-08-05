@@ -1,6 +1,8 @@
 import React, {ChangeEvent} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
+import {useDispatch} from 'react-redux';
+import {setPacksListTC} from '../../../../state/table-reducer';
 
 type SuperDoubleRangePropsType = {
     value?: [number, number]
@@ -14,7 +16,7 @@ type SuperDoubleRangePropsType = {
 
 const useStyles = makeStyles({
     root: {
-        width: 300,
+        width: 200,
     },
 });
 
@@ -25,6 +27,7 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
         // min, max, step, disable
     }
 ) => {
+    const dispatch = useDispatch()
     const classes = useStyles();
 
     const onChangeCallback = (e: ChangeEvent<{}>, value: number | number[]) => {
@@ -32,6 +35,7 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
             setValue1(value[0])
             setValue2(value[1])
         }
+        dispatch(setPacksListTC({max: value2, min: value1}))
     };
 
     // сделать самому, можно подключать библиотеки
@@ -41,8 +45,10 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
             <Slider
                 value={[value1, value2]}
                 onChange={onChangeCallback}
-                valueLabelDisplay="auto"
                 aria-labelledby="range-slider"
+                valueLabelDisplay="on"
+                // min={value1}
+                // max={value2
             />
         </div>
     );
