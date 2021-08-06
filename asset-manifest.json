@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/project-friday-team/static/css/main.545c4e75.chunk.css",
-    "main.js": "/project-friday-team/static/js/main.946d2746.chunk.js",
-    "main.js.map": "/project-friday-team/static/js/main.946d2746.chunk.js.map",
-    "runtime-main.js": "/project-friday-team/static/js/runtime-main.90cffc57.js",
-    "runtime-main.js.map": "/project-friday-team/static/js/runtime-main.90cffc57.js.map",
-    "static/js/2.db9bf1f4.chunk.js": "/project-friday-team/static/js/2.db9bf1f4.chunk.js",
-    "static/js/2.db9bf1f4.chunk.js.map": "/project-friday-team/static/js/2.db9bf1f4.chunk.js.map",
-    "static/js/3.5b03a2a8.chunk.js": "/project-friday-team/static/js/3.5b03a2a8.chunk.js",
-    "static/js/3.5b03a2a8.chunk.js.map": "/project-friday-team/static/js/3.5b03a2a8.chunk.js.map",
+    "main.css": "/project-friday-team/static/css/main.61e37d41.chunk.css",
+    "main.js": "/project-friday-team/static/js/main.10a446f6.chunk.js",
+    "main.js.map": "/project-friday-team/static/js/main.10a446f6.chunk.js.map",
+    "runtime-main.js": "/project-friday-team/static/js/runtime-main.36418d49.js",
+    "runtime-main.js.map": "/project-friday-team/static/js/runtime-main.36418d49.js.map",
+    "static/js/2.95196426.chunk.js": "/project-friday-team/static/js/2.95196426.chunk.js",
+    "static/js/2.95196426.chunk.js.map": "/project-friday-team/static/js/2.95196426.chunk.js.map",
+    "static/js/3.e4256010.chunk.js": "/project-friday-team/static/js/3.e4256010.chunk.js",
+    "static/js/3.e4256010.chunk.js.map": "/project-friday-team/static/js/3.e4256010.chunk.js.map",
     "index.html": "/project-friday-team/index.html",
-    "static/css/main.545c4e75.chunk.css.map": "/project-friday-team/static/css/main.545c4e75.chunk.css.map",
-    "static/js/2.db9bf1f4.chunk.js.LICENSE.txt": "/project-friday-team/static/js/2.db9bf1f4.chunk.js.LICENSE.txt",
+    "static/css/main.61e37d41.chunk.css.map": "/project-friday-team/static/css/main.61e37d41.chunk.css.map",
+    "static/js/2.95196426.chunk.js.LICENSE.txt": "/project-friday-team/static/js/2.95196426.chunk.js.LICENSE.txt",
     "static/media/UserAvatar.02dec563.png": "/project-friday-team/static/media/UserAvatar.02dec563.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.90cffc57.js",
-    "static/js/2.db9bf1f4.chunk.js",
-    "static/css/main.545c4e75.chunk.css",
-    "static/js/main.946d2746.chunk.js"
+    "static/js/runtime-main.36418d49.js",
+    "static/js/2.95196426.chunk.js",
+    "static/css/main.61e37d41.chunk.css",
+    "static/js/main.10a446f6.chunk.js"
   ]
 }
