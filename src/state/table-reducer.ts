@@ -102,6 +102,10 @@ export type ActionsTableType =
 export const setPacksListTC =
 	(params: GetPackParams = {}) =>
 	(dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+		dispatch(setPageAC(params.page))
+		dispatch(setSearch(params.packName))
+
 		const tablesReducer = getState().table
 		const cardsParamsModel: GetPackParams = {
 			packName: tablesReducer.packName,
@@ -117,6 +121,7 @@ export const setPacksListTC =
 		dispatch(setPageAC(params.page))
 		dispatch(setSearch(params.packName))
 		dispatch(setFiltersAC(params.sortPacks))
+	
 
 		tableAPI.getCardsPack(cardsParamsModel).then((res) => {
 			dispatch(setPacksListAC(res.data))
