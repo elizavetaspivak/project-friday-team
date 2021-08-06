@@ -102,7 +102,7 @@ export type ActionsTableType =
 export const setPacksListTC =
 	(params: GetPackParams = {}) =>
 	(dispatch: Dispatch, getState: () => AppRootStateType) => {
-		
+
 		dispatch(setPageAC(params.page))
 		dispatch(setSearch(params.packName))
 
@@ -117,7 +117,6 @@ export const setPacksListTC =
 			user_id: tablesReducer.user_id,
 			...params,
 		}
-
 
 		dispatch(setPageAC(params.page))
 		dispatch(setSearch(params.packName))
