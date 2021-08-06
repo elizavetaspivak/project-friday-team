@@ -190,7 +190,7 @@ export function PacksList() {
 				</div>
 
 				<div className={s.packTable}>
-					<h3>Packs list</h3>
+					<h2>Packs list</h2>
 					<div className={s.searchBlock}>
 						<div className={s.search}>
 							<SuperInputText
@@ -206,6 +206,7 @@ export function PacksList() {
 							onClick={CreateNewPackList}
 							variant='contained'
 							color='primary'
+                            className={s.addNewPack}
 						>
 							Add new pack
 						</Button>
