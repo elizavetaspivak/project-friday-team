@@ -96,13 +96,6 @@ export function PacksList() {
         )
     }
 
-    const useStyles = makeStyles({
-        table: {
-            minWidth: 550,
-        },
-    })
-    const classes = useStyles()
-
     const onClickSetMyFilter = () => {
         setFilter("my")
         profile._id && dispatch(setPacksListTC({ user_id: profile._id }))
@@ -113,16 +106,6 @@ export function PacksList() {
         dispatch(setPacksListTC())
     }
 
-    // const Sort = () => {
-    // 	if (filter === "my") {
-    // 		profile._id &&
-    // 			dispatch(
-    // 				setPacksListTC({ user_id: profile._id, sortPacks: "1updated" })
-    // 			)
-    // 	} else {
-    // 		profile._id && dispatch(setPacksListTC({ sortPacks: "1updated" }))
-    // 	}
-    // }
     const [sortTitle, setSortTitle]=useState(sortPacks)
 
     const Sort1 = () => {
@@ -143,22 +126,6 @@ export function PacksList() {
             profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
         }
     }
-    // const sortHandler1 = (sortTitle:string) => {
-    // 	if(filter === 'my'){
-    // 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
-    // 	} else {
-    // 		profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
-    // 	}
-    // }
-    // const sortHandler0 = (sortTitle:string) => {
-    // 	if(filter === 'my'){
-    // 		profile._id && dispatch(setPacksListTC({user_id: profile._id,sortPacks: sortTitle}))
-    // 	} else {
-    // 		profile._id && dispatch(setPacksListTC({page, sortPacks: sortTitle}))
-    // 	}
-    // }
-
-
 
     const maxCardsCount = useSelector<AppRootStateType, number>(
         (state) => state.table.cardPacksTotalCount
@@ -225,16 +192,13 @@ export function PacksList() {
                             Add new pack
                         </Button>
                     </div>
-
-
                     <div className={s.table}>
                         <TableContainer component={Paper} className={s.tableContainer}>
-                            <Table className={classes.table} aria-label='simple table'>
+                            <Table aria-label='simple table'>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Name</TableCell>
                                         <TableCell align='center'>Cards</TableCell>
-                                        {/* <TableCell align='center'>Last updated <Button onClick={Sort}>ᐁ</Button></TableCell> */}
                                         <TableCell align='center'>
                                             Last updated <Button onClick={Sort1}>ᐁ</Button>
                                             <Button onClick={Sort2}>/\</Button>
