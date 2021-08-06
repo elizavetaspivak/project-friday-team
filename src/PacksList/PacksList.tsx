@@ -233,7 +233,7 @@ export function PacksList() {
 										}
 										const removePack = () => {
 											dispatch(
-												DeletePackListTC(row._id, { user_id: profile._id })
+												DeletePackListTC(row._id, { })
 											)
 										}
 										return (
