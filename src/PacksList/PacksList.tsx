@@ -143,16 +143,7 @@ export function PacksList() {
     }
 
     return (
-        <div
-            className={s.packList}
-            style={{
-                margin: "0 0px",
-                display: "flex",
-                flexFlow: "column",
-                alignItems: "center",
-                justifyContent: "center",
-            }}
-        >
+        <div className={s.packList}>
             <div className={s.packContainer}>
                 <div className={s.mainPacks}>
                     <p>Show packs cards</p>
@@ -172,7 +163,7 @@ export function PacksList() {
                 </div>
 
                 <div className={s.packTable}>
-                    <h3>Packs list</h3>
+                    <h2>Packs list</h2>
                     <div className={s.searchBlock}>
                         <div className={s.search}>
                             <SuperInputText
@@ -188,6 +179,7 @@ export function PacksList() {
                             onClick={CreateNewPackList}
                             variant='contained'
                             color='primary'
+                            className={s.addNewPack}
                         >
                             Add new pack
                         </Button>
