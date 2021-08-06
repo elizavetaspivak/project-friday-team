@@ -24,7 +24,7 @@ function App() {
     let dispatch = useDispatch()
 
     useEffect(() => {
-        userId && dispatch(getMeTC())
+        !userId && dispatch(getMeTC())
     }, []);
 
 
