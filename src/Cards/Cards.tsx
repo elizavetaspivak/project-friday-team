@@ -22,6 +22,10 @@ export function Cards() {
 
     useEffect(() => {
         dispatch(getCardsTC({cardsPack_id: cardsId, pageCount: 9}))
+        setQuestion('')
+        setAnswer('')
+        setUpdatingCardId('')
+        setCreate(false)
     }, [dispatch, cardsId])
 
     const cards = useSelector<AppRootStateType, any>(state => state.cards)

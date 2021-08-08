@@ -20,6 +20,9 @@ export function Tables() {
     let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
 
     useEffect(() => {
+        setInputValue('')
+        setUpdatingPackId('')
+        setDeletedPackId('')
         userId && dispatch(setPacksListTC({user_id: userId}))
     }, [userId])
 
@@ -93,9 +96,6 @@ export function Tables() {
                     </TableHead>
                     <TableBody>
                         {cardPacks.map((row) => {
-                                const removePack = () => {
-                                    dispatch(DeletePackListTC(row._id, {user_id: userId}))
-                                }
                                 const getCards = () => {
                                     history.push(`/cards/${row._id}`, row.name)
                                 }
