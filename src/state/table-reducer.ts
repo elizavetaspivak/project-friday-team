@@ -1,4 +1,4 @@
-import { CreateParamsType, GetPackParams, tableAPI } from "../dal/api"
+import {CreateParamsType, GetPackParams, tableAPI, UpdateParamsType} from '../dal/api'
 import { AppRootStateType } from "./store"
 import { Dispatch } from "redux"
 import { setStatusAC } from "./app-reducer"
@@ -133,6 +133,16 @@ export const DeletePackListTC =
 			})
 		)
 	}
+
+export const UpdatePackTC =
+	(updatedData: UpdateParamsType, getPackParams: GetPackParams = {}) =>
+		(dispatch: Dispatch) => {
+			tableAPI.updateCardPack(updatedData).then(() =>
+				tableAPI.getCardsPack(getPackParams).then((res) => {
+					dispatch(setPacksListAC(res.data))
+				})
+			)
+		}
 
 export const CreatNewPackListTC =
 	(newPackData: CreateParamsType, getPackParams: GetPackParams) =>

@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams} from '../dal/api';
+import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams, UpdatedCardDataParamsType} from '../dal/api';
 import {setStatusAC} from './app-reducer';
 
 //types
@@ -85,6 +85,18 @@ export const removeCardTC = (id: string, cardsPack_id: string) => (dispatch: Dis
         cardsAPI.getCardsCard({cardsPack_id}).then(res => {
                 dispatch(getCardsAC(res.data))
             dispatch(setStatusAC(false));
+            }
+        )
+    )
+}
+
+
+export const updateCardTC = (updatedData: UpdatedCardDataParamsType, cardsPack_id: string) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
+    cardsAPI.updateCardsCard(updatedData).then(() =>
+        cardsAPI.getCardsCard({cardsPack_id}).then(res => {
+                dispatch(getCardsAC(res.data))
+                dispatch(setStatusAC(false));
             }
         )
     )

@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import {Paper, TableBody, TableContainer, TableHead, TableRow, Table} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
-import {DeletePackListTC, setPacksListTC} from '../state/table-reducer';
+import {DeletePackListTC, setPacksListTC, UpdatePackTC} from '../state/table-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../state/store';
 import Button from '@material-ui/core/Button';
@@ -10,6 +10,7 @@ import moment from 'moment';
 import s from './Table.module.css'
 import {Paginator} from '../common/Pagination/Pagination';
 import SuperInputText from '../Test/h4/common/c1-SuperInputText/SuperInputText';
+import {Modal} from '../Modal/Modal';
 
 
 export function Tables() {
@@ -40,14 +41,31 @@ export function Tables() {
     )
     const onPageChanged = useCallback(
         (page: number) => {
-            userId && dispatch(setPacksListTC({user_id: userId, page, pageCount,  packName: inputValue}))
+            userId && dispatch(setPacksListTC({user_id: userId, page, pageCount, packName: inputValue}))
         }, [page])
 
-    const [inputValue, setInputValue] = useState<string>("")
+    const [inputValue, setInputValue] = useState<string>('')
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) =>
         setInputValue(e.currentTarget.value)
 
-    const onSearch = () => dispatch(setPacksListTC({ user_id:userId, packName: inputValue, page, pageCount }))
+    const onSearch = () => dispatch(setPacksListTC({user_id: userId, packName: inputValue, page, pageCount}))
+
+    const [deletedPackId, setDeletedPackId] = useState('')
+    const onCloseDelete = () => setDeletedPackId('')
+
+    const [updatingPackId, setUpdatingPackId] = useState('')
+    const onCloseUpdate = () => setUpdatingPackId('')
+
+    const UpdateCardPack = (id: string) => {
+        dispatch(
+            UpdatePackTC(
+                {cardsPack: {_id: id, name: inputValue}},
+                {user_id: userId}
+            )
+        )
+        setInputValue('')
+        setUpdatingPackId('')
+    }
 
     return (
         <div className={s.tableMain}>
@@ -84,19 +102,40 @@ export function Tables() {
                                 }
                                 return (
                                     <TableRow>
-                                        <TableCell component="th" scope="row">{row.name} </TableCell>
+                                        {updatingPackId === row._id &&
+                                        <Modal
+                                            title={'Enter new title'}
+                                            content={<input value={inputValue} onChange={inputHandler}/>}
+                                            footer={<tr key={row._id}>
+                                                <button onClick={() => UpdateCardPack(row._id)}>update</button>
+                                                <button onClick={onCloseUpdate}>Close</button>
+                                            </tr>}
+                                            onClose={() => setUpdatingPackId('')}
+                                        />}
+                                        {deletedPackId === row._id &&
+                                        <Modal
+                                            title={'Do you want delete?'}
+                                            content={`Click "yes" if you want`}
+                                            footer={<tr key={row._id}>
+                                                <button
+                                                    onClick={() => dispatch(DeletePackListTC(row._id, {user_id: userId}))}>Yes
+                                                </button>
+                                                <button onClick={onCloseDelete}>No</button>
+                                            </tr>}
+                                            onClose={onCloseDelete}
+                                        />}
+                                        <TableCell component="th" onClick={getCards} scope="row">{row.name} </TableCell>
                                         <TableCell align="center">{row.cardsCount}</TableCell>
                                         <TableCell align="center">{moment(row.updated).format('DD.MM.YYYY')}</TableCell>
                                         <TableCell align="center">{row.path}</TableCell>
                                         <TableCell align="center">
-                                            <Button onClick={removePack}
+                                            <Button onClick={() => setDeletedPackId(row._id)}
                                                     variant="contained"
                                                     color="secondary">Delete</Button>
-                                            <Button
+                                            <Button onClick={() => setUpdatingPackId(row._id)}
                                                 variant="contained"
                                                 color="primary">Edit</Button>
-                                            <Button onClick={getCards}
-                                                    variant="contained"
+                                            <Button variant="contained"
                                                     color="primary">Learn</Button>
                                         </TableCell>
                                     </TableRow>

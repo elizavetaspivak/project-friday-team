@@ -100,8 +100,23 @@ export type CardType = {
     _id: string
 };
 
+export type UpdateParamsType = {
+    cardsPack: {
+        _id: string
+        name?: string
+    }
+};
+
+export type UpdatedCardDataParamsType = {
+    card: {
+        _id: string
+        question?: string
+        answer?: string
+    }
+};
+
 const instance = axios.create({
-    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true,
 });
 
@@ -150,6 +165,9 @@ export const tableAPI = {
     },
     deleteCardsPack(id: string){
         return instance.delete(`cards/pack`, {params: {id}})
+    },
+    updateCardPack(UpdatedData: UpdateParamsType){
+        return instance.put(`cards/pack`, {...UpdatedData})
     }
 }
 
@@ -163,5 +181,8 @@ export const cardsAPI = {
     },
     deleteCardsCard(id: string){
         return instance.delete(`cards/card`, {params : {id}})
+    },
+    updateCardsCard(UpdatedData: UpdatedCardDataParamsType){
+        return instance.put(`cards/card`, {...UpdatedData})
     }
 }
