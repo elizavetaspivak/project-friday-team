@@ -31,7 +31,7 @@ export function PacksList() {
     const dispatch = useDispatch()
     const history = useHistory()
     const [filter, setFilter] = useState('all')
-    console.log(filter)
+
     useEffect(() => {
         dispatch(
             setPacksListTC({
@@ -132,14 +132,12 @@ export function PacksList() {
 
     const Sort1 = () => {
         if (filter === 'my') {
-            // debugger
             setSortTitle('1updated')
             profile._id &&
             dispatch(
                 setPacksListTC({user_id: profile._id, sortPacks: '1updated'})
             )
         } else {
-            // debugger
             setSortTitle('1updated')
             profile._id && dispatch(setPacksListTC({sortPacks: '1updated'}))
         }
@@ -271,12 +269,6 @@ export function PacksList() {
                                         const getCards = () => {
                                             history.push(`/cards/${row._id}`)
                                         }
-                                        const removePack = () => {
-                                            dispatch(
-                                                DeletePackListTC(row._id, {})
-                                            )
-                                        }
-
                                         return (
                                             <TableRow key={row._id}>
                                                 {updatingPackId === row._id &&

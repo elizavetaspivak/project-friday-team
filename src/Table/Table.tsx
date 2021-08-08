@@ -101,7 +101,8 @@ export function Tables() {
                                 }
                                 return (
                                     <TableRow>
-                                        {<Modal
+                                        {updatingPackId === row._id &&
+                                        <Modal
                                             show={updatingPackId === row._id}
                                             title={'Enter new title'}
                                             content={<input value={inputValue} onChange={inputHandler}/>}
@@ -111,7 +112,8 @@ export function Tables() {
                                             </tr>}
                                             onClose={() => setUpdatingPackId('')}
                                         />}
-                                        {<Modal
+                                        {deletedPackId === row._id &&
+                                        <Modal
                                             show={deletedPackId === row._id}
                                             title={'Do you want delete?'}
                                             content={`Click "yes" if you want`}
