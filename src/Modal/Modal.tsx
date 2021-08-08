@@ -6,6 +6,7 @@ interface ModalProps {
     content: ReactElement | string
     footer: ReactElement | string
     onClose: () => void
+    show: boolean
 }
 
 export const Modal = ({
@@ -13,6 +14,7 @@ export const Modal = ({
                           content = '',
                           footer = '',
                           onClose,
+    show
                       }: ModalProps) => {
 
     const onKeydown = ({key}: KeyboardEvent) => {
@@ -27,6 +29,8 @@ export const Modal = ({
         document.addEventListener('keydown', onKeydown)
         return () => document.removeEventListener('keydown', onKeydown)
     })
+
+    if (!show) return null;
 
     return (
         <React.Fragment>

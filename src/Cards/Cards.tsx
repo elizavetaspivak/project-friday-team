@@ -98,6 +98,7 @@ export function Cards() {
         >
             {isCreate &&
             <Modal
+                show={isCreate}
                 title={'Enter title'}
                 content={<div>
                     <input value={question} onChange={createQuestion}/>
@@ -144,6 +145,7 @@ export function Cards() {
                                             <TableRow key={row._id}>
                                                 {updatingCardId === row._id &&
                                                 <Modal
+                                                    show={updatingCardId === row._id}
                                                     title={'Enter new title'}
                                                     content={<div>
                                                         <input value={answer} onChange={createAnswer}/>
@@ -157,6 +159,7 @@ export function Cards() {
                                                 />}
                                                 {deletedPackId === row._id &&
                                                 <Modal
+                                                    show={deletedPackId === row._id}
                                                     title={'Do you want delete?'}
                                                     content={`Click "yes" if you want`}
                                                     footer={<tr key={row._id}>

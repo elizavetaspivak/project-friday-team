@@ -199,17 +199,6 @@ export function PacksList() {
                 justifyContent: 'center',
             }}
         >
-            {isCreate &&
-            <Modal
-                title={'Enter title'}
-                content={<input value={title} onChange={createTitle}/>}
-                footer={<tr>
-                    <button onClick={CreateNewPackList}>add</button>
-                    <button onClick={onClose}>Close</button>
-                </tr>}
-                onClose={onClose}
-            />
-            }
             <div className={s.packContainer}>
                 <div className={s.mainPacks}>
                     <p>Show packs cards</p>
@@ -241,6 +230,18 @@ export function PacksList() {
                                 search
                             </Button>
                         </div>
+                        {isCreate &&
+                        <Modal
+                            show={true}
+                            title={'Enter title'}
+                            content={<input value={title} onChange={createTitle}/>}
+                            footer={<tr>
+                                <button onClick={CreateNewPackList}>add</button>
+                                <button onClick={onClose}>Close</button>
+                            </tr>}
+                            onClose={onClose}
+                        />
+                        }
                         <Button
                             onClick={() => setCreate(true)}
                             variant="contained"
@@ -280,6 +281,7 @@ export function PacksList() {
                                             <TableRow key={row._id}>
                                                 {updatingPackId === row._id &&
                                                 <Modal
+                                                    show={updatingPackId === row._id}
                                                     title={'Enter new title'}
                                                     content={<input value={title} onChange={createTitle}/>}
                                                     footer={<tr key={row._id}>
@@ -290,6 +292,7 @@ export function PacksList() {
                                                 />}
                                                 {deletedPackId === row._id &&
                                                 <Modal
+                                                    show={deletedPackId === row._id}
                                                     title={'Do you want delete?'}
                                                     content={`Click "yes" if you want`}
                                                     footer={<tr key={row._id}>

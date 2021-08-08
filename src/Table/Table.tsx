@@ -18,7 +18,6 @@ export function Tables() {
     let dispatch = useDispatch()
 
     let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
-    console.log('userId', userId)
 
     useEffect(() => {
         userId && dispatch(setPacksListTC({user_id: userId}))
@@ -102,8 +101,8 @@ export function Tables() {
                                 }
                                 return (
                                     <TableRow>
-                                        {updatingPackId === row._id &&
-                                        <Modal
+                                        {<Modal
+                                            show={updatingPackId === row._id}
                                             title={'Enter new title'}
                                             content={<input value={inputValue} onChange={inputHandler}/>}
                                             footer={<tr key={row._id}>
@@ -112,8 +111,8 @@ export function Tables() {
                                             </tr>}
                                             onClose={() => setUpdatingPackId('')}
                                         />}
-                                        {deletedPackId === row._id &&
-                                        <Modal
+                                        {<Modal
+                                            show={deletedPackId === row._id}
                                             title={'Do you want delete?'}
                                             content={`Click "yes" if you want`}
                                             footer={<tr key={row._id}>
