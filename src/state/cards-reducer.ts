@@ -1,12 +1,13 @@
 import {Dispatch} from 'redux';
-import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams, UpdatedCardDataParamsType} from '../dal/api';
+import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams, LearnAPI, UpdatedCardDataParamsType} from '../dal/api';
 import {setStatusAC} from './app-reducer';
 
 //types
 export type initialStateType = typeof initialState
 export type GetCardsActionType = ReturnType<typeof getCardsAC>
 export type CreateCardActionType = ReturnType<typeof addCardAC>
-export type ActionsCardsType = GetCardsActionType | CreateCardActionType
+export type SendUpdatedGradeACType = ReturnType<typeof sendUpdatedGradeAC>
+export type ActionsCardsType = GetCardsActionType | CreateCardActionType | SendUpdatedGradeACType
 
 
 const initialState = {
@@ -46,6 +47,11 @@ export const cardsReducer = (state: initialStateType = initialState, action: Act
             newState.cards.push(action.card)
             return {...newState}
         }
+        case 'SEND_UPDATE_GRADE': {
+           
+            return {...state, }
+        }
+
     }
     return state
 }
@@ -53,6 +59,7 @@ export const cardsReducer = (state: initialStateType = initialState, action: Act
 //actions
 const getCardsAC = (cards: initialStateType) => ({type: 'GET_CARDS', cards} as const)
 const addCardAC = (card: CardType) => ({type: 'CREATE_NEW_CARD', card} as const)
+const sendUpdatedGradeAC = (grade: number, card_id: string) => ({type: 'SEND_UPDATE_GRADE', grade, card_id} as const)
 
 
 //thunks
@@ -100,4 +107,12 @@ export const updateCardTC = (updatedData: UpdatedCardDataParamsType, cardsPack_i
             }
         )
     )
+}
+
+export const sendUpdatedGradeTC = (grade: number, card_id: string) =>
+(dispatch: Dispatch) => {
+LearnAPI.sendUpdatedGrade(grade, card_id)
+.then(res => {
+
+})
 }
