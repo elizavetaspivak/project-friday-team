@@ -3,7 +3,7 @@ import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams, UpdatedCardDat
 import {setStatusAC} from './app-reducer';
 
 //types
-type initialStateType = typeof initialState
+export type initialStateType = typeof initialState
 export type GetCardsActionType = ReturnType<typeof getCardsAC>
 export type CreateCardActionType = ReturnType<typeof addCardAC>
 export type ActionsCardsType = GetCardsActionType | CreateCardActionType
