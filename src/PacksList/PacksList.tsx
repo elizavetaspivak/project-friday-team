@@ -27,6 +27,7 @@ import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDouble
 import {SortElement} from '../components/SortElement/SortElement'
 import {Modal} from '../Modal/Modal';
 
+
 export function PacksList() {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -345,7 +346,6 @@ export function PacksList() {
                             </Table>
                         </TableContainer>
                     </div>
-
                     <Paginator
                         page={page}
                         onPageChanged={onPageChanged}

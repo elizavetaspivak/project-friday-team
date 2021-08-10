@@ -3,11 +3,13 @@ import {cardsAPI, CardType, CreateCardParamsType, GetCardsParams, LearnAPI, Upda
 import {setStatusAC} from './app-reducer';
 
 //types
-export type initialStateType = typeof initialState
+export type initialStateCardsType = typeof initialState
 export type GetCardsActionType = ReturnType<typeof getCardsAC>
 export type CreateCardActionType = ReturnType<typeof addCardAC>
 export type SendUpdatedGradeACType = ReturnType<typeof sendUpdatedGradeAC>
-export type ActionsCardsType = GetCardsActionType | CreateCardActionType | SendUpdatedGradeACType
+export type SetCardsPageACT = ReturnType<typeof setCardsPageAC>
+export type setCardsTotalCountACT = ReturnType<typeof setCardsTotalCountAC>
+export type ActionsCardsType = GetCardsActionType | CreateCardActionType | SendUpdatedGradeACType |SetCardsPageACT | setCardsTotalCountACT
 
 
 const initialState = {
@@ -27,17 +29,17 @@ const initialState = {
             _id: ''
         },
     ],
-    cardsTotalCount: 3,
+    cardsTotalCount: 0,
     maxGrade: 4.987525071790364,
     minGrade: 2.0100984354076568,
-    page: 1,
+    page: 1  as number | undefined,
     pageCount: 9,
     packUserId: ''
 }
 
 
 //reducer
-export const cardsReducer = (state: initialStateType = initialState, action: ActionsCardsType): initialStateType => {
+export const cardsReducer = (state: initialStateCardsType = initialState, action: ActionsCardsType): initialStateCardsType => {
     switch (action.type) {
         case 'GET_CARDS': {
             return {...action.cards}
@@ -51,22 +53,34 @@ export const cardsReducer = (state: initialStateType = initialState, action: Act
            
             return {...state, }
         }
+        case "SET_CARDS_PAGE": {
+			return { ...state, page: action.page }
+		}
+		// case "SET_CARDS_TOTAL_COUNT": {
+		// 	return { ...state, cardsTotalCount: action.count }
+		// }
 
     }
     return state
 }
 
 //actions
-const getCardsAC = (cards: initialStateType) => ({type: 'GET_CARDS', cards} as const)
+const getCardsAC = (cards: initialStateCardsType) => ({type: 'GET_CARDS', cards} as const)
 const addCardAC = (card: CardType) => ({type: 'CREATE_NEW_CARD', card} as const)
 const sendUpdatedGradeAC = (grade: number, card_id: string) => ({type: 'SEND_UPDATE_GRADE', grade, card_id} as const)
+export const setCardsPageAC = (page: number | undefined) =>
+	({ type: "SET_CARDS_PAGE", page } as const)
+export const setCardsTotalCountAC = (count: number) =>
+	({ type: "SET_CARDS_TOTAL_COUNT", count } as const)
 
 
 //thunks
 export const getCardsTC = (getParams: GetCardsParams) => (dispatch: Dispatch) => {
     dispatch(setStatusAC(true));
+    dispatch(setCardsPageAC (getParams.page))
     cardsAPI.getCardsCard(getParams).then(res => {
             dispatch(getCardsAC(res.data))
+            // dispatch(setCardsTotalCountAC(res.data.cardsTotalCount))
         dispatch(setStatusAC(false));
         }
     )

@@ -4,7 +4,7 @@ import { Redirect, useParams } from "react-router-dom"
 import { CardType } from "../dal/api"
 import {
 	getCardsTC,
-	initialStateType,
+	initialStateCardsType,
 	sendUpdatedGradeTC,
 } from "../state/cards-reducer"
 import { AppRootStateType } from "../state/store"
