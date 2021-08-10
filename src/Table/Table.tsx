@@ -99,6 +99,9 @@ export function Tables() {
                                 const getCards = () => {
                                     history.push(`/cards/${row._id}`, row.name)
                                 }
+                                const getQuestions = () => {
+                                    history.push(`/learnCards/${row._id}`)
+                              }
                                 return (
                                     <TableRow>
                                         {updatingPackId === row._id &&
@@ -137,7 +140,9 @@ export function Tables() {
                                             <Button onClick={() => setUpdatingPackId(row._id)}
                                                 variant="contained"
                                                 color="primary">Edit</Button>
-                                            <Button variant="contained"
+                                            <Button
+                                            onClick={getQuestions}
+                                             variant="contained"
                                                     color="primary">Learn</Button>
                                         </TableCell>
                                     </TableRow>

@@ -27,6 +27,7 @@ import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDouble
 import {SortElement} from '../components/SortElement/SortElement'
 import {Modal} from '../Modal/Modal';
 
+
 export function PacksList() {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -269,6 +270,9 @@ export function PacksList() {
                                         const getCards = () => {
                                             history.push(`/cards/${row._id}`)
                                         }
+													 const getQuestions = () => {
+														history.push(`/learnCards/${row._id}`)
+												  }
                                         return (
                                             <TableRow key={row._id}>
                                                 {updatingPackId === row._id &&
@@ -326,7 +330,8 @@ export function PacksList() {
                                                             </Button>
                                                         </div>
                                                     ) : (
-                                                        <Button
+                                                        <Button 
+																		  onClick={getQuestions}
                                                             variant="contained"
                                                             color="primary"
                                                         >
@@ -341,7 +346,6 @@ export function PacksList() {
                             </Table>
                         </TableContainer>
                     </div>
-
                     <Paginator
                         page={page}
                         onPageChanged={onPageChanged}
