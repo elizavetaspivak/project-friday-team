@@ -100,6 +100,21 @@ export type CardType = {
     _id: string
 };
 
+export type CardPackType = {
+    _id: string,
+    user_id: null,
+    name: string,
+    path: string,
+    cardsCount: number,
+    grade: number,
+    shots: number,
+    rating: number,
+    type: "pack",
+    created: Date,
+    updated: Date,
+    __v: number
+}
+
 export type UpdateParamsType = {
     cardsPack: {
         _id: string

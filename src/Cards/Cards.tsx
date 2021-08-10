@@ -30,7 +30,7 @@ export function Cards() {
 
     const cards = useSelector<AppRootStateType, any>(state => state.cards)
     const userId = useSelector<AppRootStateType, any>(state => state.login.userId)
-    const name = useSelector<AppRootStateType, any>(state => state.table.cardPacks[0].name)
+    //const name = useSelector<AppRootStateType, any>(state => state.table.cardPacks[0].name)
 
     const useStyles = makeStyles({
         table: {
