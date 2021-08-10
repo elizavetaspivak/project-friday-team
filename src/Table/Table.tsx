@@ -26,7 +26,7 @@ export function Tables() {
         userId && dispatch(setPacksListTC({user_id: userId}))
     }, [userId])
 
-    const {cardPacks} = useSelector((state: AppRootStateType) => state.table)
+    const cardPacks = useSelector((state: AppRootStateType) => state.table.cardPacks)
 
     const Sort = () => {
         userId && dispatch(setPacksListTC({sortPacks: '1updated', user_id: userId}))
@@ -114,7 +114,8 @@ export function Tables() {
                                                 <button onClick={onCloseUpdate}>Close</button>
                                             </tr>}
                                             onClose={() => setUpdatingPackId('')}
-                                        />}
+                                        />
+                                        }
                                         {deletedPackId === row._id &&
                                         <Modal
                                             show={deletedPackId === row._id}

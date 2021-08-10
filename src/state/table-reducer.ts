@@ -1,25 +1,10 @@
-import {CreateParamsType, GetPackParams, tableAPI, UpdateParamsType} from '../dal/api'
+import {CardPackType, CardType, CreateParamsType, GetPackParams, tableAPI, UpdateParamsType} from '../dal/api'
 import { AppRootStateType } from "./store"
 import { Dispatch } from "redux"
 import { setStatusAC } from "./app-reducer"
 
 const InitialState = {
-	cardPacks: [
-		{
-			_id: "",
-			user_id: null,
-			name: "no Name",
-			path: null,
-			cardsCount: 25,
-			grade: 0,
-			shots: 0,
-			rating: 0,
-			type: "pack" as const,
-			created: null,
-			updated: null,
-			__v: 0,
-		},
-	],
+	cardPacks: [] as CardPackType[],
 	cardPacksTotalCount: 14,
 	maxCardsCount: 4,
 	minCardsCount: 0,
