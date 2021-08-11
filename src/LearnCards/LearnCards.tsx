@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect, useParams } from "react-router-dom"
+import { Redirect, useHistory, useParams } from "react-router-dom"
 import { CardType } from "../dal/api"
 import {
 	getCardsTC,
@@ -31,10 +31,11 @@ const getCard = (cards: CardType[]) => {
 }
 
 export const LearnCards = () => {
-   const isLoginIn = useSelector<AppRootStateType, boolean>(
-      (state) => state.login.isLoggedIn
-  );
- 
+	const history = useHistory()
+	const isLoginIn = useSelector<AppRootStateType, boolean>(
+		(state) => state.login.isLoggedIn
+	)
+
 	const cards = useSelector<AppRootStateType, Array<CardType>>(
 		(state) => state.cards.cards
 	)
@@ -85,24 +86,28 @@ export const LearnCards = () => {
 	const sendGrade = (grade: number) => {
 		dispatch(sendUpdatedGradeTC(grade, card._id))
 	}
-   if (!isLoginIn) {
-      return <Redirect to={'/login'}/>;
-  }
+	if (!isLoginIn) {
+		return <Redirect to={"/login"} />
+	}
 	return (
 		<div className={s.learnCards}>
 			<div className={s.learnCardsBlock}>
 				<h2>Learn Cards </h2>
 
-				<div className={s.question}><h4>Question:</h4>"{card.question}" </div>
+				<div className={s.question}>
+					<h4>Question:</h4>"{card.question}"{" "}
+				</div>
 				<div className={s.learnCheckButton}>
 					<button onClick={() => setIsChecked(true)}>Check</button>
 				</div>
 
 				{isChecked && (
 					<div className={s.answerBlock}>
-						<div className={s.answer} ><h4>Answer:</h4> "{card.answer}"</div>
+						<div className={s.answer}>
+							<h4>Answer:</h4> "{card.answer}"
+						</div>
 						<div className={s.rating}>
-                  <h4>Rate yourself:</h4>
+							<h4>Rate yourself:</h4>
 							{grades.map((g, i) => (
 								<button
 									key={"grade-" + i}
@@ -114,8 +119,10 @@ export const LearnCards = () => {
 								</button>
 							))}
 						</div>
-						<div className={s.learnNextButton}>
-							<button  onClick={onNext}>Next</button>
+
+						<div className={s.learnButton}>
+							<button className={s.learnCancelButton} onClick={history.goBack}>Cancel</button>
+							<button className={s.learnNextButton} onClick={onNext}>Next</button>
 						</div>
 					</div>
 				)}
