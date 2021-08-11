@@ -322,6 +322,7 @@ export function PacksList() {
                                                                 Edit
                                                             </Button>
                                                             <Button
+                                                              onClick={getQuestions}
                                                                 variant="contained"
                                                                 color="primary"
                                                             >
