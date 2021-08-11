@@ -15,8 +15,8 @@ export type ActionsCardsType = GetCardsActionType | CreateCardActionType | SendU
 const initialState = {
     cards: [] as CardType[],                                       
     cardsTotalCount: 0,  
-    maxGrade: 4.987525071790364,
-    minGrade: 2.0100984354076568,
+    maxGrade: 5,
+    minGrade: 0,
     page: 1  as number | undefined,
     pageCount: 9,
     packUserId: ''
