@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Redirect, useHistory, useParams } from "react-router-dom"
-import { CardType } from "../dal/api"
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Redirect, useParams} from 'react-router-dom'
+import {CardType} from '../dal/api'
 import {
     getCardsTC,
-    initialStateCardsType,
-
     sendUpdatedGradeTC,
-} from "../state/cards-reducer"
-import {AppRootStateType} from "../state/store"
-import s from "./LearnCards.module.css"
-import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@material-ui/core";
-
-const grades = ["не знал", "забыл", "долго думал", "перепутал", "знал"]
+} from '../state/cards-reducer'
+import {AppRootStateType} from '../state/store'
+import s from './LearnCards.module.css'
+import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from '@material-ui/core';
 
 const getCard = (cards: CardType[]) => {
     const sum = cards.reduce(
@@ -27,7 +23,7 @@ const getCard = (cards: CardType[]) => {
         },
         {sum: 0, id: -1}
     )
-    console.log("test: ", sum, rand, res)
+    console.log('test: ', sum, rand, res)
 
     return cards[res.id + 1]
 }
@@ -44,20 +40,20 @@ export const LearnCards = () => {
     const [first, setFirst] = useState<boolean>(true)
     const [card, setCard] = useState<CardType>({
         __v: 0,
-        _id: "fake",
-        cardsPack_id: "",
-        user_id: "",
+        _id: 'fake',
+        cardsPack_id: '',
+        user_id: '',
 
-        answer: " no answer",
-        question: " no question",
+        answer: ' no answer',
+        question: ' no question',
         grade: 0,
         shots: 0,
 
-        type: "",
+        type: '',
         rating: 0,
 
-        created: "",
-        updated: "",
+        created: '',
+        updated: '',
     })
 
     const {id} = useParams<{ id: string }>()
@@ -79,7 +75,6 @@ export const LearnCards = () => {
         setIsChecked(false)
 
         if (cards.length > 0) {
-            // dispatch
             setCard(getCard(cards))
         } else {
         }
@@ -108,14 +103,19 @@ export const LearnCards = () => {
                             <h4>Rate yourself:</h4>
                             <FormControl component="fieldset">
                                 <RadioGroup aria-label="grade" name="grade" className={s.radioButtons}>
-                                    <FormControlLabel value= "1" control={<Radio className={s.radioButton}/>} onClick={() => sendGrade(1)} label="Too bad"/>
-                                    <FormControlLabel  value= "2" control={<Radio className={s.radioButton}/>} onClick={() => sendGrade(2)}
+                                    <FormControlLabel value="1" control={<Radio className={s.radioButton}/>}
+                                                      onClick={() => sendGrade(1)} label="Too bad"/>
+                                    <FormControlLabel value="2" control={<Radio className={s.radioButton}/>}
+                                                      onClick={() => sendGrade(2)}
                                                       label="I couldn't remember"/>
-                                    <FormControlLabel   value= "3" control={<Radio className={s.radioButton}/>} onClick={() => sendGrade(3)} label="I was
+                                    <FormControlLabel value="3" control={<Radio className={s.radioButton}/>}
+                                                      onClick={() => sendGrade(3)} label="I was
                                         too sleepy"/>
-                                    <FormControlLabel value="4"  control={<Radio className={s.radioButton}/>} onClick={() => sendGrade(4)}
+                                    <FormControlLabel value="4" control={<Radio className={s.radioButton}/>}
+                                                      onClick={() => sendGrade(4)}
                                                       label="Almost there"/>
-                                    <FormControlLabel  value= "5" control={<Radio className={s.radioButton}/>} onClick={() => sendGrade(5)}
+                                    <FormControlLabel value="5" control={<Radio className={s.radioButton}/>}
+                                                      onClick={() => sendGrade(5)}
                                                       label="I did it"/>
                                 </RadioGroup>
                             </FormControl>
