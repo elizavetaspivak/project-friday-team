@@ -71,7 +71,10 @@ export const LearnCards = () => {
         }
     }, [dispatch, id, cards, first])
 
+    const [grade, setGrade] = useState(0);
+
     const onNext = () => {
+        sendGrade(grade)
         setIsChecked(false)
 
         if (cards.length > 0) {
@@ -83,6 +86,8 @@ export const LearnCards = () => {
     const sendGrade = (grade: number) => {
         dispatch(sendUpdatedGradeTC(grade, card._id))
     }
+
+
     if (!isLoginIn) {
         return <Redirect to={'/login'}/>;
     }
@@ -104,18 +109,18 @@ export const LearnCards = () => {
                             <FormControl component="fieldset">
                                 <RadioGroup aria-label="grade" name="grade" className={s.radioButtons}>
                                     <FormControlLabel value="1" control={<Radio className={s.radioButton}/>}
-                                                      onClick={() => sendGrade(1)} label="Too bad"/>
+                                                      onClick={() => setGrade(1)} label="Too bad"/>
                                     <FormControlLabel value="2" control={<Radio className={s.radioButton}/>}
-                                                      onClick={() => sendGrade(2)}
+                                                      onClick={() => setGrade(2)}
                                                       label="I couldn't remember"/>
                                     <FormControlLabel value="3" control={<Radio className={s.radioButton}/>}
-                                                      onClick={() => sendGrade(3)} label="I was
+                                                      onClick={() => setGrade(3)} label="I was
                                         too sleepy"/>
                                     <FormControlLabel value="4" control={<Radio className={s.radioButton}/>}
-                                                      onClick={() => sendGrade(4)}
+                                                      onClick={() => setGrade(4)}
                                                       label="Almost there"/>
                                     <FormControlLabel value="5" control={<Radio className={s.radioButton}/>}
-                                                      onClick={() => sendGrade(5)}
+                                                      onClick={() => setGrade(5)}
                                                       label="I did it"/>
                                 </RadioGroup>
                             </FormControl>
