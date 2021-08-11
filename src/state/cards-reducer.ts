@@ -130,9 +130,11 @@ export const updateCardTC = (updatedData: UpdatedCardDataParamsType, cardsPack_i
 
 export const sendUpdatedGradeTC = (grade: number, card_id: string) =>
     (dispatch: Dispatch) => {
+        dispatch(setStatusAC(true))
         LearnAPI.sendUpdatedGrade(grade, card_id)
             .then(res => {
                 dispatch(sendUpdatedGradeAC(res.data.updatedGrade.grade, card_id))
+                dispatch(setStatusAC(false))
             })
 
     }

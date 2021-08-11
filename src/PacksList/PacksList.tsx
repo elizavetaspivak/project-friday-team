@@ -99,7 +99,7 @@ export function PacksList() {
         dispatch(
             CreatNewPackListTC(
                 {cardsPack: {name: title, path: profile.name}},
-                {}
+                {pageCount}
             )
         )
         setTitle('')
@@ -110,7 +110,7 @@ export function PacksList() {
         dispatch(
             UpdatePackTC(
                 {cardsPack: {_id: id, name: title}},
-                {}
+                {pageCount}
             )
         )
         setTitle('')
@@ -140,7 +140,7 @@ export function PacksList() {
             )
         } else {
             setSortTitle(sortTitle)
-            profile._id && dispatch(setPacksListTC({ sortPacks: sortTitle}))
+            profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
         }
     }
     const sortHandler0 = (sortTitle: string) => {
@@ -152,7 +152,7 @@ export function PacksList() {
             )
         } else {
             setSortTitle(sortTitle)
-            profile._id && dispatch(setPacksListTC({ sortPacks: sortTitle}))
+            profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
         }
     }
 
@@ -209,7 +209,8 @@ export function PacksList() {
                     <div>
                         <p>Show packs cards</p>
                         <div className={s.toggleButton}>
-                            <ToggleButtonGroup onChange={handleAlignment} value={alignment} exclusive aria-label="text alignment">
+                            <ToggleButtonGroup onChange={handleAlignment} value={alignment} exclusive
+                                               aria-label="text alignment">
                                 <ToggleButton onClick={onClickSetMyFilter} value="left" aria-label="left aligned">
                                     My
                                 </ToggleButton>
@@ -272,11 +273,16 @@ export function PacksList() {
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Name <SortElement sortHandler1={sortHandler1}  sortHandler0={sortHandler0} sortTitle={"name"}/></TableCell>
-                                        <TableCell align="center">Cards<SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0}  sortTitle={"cardsCount"}/></TableCell>
+                                        <TableCell>Name <SortElement sortHandler1={sortHandler1}
+                                                                     sortHandler0={sortHandler0}
+                                                                     sortTitle={'name'}/></TableCell>
+                                        <TableCell align="center">Cards<SortElement sortHandler1={sortHandler1}
+                                                                                    sortHandler0={sortHandler0}
+                                                                                    sortTitle={'cardsCount'}/></TableCell>
                                         <TableCell align="center">
-                                            Last updated 
-                                            <SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0} sortTitle={"updated"}/>
+                                            Last updated
+                                            <SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0}
+                                                         sortTitle={'updated'}/>
                                         </TableCell>
                                         <TableCell align="center">Created by</TableCell>
                                         <TableCell align="center"> Actions</TableCell>
@@ -287,9 +293,9 @@ export function PacksList() {
                                         const getCards = () => {
                                             history.push(`/cards/${row._id}`)
                                         }
-													 const getQuestions = () => {
-														history.push(`/learnCards/${row._id}`)
-												  }
+                                        const getQuestions = () => {
+                                            history.push(`/learnCards/${row._id}`)
+                                        }
                                         return (
                                             <TableRow key={row._id}>
                                                 {updatingPackId === row._id &&
@@ -310,7 +316,7 @@ export function PacksList() {
                                                     content={`Click "yes" if you want`}
                                                     footer={<tr key={row._id}>
                                                         <button
-                                                            onClick={() => dispatch(DeletePackListTC(row._id))}>Yes
+                                                            onClick={() => dispatch(DeletePackListTC(row._id, {pageCount}))}>Yes
                                                         </button>
                                                         <button onClick={onCloseDelete}>No</button>
                                                     </tr>}
@@ -340,7 +346,7 @@ export function PacksList() {
                                                                 Edit
                                                             </Button>
                                                             <Button
-                                                              onClick={getQuestions}
+                                                                onClick={getQuestions}
                                                                 variant="contained"
                                                                 color="primary"
                                                             >
@@ -348,8 +354,8 @@ export function PacksList() {
                                                             </Button>
                                                         </div>
                                                     ) : (
-                                                        <Button 
-																		  onClick={getQuestions}
+                                                        <Button
+                                                            onClick={getQuestions}
                                                             variant="contained"
                                                             color="primary"
                                                         >

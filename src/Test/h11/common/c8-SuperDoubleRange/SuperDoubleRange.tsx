@@ -46,7 +46,7 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
                 onChangeCommitted={onChangeCallback}
                 aria-labelledby="range-slider"
                 valueLabelDisplay="on"
-                max={103}
+                max={value2}
             />
         </div>
     );

@@ -23,7 +23,7 @@ export function Tables() {
         setInputValue('')
         setUpdatingPackId('')
         setDeletedPackId('')
-        userId && dispatch(setPacksListTC({user_id: userId}))
+        userId && dispatch(setPacksListTC({user_id: userId, pageCount}))
     }, [userId])
 
     const cardPacks = useSelector((state: AppRootStateType) => state.table.cardPacks)
@@ -62,7 +62,7 @@ export function Tables() {
         dispatch(
             UpdatePackTC(
                 {cardsPack: {_id: id, name: inputValue}},
-                {user_id: userId}
+                {user_id: userId, pageCount}
             )
         )
         setInputValue('')
@@ -125,7 +125,7 @@ export function Tables() {
                                             content={`Click "yes" if you want`}
                                             footer={<tr key={row._id}>
                                                 <button
-                                                    onClick={() => dispatch(DeletePackListTC(row._id, {user_id: userId}))}>Yes
+                                                    onClick={() => dispatch(DeletePackListTC(row._id, {user_id: userId, pageCount}))}>Yes
                                                 </button>
                                                 <button onClick={onCloseDelete}>No</button>
                                             </tr>}

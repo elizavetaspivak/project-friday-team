@@ -6,6 +6,8 @@ import s from './Profile.module.css';
 import {Tables} from '../Table/Table';
 import userAva from '../common/images/UserAvatar.png'
 import {Button} from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {setPacksListTC} from '../state/table-reducer';
 
 export function Profile() {
     const dispatch = useDispatch();
@@ -45,6 +47,9 @@ export function Profile() {
                     </div>
                    <div className={s.numberOfCards}>
                        <p>Number of cards</p>
+                       <div>
+
+                       </div>
                    </div>
                 </div>
                 <div className={s.table}>
