@@ -107,7 +107,9 @@ export const getMeTC = () => (dispatch: Dispatch) => {
         dispatch(setIsLoggedInAC(true));
         dispatch(setUserDataAC(res.data));
         dispatch(setStatusAC(false))
-    });
+    }).finally(() => {
+        dispatch(setStatusAC(false))
+    })
 };
 
 export const logoutTC = () => (dispatch: Dispatch) => {

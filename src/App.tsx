@@ -28,9 +28,6 @@ function App() {
         !userId && dispatch(getMeTC())
     }, []);
 
-    if (!isLoggedIn){
-        return <Redirect to={'/login'}/>
-    }
 
     return (
         <div className="App">
@@ -39,29 +36,30 @@ function App() {
             </div>
             {status && <LinearProgress color="secondary"/>}
             <Switch>
-                <Route exact path={'/profile'}
-                       render={() => <Profile/>}/>
                 <Route path="/login"
-                       component={Login}/>
+                       render={() => <Login/>}/>
                 <Route path="/register"
                        render={() => <Register/>}/>
-                <Route exact path="/recovery"
+                <Route path="/profile"
+                       render={() => <Profile/>}/>
+                <Route path="/recovery"
                        render={() => <PasswordRecovery/>}/>
-                <Route exact path="/recoveryconfirmation"
+                <Route path="/recoveryconfirmation"
                        render={() => <PasswordRecoveryConfirmation/>}/>
-                <Route exact path="/newpassword/:token"
+                <Route path="/newpassword/:token"
                        render={() => <CreateNewPassword/>}/>
-                <Route exact path="/testpage"
+                <Route path="/testpage"
                        render={() => <TestPage/>}/>
-                <Route exact path="/packslist"
+                <Route path="/packslist"
                        render={() => <PacksList/>}/>
-                <Route exact path="/cards/:cardsId"
+                <Route path="/cards/:cardsId"
                        render={() => <Cards/>}/>
-                <Route exact path="/learnCards/:id"
+                <Route path="/learnCards/:id"
                        render={() => <LearnCards/>}/>
-                <Route exact path="/404"
-                       render={() => <Error/>}/>
-                <Redirect from={ '*' } to={'/404'}/>
+                {/*<Route path="/404"*/}
+                {/*       render={() => <Error/>}/>*/}
+                {/*<Redirect from={ '*' } to={'/404'}/>*/}
+                <Redirect from={ '/' } to={'/profile'}/>
             </Switch>
         </div>
     );
