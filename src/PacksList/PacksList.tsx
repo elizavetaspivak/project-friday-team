@@ -1,7 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux'
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {AppRootStateType} from '../state/store'
-import makeStyles from '@material-ui/core/styles/makeStyles'
 import Button from '@material-ui/core/Button'
 import {
     Paper,
@@ -16,11 +15,11 @@ import {
     CreatNewPackListTC,
     DeletePackListTC,
     setPacksListTC,
-    setPageAC, UpdatePackTC,
+     UpdatePackTC,
 } from '../state/table-reducer'
 import {Redirect, useHistory} from 'react-router-dom'
 import s from './PacksList.module.css'
-import {Paginator} from '../common/Pagination/Pagination'
+import {Paginator} from '../components/Pagination/Pagination'
 import SuperInputText from '../Test/h4/common/c1-SuperInputText/SuperInputText'
 import moment from 'moment'
 import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange'
@@ -130,28 +129,28 @@ export function PacksList() {
     //sort
     const [sortTitle, setSortTitle] = useState(sortPacks)
 
-    const Sort1 = () => {
+    const sortHandler1 = (sortTitle: string) => {
         if (filter === 'my') {
-            setSortTitle('1updated')
+            setSortTitle(sortTitle)
             profile._id &&
             dispatch(
-                setPacksListTC({user_id: profile._id, sortPacks: '1updated'})
+                setPacksListTC({user_id: profile._id, sortPacks: sortTitle})
             )
         } else {
-            setSortTitle('1updated')
-            profile._id && dispatch(setPacksListTC({sortPacks: '1updated'}))
+            setSortTitle(sortTitle)
+            profile._id && dispatch(setPacksListTC({ sortPacks: sortTitle}))
         }
     }
-    const Sort2 = () => {
+    const sortHandler0 = (sortTitle: string) => {
         if (filter === 'my') {
-            setSortTitle('0updated')
+            setSortTitle(sortTitle)
             profile._id &&
             dispatch(
-                setPacksListTC({user_id: profile._id, sortPacks: '0updated'})
+                setPacksListTC({user_id: profile._id, sortPacks: sortTitle})
             )
         } else {
-            setSortTitle('0updated')
-            profile._id && dispatch(setPacksListTC({sortPacks: '0updated'}))
+            setSortTitle(sortTitle)
+            profile._id && dispatch(setPacksListTC({ sortPacks: sortTitle}))
         }
     }
 
@@ -256,11 +255,11 @@ export function PacksList() {
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell align="center">Cards</TableCell>
+                                        <TableCell>Name <SortElement sortHandler1={sortHandler1}  sortHandler0={sortHandler0} sortTitle={"name"}/></TableCell>
+                                        <TableCell align="center">Cards<SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0}  sortTitle={"cardsCount"}/></TableCell>
                                         <TableCell align="center">
-                                            Last updated <Button onClick={Sort1}>ᐁ</Button>
-                                            <Button onClick={Sort2}>/\</Button>
+                                            Last updated 
+                                            <SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0} sortTitle={"updated"}/>
                                         </TableCell>
                                         <TableCell align="center">Created by</TableCell>
                                         <TableCell align="center"> Actions</TableCell>
@@ -324,6 +323,7 @@ export function PacksList() {
                                                                 Edit
                                                             </Button>
                                                             <Button
+                                                              onClick={getQuestions}
                                                                 variant="contained"
                                                                 color="primary"
                                                             >

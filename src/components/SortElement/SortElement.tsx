@@ -1,4 +1,5 @@
 import Button from "@material-ui/core/Button";
+import s from './SortElement.module.css'
 import React from "react";
 
 type SortPacksPropsType = {
@@ -17,12 +18,12 @@ export const SortElement = (props: SortPacksPropsType) => {
 
     }
     return (
-        <div>
+        <div className={s.sort}>
             <div>
                 <Button onClick={onSortHandler0}>/\</Button>
             </div>
             <div>
-                <Button onClick={onSortHandler1}>\/</Button>
+                <Button onClick={onSortHandler1}>ᐁ</Button>
             </div>
         </div>
     )

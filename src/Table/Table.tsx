@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
 import moment from 'moment';
 import s from './Table.module.css'
-import {Paginator} from '../common/Pagination/Pagination';
+import {Paginator} from '../components/Pagination/Pagination';
 import SuperInputText from '../Test/h4/common/c1-SuperInputText/SuperInputText';
 import {Modal} from '../Modal/Modal';
 
