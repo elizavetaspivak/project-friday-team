@@ -13,23 +13,8 @@ export type ActionsCardsType = GetCardsActionType | CreateCardActionType | SendU
 
 
 const initialState = {
-    cards: [
-        {
-            answer: 'no answer',
-            question: 'no question',
-            cardsPack_id: '',
-            grade: 4.987525071790364,
-            rating: 0,
-            shots: 1,
-            type: 'card',
-            user_id: '',
-            created: '',
-            updated: '',
-            __v: 0,
-            _id: ''
-        },
-    ],
-    cardsTotalCount: 0,
+    cards: [] as CardType[],                                       
+    cardsTotalCount: 0,  
     maxGrade: 4.987525071790364,
     minGrade: 2.0100984354076568,
     page: 1  as number | undefined,
