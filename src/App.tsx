@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import './App.css';
 import {Login} from './Login/Login';
 import {Register} from './Register/Register';
@@ -28,6 +28,9 @@ function App() {
         !userId && dispatch(getMeTC())
     }, []);
 
+    if (!isLoggedIn){
+        return <Redirect to={'/login'}/>
+    }
 
     return (
         <div className="App">
@@ -36,12 +39,12 @@ function App() {
             </div>
             {status && <LinearProgress color="secondary"/>}
             <Switch>
+                <Route exact path={'/profile'}
+                       render={() => <Profile/>}/>
                 <Route path="/login"
                        component={Login}/>
                 <Route path="/register"
                        render={() => <Register/>}/>
-                <Route exact path="/profile"
-                       render={() => <Profile/>}/>
                 <Route exact path="/recovery"
                        render={() => <PasswordRecovery/>}/>
                 <Route exact path="/recoveryconfirmation"
@@ -56,8 +59,9 @@ function App() {
                        render={() => <Cards/>}/>
                 <Route exact path="/learnCards/:id"
                        render={() => <LearnCards/>}/>
-                <Route exact path="*"
+                <Route exact path="/404"
                        render={() => <Error/>}/>
+                <Redirect from={ '*' } to={'/404'}/>
             </Switch>
         </div>
     );

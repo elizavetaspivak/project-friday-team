@@ -55,7 +55,6 @@ export function PacksList() {
 
     let {cardPacks, page, pageCount, cardPacksTotalCount, sortPacks} =
         useSelector<AppRootStateType, any>((state: AppRootStateType) => state.table)
-    console.log('render packslist', cardPacks)
 
     const onPageChanged = useCallback(
         (page: number) => {
