@@ -6,7 +6,7 @@ import { setStatusAC } from "./app-reducer"
 const InitialState = {
 	cardPacks: [] as CardPackType[],
 	cardPacksTotalCount: 14,
-	maxCardsCount: 4,
+	maxCardsCount: 103,
 	minCardsCount: 0,
 	page: 1 as number | undefined,
 	pageCount: 6,

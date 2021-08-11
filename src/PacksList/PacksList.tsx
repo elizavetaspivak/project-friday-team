@@ -39,9 +39,9 @@ export function PacksList() {
             setPacksListTC({
                 page,
                 pageCount,
-                min: minCardsCount,
-                max: maxCardsCount,
-                sortPacks,
+                min: value1,
+                max: value2,
+                sortPacks
             })
         )
     }, [])
@@ -159,12 +159,13 @@ export function PacksList() {
     //min - max
 
     const maxCardsCount = useSelector<AppRootStateType, number>(
-        (state) => state.table.cardPacksTotalCount
+        (state) => state.table.maxCardsCount
     )
-
+    console.log(maxCardsCount)
     const minCardsCount = useSelector<AppRootStateType, number>(
         (state) => state.table.minCardsCount
     )
+    console.log(minCardsCount)
 
     const [value1, setValue1] = useState<number>(minCardsCount)
     const [value2, setValue2] = useState<number>(maxCardsCount)

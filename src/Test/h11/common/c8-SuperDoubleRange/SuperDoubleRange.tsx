@@ -40,15 +40,13 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
 
     // сделать самому, можно подключать библиотеки
 
-    return (
-        <div className={classes.root}>
+    return (<div className={classes.root}>
             <Slider
                 value={[value1, value2]}
                 onChangeCommitted={onChangeCallback}
                 aria-labelledby="range-slider"
                 valueLabelDisplay="on"
-                // min={value1}
-                // max={value2
+                max={103}
             />
         </div>
     );
