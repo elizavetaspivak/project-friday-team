@@ -25,6 +25,7 @@ import moment from 'moment'
 import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange'
 import {SortElement} from '../components/SortElement/SortElement'
 import {Modal} from '../Modal/Modal';
+import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
 
 
 export function PacksList() {
@@ -180,6 +181,11 @@ export function PacksList() {
     const onCloseDelete = () => setDeletedPackId('')
     const onClose = () => setCreate(false)
 
+    const [alignment, setAlignment] = React.useState<string | null>('right');
+    const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
+        setAlignment(newAlignment);
+    };
+
     if (!isLoginIn) {
         return <Redirect to={'/login'}/>
     }
@@ -200,9 +206,18 @@ export function PacksList() {
                 <div className={s.mainPacks}>
                     <div>
                         <p>Show packs cards</p>
-                        <div>
-                            <Button onClick={onClickSetMyFilter}>My</Button>
-                            <Button onClick={onClickSetAllFilter}>All</Button>
+                        <div className={s.toggleButton}>
+                            <ToggleButtonGroup onChange={handleAlignment} value={alignment} exclusive aria-label="text alignment">
+                                <ToggleButton onClick={onClickSetMyFilter} value="left" aria-label="left aligned">
+                                    My
+                                </ToggleButton>
+                                <ToggleButton onClick={onClickSetAllFilter} value="right" aria-label="right aligned">
+                                    All
+                                </ToggleButton>
+                            </ToggleButtonGroup>
+
+                            {/*<Button onClick={onClickSetMyFilter}>My</Button>*/}
+                            {/*<Button onClick={onClickSetAllFilter}>All</Button>*/}
                         </div>
                     </div>
                     <div className={s.numberOfCards}>

@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
-import {Paper, TableBody, TableContainer, TableHead, TableRow, Table} from '@material-ui/core';
+import {Paper, TableBody, TableContainer, TableHead, TableRow, Table, IconButton} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import {DeletePackListTC, setPacksListTC, UpdatePackTC} from '../state/table-reducer';
 import {useDispatch, useSelector} from 'react-redux';
@@ -88,7 +88,9 @@ export function Tables() {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="center">Cards</TableCell>
-                            <TableCell align="center">Last updated<Button onClick={Sort}>ᐁ</Button></TableCell>
+                            <TableCell align="center">Last updated<IconButton onClick={Sort} color="primary"
+                                                                              size="small" aria-label="upload picture"
+                                                                              component="span">ᐁ</IconButton></TableCell>
                             <TableCell align="center">Created by</TableCell>
                             <TableCell align="center"> Actions</TableCell>
                             <TableCell align="center"><span>{''}</span></TableCell>
@@ -101,7 +103,7 @@ export function Tables() {
                                 }
                                 const getQuestions = () => {
                                     history.push(`/learnCards/${row._id}`)
-                              }
+                                }
                                 return (
                                     <TableRow>
                                         {updatingPackId === row._id &&
@@ -138,12 +140,12 @@ export function Tables() {
                                                     variant="contained"
                                                     color="secondary">Delete</Button>
                                             <Button onClick={() => setUpdatingPackId(row._id)}
-                                                variant="contained"
-                                                color="primary">Edit</Button>
+                                                    variant="contained"
+                                                    color="primary">Edit</Button>
                                             <Button
-                                            onClick={getQuestions}
-                                             variant="contained"
-                                                    color="primary">Learn</Button>
+                                                onClick={getQuestions}
+                                                variant="contained"
+                                                color="primary">Learn</Button>
                                         </TableCell>
                                     </TableRow>
                                 )
