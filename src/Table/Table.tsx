@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
-import {Paper, TableBody, TableContainer, TableHead, TableRow, Table} from '@material-ui/core';
+import {Paper, TableBody, TableContainer, TableHead, TableRow, Table, IconButton} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import {DeletePackListTC, setPacksListTC, UpdatePackTC} from '../state/table-reducer';
 import {useDispatch, useSelector} from 'react-redux';
@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
 import moment from 'moment';
 import s from './Table.module.css'
-import {Paginator} from '../common/Pagination/Pagination';
+import {Paginator} from '../components/Pagination/Pagination';
 import SuperInputText from '../Test/h4/common/c1-SuperInputText/SuperInputText';
 import {Modal} from '../Modal/Modal';
 
@@ -17,13 +17,13 @@ export function Tables() {
     const history = useHistory();
     let dispatch = useDispatch()
 
-    let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
+    let userId = useSelector<AppRootStateType, string>(state => state.login.user._id)
 
     useEffect(() => {
         setInputValue('')
         setUpdatingPackId('')
         setDeletedPackId('')
-        userId && dispatch(setPacksListTC({user_id: userId}))
+        userId && dispatch(setPacksListTC({user_id: userId, pageCount}))
     }, [userId])
 
     const cardPacks = useSelector((state: AppRootStateType) => state.table.cardPacks)
@@ -62,7 +62,7 @@ export function Tables() {
         dispatch(
             UpdatePackTC(
                 {cardsPack: {_id: id, name: inputValue}},
-                {user_id: userId}
+                {user_id: userId, pageCount}
             )
         )
         setInputValue('')
@@ -88,7 +88,9 @@ export function Tables() {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="center">Cards</TableCell>
-                            <TableCell align="center">Last updated<Button onClick={Sort}>ᐁ</Button></TableCell>
+                            <TableCell align="center">Last updated<IconButton onClick={Sort} color="primary"
+                                                                              size="small" aria-label="upload picture"
+                                                                              component="span">ᐁ</IconButton></TableCell>
                             <TableCell align="center">Created by</TableCell>
                             <TableCell align="center"> Actions</TableCell>
                             <TableCell align="center"><span>{''}</span></TableCell>
@@ -101,7 +103,7 @@ export function Tables() {
                                 }
                                 const getQuestions = () => {
                                     history.push(`/learnCards/${row._id}`)
-                              }
+                                }
                                 return (
                                     <TableRow>
                                         {updatingPackId === row._id &&
@@ -123,7 +125,7 @@ export function Tables() {
                                             content={`Click "yes" if you want`}
                                             footer={<tr key={row._id}>
                                                 <button
-                                                    onClick={() => dispatch(DeletePackListTC(row._id, {user_id: userId}))}>Yes
+                                                    onClick={() => dispatch(DeletePackListTC(row._id, {user_id: userId, pageCount}))}>Yes
                                                 </button>
                                                 <button onClick={onCloseDelete}>No</button>
                                             </tr>}
@@ -138,12 +140,12 @@ export function Tables() {
                                                     variant="contained"
                                                     color="secondary">Delete</Button>
                                             <Button onClick={() => setUpdatingPackId(row._id)}
-                                                variant="contained"
-                                                color="primary">Edit</Button>
+                                                    variant="contained"
+                                                    color="primary">Edit</Button>
                                             <Button
-                                            onClick={getQuestions}
-                                             variant="contained"
-                                                    color="primary">Learn</Button>
+                                                onClick={getQuestions}
+                                                variant="contained"
+                                                color="primary">Learn</Button>
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -153,12 +155,14 @@ export function Tables() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Paginator
-                page={page}
-                onPageChanged={onPageChanged}
-                pageCount={pageCount}
-                totalItemsCount={cardsTotalCount}
-            />
+            <div className={s.pagination}>
+                <Paginator
+                    page={page}
+                    onPageChanged={onPageChanged}
+                    pageCount={pageCount}
+                    totalItemsCount={cardsTotalCount}
+                />
+            </div>
         </div>
     );
 }

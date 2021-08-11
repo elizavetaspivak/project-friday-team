@@ -6,7 +6,7 @@ import { setStatusAC } from "./app-reducer"
 const InitialState = {
 	cardPacks: [] as CardPackType[],
 	cardPacksTotalCount: 14,
-	maxCardsCount: 4,
+	maxCardsCount: 103,
 	minCardsCount: 0,
 	page: 1 as number | undefined,
 	pageCount: 6,
@@ -102,19 +102,22 @@ export const setPacksListTC =
 		dispatch(setPageAC(params.page))
 		dispatch(setSearch(params.packName))
 		dispatch(setFiltersAC(params.sortPacks))
-
+		dispatch(setStatusAC(true))
 		tableAPI.getCardsPack(cardsParamsModel).then((res) => {
 			dispatch(setPacksListAC(res.data))
 			dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
+			dispatch(setStatusAC(false))
 		})
 	}
 
 export const DeletePackListTC =
 	(id: string, getPackParams: GetPackParams = {}) =>
 	(dispatch: Dispatch) => {
+		dispatch(setStatusAC(true))
 		tableAPI.deleteCardsPack(id).then(() =>
 			tableAPI.getCardsPack(getPackParams).then((res) => {
 				dispatch(setPacksListAC(res.data))
+				dispatch(setStatusAC(false))
 			})
 		)
 	}
@@ -122,9 +125,11 @@ export const DeletePackListTC =
 export const UpdatePackTC =
 	(updatedData: UpdateParamsType, getPackParams: GetPackParams = {}) =>
 		(dispatch: Dispatch) => {
+			dispatch(setStatusAC(true))
 			tableAPI.updateCardPack(updatedData).then(() =>
 				tableAPI.getCardsPack(getPackParams).then((res) => {
 					dispatch(setPacksListAC(res.data))
+					dispatch(setStatusAC(false))
 				})
 			)
 		}
