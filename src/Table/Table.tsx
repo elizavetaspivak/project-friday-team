@@ -17,7 +17,7 @@ export function Tables() {
     const history = useHistory();
     let dispatch = useDispatch()
 
-    let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
+    let userId = useSelector<AppRootStateType, string>(state => state.login.user._id)
 
     useEffect(() => {
         setInputValue('')

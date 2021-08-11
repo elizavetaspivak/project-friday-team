@@ -15,21 +15,22 @@ type ActionsType =
 type initialStateType = {
     isLoggedIn: boolean
     userId: string
-    user: {
-        _id: string,
-        email: string,
-        name: string,
-        avatar?: string | null
-        publicCardPacksCount: number, // количество колод
-        created: any,
-        updated: any,
-        isAdmin: boolean,
-        verified: boolean, // подтвердил ли почту
-        rememberMe: boolean,
-        error?: string | null
-    }
+    user: UserType
 }
 
+export type UserType = {
+    _id: string,
+    email: string,
+    name: string,
+    avatar?: string | null
+    publicCardPacksCount: number,
+    created: any,
+    updated: any,
+    isAdmin: boolean,
+    verified: boolean,
+    rememberMe: boolean,
+    error?: string | null
+}
 
 const initialState: initialStateType = {
     isLoggedIn: false,

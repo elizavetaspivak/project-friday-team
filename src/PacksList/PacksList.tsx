@@ -13,9 +13,9 @@ import {
 import TableCell from '@material-ui/core/TableCell'
 import {
     CreatNewPackListTC,
-    DeletePackListTC,
+    DeletePackListTC, InitialStateType,
     setPacksListTC,
-     UpdatePackTC,
+    UpdatePackTC,
 } from '../state/table-reducer'
 import {Redirect, useHistory} from 'react-router-dom'
 import s from './PacksList.module.css'
@@ -26,6 +26,7 @@ import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDouble
 import {SortElement} from '../components/SortElement/SortElement'
 import {Modal} from '../Modal/Modal';
 import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
+import {UserType} from '../state/login-reducer';
 
 
 export function PacksList() {
@@ -49,12 +50,12 @@ export function PacksList() {
         (state) => state.login.isLoggedIn
     )
 
-    const profile = useSelector<AppRootStateType, any>(
+    const profile = useSelector<AppRootStateType, UserType>(
         (state) => state.login.user
     )
 
     let {cardPacks, page, pageCount, cardPacksTotalCount, sortPacks} =
-        useSelector<AppRootStateType, any>((state: AppRootStateType) => state.table)
+        useSelector<AppRootStateType, InitialStateType>((state: AppRootStateType) => state.table)
 
     const onPageChanged = useCallback(
         (page: number) => {
