@@ -199,10 +199,12 @@ export function PacksList() {
         >
             <div className={s.packContainer}>
                 <div className={s.mainPacks}>
-                    <p>Show packs cards</p>
                     <div>
-                        <Button onClick={onClickSetMyFilter}>My</Button>
-                        <Button onClick={onClickSetAllFilter}>All</Button>
+                        <p>Show packs cards</p>
+                        <div>
+                            <Button onClick={onClickSetMyFilter}>My</Button>
+                            <Button onClick={onClickSetAllFilter}>All</Button>
+                        </div>
                     </div>
                     <div className={s.numberOfCards}>
                         <p>Number of cards</p>
@@ -345,12 +347,14 @@ export function PacksList() {
                             </Table>
                         </TableContainer>
                     </div>
-                    <Paginator
-                        page={page}
-                        onPageChanged={onPageChanged}
-                        pageCount={pageCount}
-                        totalItemsCount={cardPacksTotalCount}
-                    />
+                    <div className={s.pagination}>
+                        <Paginator
+                            page={page}
+                            onPageChanged={onPageChanged}
+                            pageCount={pageCount}
+                            totalItemsCount={cardPacksTotalCount}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
