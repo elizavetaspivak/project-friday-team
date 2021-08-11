@@ -24,7 +24,7 @@ import s from "./Cards.module.css"
 import moment from "moment"
 import { DeletePackListTC, setPacksListTC } from "../state/table-reducer"
 import { Modal } from "../Modal/Modal"
-import { Paginator } from "../common/Pagination/Pagination"
+import { Paginator } from "../components/Pagination/Pagination"
 
 export function Cards() {
 	let dispatch = useDispatch()
