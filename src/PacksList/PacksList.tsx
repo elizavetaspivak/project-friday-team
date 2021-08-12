@@ -327,7 +327,7 @@ export function PacksList() {
                                                 <TableCell align="center">
                                                     {moment(row.updated).format('DD.MM.YYYY')}
                                                 </TableCell>
-                                                <TableCell align="center">{row.path}</TableCell>
+                                                <TableCell align="center">{row.user_name}</TableCell>
                                                 <TableCell align="center">
                                                     {row.user_id == profile._id ? (
                                                         <div>

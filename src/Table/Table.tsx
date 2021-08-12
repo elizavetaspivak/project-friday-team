@@ -138,7 +138,7 @@ export function Tables() {
                                             <TableCell component="th" onClick={getCards} scope="row">{row.name} </TableCell>
                                             <TableCell align="center">{row.cardsCount}</TableCell>
                                             <TableCell align="center">{moment(row.updated).format('DD.MM.YYYY')}</TableCell>
-                                            <TableCell align="center">{row.path}</TableCell>
+                                            <TableCell align="center">{row.user_name}</TableCell>
                                             <TableCell align="center">
                                                 <Button onClick={() => setDeletedPackId(row._id)}
                                                         variant="contained"

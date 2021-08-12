@@ -123,6 +123,8 @@ export type CardPackType = {
     created: Date,
     updated: Date,
     __v: number
+	more_id: string
+	user_name: string
 }
 
 export type UpdateParamsType = {

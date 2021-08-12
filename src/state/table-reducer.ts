@@ -20,6 +20,7 @@ const InitialState = {
 	// user_id: ''
 }
 
+
 export type InitialStateType = typeof InitialState
 
 export const tableReducer = (
