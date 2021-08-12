@@ -7,7 +7,6 @@ import {Tables} from '../Table/Table';
 import userAva from '../common/images/UserAvatar.png'
 import {Button} from '@material-ui/core';
 import React, {useEffect, useState} from 'react';
-import {setPacksListTC} from '../state/table-reducer';
 
 export function Profile() {
     const dispatch = useDispatch();
