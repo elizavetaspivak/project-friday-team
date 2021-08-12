@@ -60,7 +60,6 @@ export const cardsReducer = (
 			return { ...state, sortCards: action.sortCards }
 		case "SET_CARDS_TOTAL_COUNT":
 			return { ...state, cardsTotalCount: action.count }
-
 		default:
 			return state
 	}
@@ -74,7 +73,7 @@ const addCardAC = (card: CardType) =>
 const sendUpdatedGradeAC = (grade: number, card_id: string) =>
 	({ type: "SEND_UPDATE_GRADE", grade, card_id } as const)
 export const setCardsPageAC = (page: number | undefined) =>
-	({ type: "SET_CARDS_PAGE", page } as const)
+    ({type: "SET_CARDS_PAGE", page} as const)
 export const setCardsTotalCountAC = (count: number) =>
 	({ type: "SET_CARDS_TOTAL_COUNT", count } as const)
 export const setSortCardsAC = (sortCards: string | undefined) =>

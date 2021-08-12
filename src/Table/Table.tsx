@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
-import {Paper, TableBody, TableContainer, TableHead, TableRow, Table} from '@material-ui/core';
+import {Paper, TableBody, TableContainer, TableHead, TableRow, Table, IconButton} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import {DeletePackListTC, setPacksListTC, UpdatePackTC} from '../state/table-reducer';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,13 +18,13 @@ export function Tables() {
     const history = useHistory();
     let dispatch = useDispatch()
 
-    let userId = useSelector<AppRootStateType, any>(state => state.login.user._id)
+    let userId = useSelector<AppRootStateType, string>(state => state.login.user._id)
 
     useEffect(() => {
         setInputValue('')
         setUpdatingPackId('')
         setDeletedPackId('')
-        userId && dispatch(setPacksListTC({user_id: userId}))
+        userId && dispatch(setPacksListTC({user_id: userId, pageCount}))
     }, [userId])
 
     const cardPacks = useSelector((state: AppRootStateType) => state.table.cardPacks)
@@ -66,7 +66,7 @@ export function Tables() {
         dispatch(
             UpdatePackTC(
                 {cardsPack: {_id: id, name: inputValue}},
-                {user_id: userId}
+                {user_id: userId, pageCount}
             )
         )
         setInputValue('')
@@ -118,9 +118,9 @@ export function Tables() {
                                 }
                                 const getQuestions = () => {
                                     history.push(`/learnCards/${row._id}`)
-                              }
+                                }
                                 return (
-                                    <TableRow>
+                                    <>
                                         {updatingPackId === row._id &&
                                         <Modal
                                             show={updatingPackId === row._id}
@@ -131,8 +131,7 @@ export function Tables() {
                                                 <button onClick={onCloseUpdate}>Close</button>
                                             </tr>}
                                             onClose={() => setUpdatingPackId('')}
-                                        />
-                                        }
+                                        />}
                                         {deletedPackId === row._id &&
                                         <Modal
                                             show={deletedPackId === row._id}
@@ -140,29 +139,34 @@ export function Tables() {
                                             content={`Click "yes" if you want`}
                                             footer={<tr key={row._id}>
                                                 <button
-                                                    onClick={() => dispatch(DeletePackListTC(row._id, {user_id: userId}))}>Yes
+                                                    onClick={() => dispatch(DeletePackListTC(row._id, {
+                                                        user_id: userId,
+                                                        pageCount
+                                                    }))}>Yes
                                                 </button>
                                                 <button onClick={onCloseDelete}>No</button>
                                             </tr>}
                                             onClose={onCloseDelete}
                                         />}
-                                        <TableCell component="th" onClick={getCards} scope="row">{row.name} </TableCell>
-                                        <TableCell align="center">{row.cardsCount}</TableCell>
-                                        <TableCell align="center">{moment(row.updated).format('DD.MM.YYYY')}</TableCell>
-                                        <TableCell align="center">{row.path}</TableCell>
-                                        <TableCell align="center">
-                                            <Button onClick={() => setDeletedPackId(row._id)}
+                                        <TableRow>
+                                            <TableCell component="th" onClick={getCards} scope="row">{row.name} </TableCell>
+                                            <TableCell align="center">{row.cardsCount}</TableCell>
+                                            <TableCell align="center">{moment(row.updated).format('DD.MM.YYYY')}</TableCell>
+                                            <TableCell align="center">{row.user_name}</TableCell>
+                                            <TableCell align="center">
+                                                <Button onClick={() => setDeletedPackId(row._id)}
+                                                        variant="contained"
+                                                        color="secondary">Delete</Button>
+                                                <Button onClick={() => setUpdatingPackId(row._id)}
+                                                        variant="contained"
+                                                        color="primary">Edit</Button>
+                                                <Button
+                                                    onClick={getQuestions}
                                                     variant="contained"
-                                                    color="secondary">Delete</Button>
-                                            <Button onClick={() => setUpdatingPackId(row._id)}
-                                                variant="contained"
-                                                color="primary">Edit</Button>
-                                            <Button
-                                            onClick={getQuestions}
-                                             variant="contained"
                                                     color="primary">Learn</Button>
-                                        </TableCell>
-                                    </TableRow>
+                                            </TableCell>
+                                        </TableRow>
+                                    </>
                                 )
                             }
                         )

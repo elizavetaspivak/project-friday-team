@@ -25,6 +25,11 @@
     align-items: center;
 }
 
+.toggleButton{
+    align-items: center;
+    justify-content: center;
+}
+
 .packTable{
     background-color: white;
     height: 750px;

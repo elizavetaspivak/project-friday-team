@@ -1,18 +1,19 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react"
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {
-	Paper,
-	Table,
-	TableBody,
-	TableContainer,
-	TableHead,
-	TableRow,
-} from "@material-ui/core"
-import makeStyles from "@material-ui/core/styles/makeStyles"
-import TableCell from "@material-ui/core/TableCell"
-import { useDispatch, useSelector } from "react-redux"
-import Button from "@material-ui/core/Button"
-import { AppRootStateType } from "../state/store"
-import { Redirect, useHistory, useParams } from "react-router-dom"
+    IconButton,
+    Paper,
+    Table,
+    TableBody,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from '@material-ui/core'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import TableCell from '@material-ui/core/TableCell'
+import {useDispatch, useSelector} from 'react-redux'
+import Button from '@material-ui/core/Button'
+import {AppRootStateType} from '../state/store'
+import {Redirect, useHistory, useParams} from 'react-router-dom'
 import {
 	createCardTC,
 	getCardsTC,
@@ -37,15 +38,15 @@ export function Cards() {
 		any
 	>((state) => state.cards)
 
-	const { cardsId } = useParams<{ cardsId: string }>()
+    const {cardsId} = useParams<{ cardsId: string }>()
 
-	useEffect(() => {
-		dispatch(getCardsTC({ cardsPack_id: cardsId, pageCount: 9 }))
-		setQuestion("")
-		setAnswer("")
-		setUpdatingCardId("")
-		setCreate(false)
-	}, [dispatch, cardsId])
+    useEffect(() => {
+        dispatch(getCardsTC({cardsPack_id: cardsId, pageCount: 9}))
+        setQuestion('')
+        setAnswer('')
+        setUpdatingCardId('')
+        setCreate(false)
+    }, [dispatch, cardsId])
 
 	const cards = useSelector<AppRootStateType, any>((state) => state.cards)
 	const userId = useSelector<AppRootStateType, any>(
@@ -74,43 +75,43 @@ export function Cards() {
 		[page]
 	)
 
-	const addCardHandler = () => {
-		dispatch(
-			createCardTC(
-				{
-					card: {
-						cardsPack_id: cardsId,
-						question: question,
-						answer: answer,
-					},
-				},
-				{ cardsPack_id: cardsId }
-			)
-		)
-		setQuestion("")
-		setAnswer("")
-		setCreate(false)
-	}
+    const addCardHandler = () => {
+        dispatch(
+            createCardTC(
+                {
+                    card: {
+                        cardsPack_id: cardsId,
+                        question: question,
+                        answer: answer,
+                    },
+                },
+                {cardsPack_id: cardsId}
+            )
+        )
+        setQuestion('')
+        setAnswer('')
+        setCreate(false)
+    }
 
-	const updateCardHandler = (id: string) => {
-		dispatch(
-			updateCardTC(
-				{
-					card: {
-						_id: id,
-						question: question,
-						answer: answer,
-					},
-				},
-				cardsId
-			)
-		)
-		setQuestion("")
-		setAnswer("")
-		setUpdatingCardId("")
-	}
+    const updateCardHandler = (id: string) => {
+        dispatch(
+            updateCardTC(
+                {
+                    card: {
+                        _id: id,
+                        question: question,
+                        answer: answer,
+                    },
+                },
+                cardsId
+            )
+        )
+        setQuestion('')
+        setAnswer('')
+        setUpdatingCardId('')
+    }
 
-	const classes = useStyles()
+    const classes = useStyles()
 
 	const [isCreate, setCreate] = useState<boolean>(false)
 	const [question, setQuestion] = useState<string>("")
@@ -122,12 +123,12 @@ export function Cards() {
 		setAnswer(e.currentTarget.value)
 	}
 
-	const [deletedPackId, setDeletedPackId] = useState("")
-	const onCloseDelete = () => setDeletedPackId("")
-	const onClose = () => setCreate(false)
+    const [deletedPackId, setDeletedPackId] = useState('')
+    const onCloseDelete = () => setDeletedPackId('')
+    const onClose = () => setCreate(false)
 
-	const [updatingCardId, setUpdatingCardId] = useState("")
-	const onCloseUpdate = () => setUpdatingCardId("")
+    const [updatingCardId, setUpdatingCardId] = useState('')
+    const onCloseUpdate = () => setUpdatingCardId('')
 
 	//sort
 	const [sortTitle, setSortTitle] = useState(sortPacks)
@@ -234,8 +235,8 @@ export function Cards() {
 										dispatch(removeCardTC(row._id, row.cardsPack_id))
 									}
 									return (
-										<TableRow key={row._id}>
-											{updatingCardId === row._id && (
+                     <>
+                      {updatingCardId === row._id && (
 												<Modal
 													show={updatingCardId === row._id}
 													title={"Enter new title"}
@@ -283,6 +284,7 @@ export function Cards() {
 													onClose={onCloseDelete}
 												/>
 											)}
+										<TableRow key={row._id}>
 											<TableCell component='th' scope='row'>
 												{row.question}{" "}
 											</TableCell>
@@ -312,6 +314,7 @@ export function Cards() {
 												""
 											)}
 										</TableRow>
+                       </>
 									)
 								})}
 							</TableBody>

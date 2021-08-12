@@ -13,9 +13,9 @@ import {
 import TableCell from '@material-ui/core/TableCell'
 import {
     CreatNewPackListTC,
-    DeletePackListTC,
+    DeletePackListTC, InitialStateType,
     setPacksListTC,
-     UpdatePackTC,
+    UpdatePackTC,
 } from '../state/table-reducer'
 import {Redirect, useHistory} from 'react-router-dom'
 import s from './PacksList.module.css'
@@ -25,6 +25,8 @@ import moment from 'moment'
 import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange'
 import {SortElement} from '../components/SortElement/SortElement'
 import {Modal} from '../Modal/Modal';
+import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
+import {UserType} from '../state/login-reducer';
 
 
 export function PacksList() {
@@ -37,9 +39,9 @@ export function PacksList() {
             setPacksListTC({
                 page,
                 pageCount,
-                min: minCardsCount,
-                max: maxCardsCount,
-                sortPacks,
+                min: value1,
+                max: value2,
+                sortPacks
             })
         )
     }, [])
@@ -48,12 +50,12 @@ export function PacksList() {
         (state) => state.login.isLoggedIn
     )
 
-    const profile = useSelector<AppRootStateType, any>(
+    const profile = useSelector<AppRootStateType, UserType>(
         (state) => state.login.user
     )
 
     let {cardPacks, page, pageCount, cardPacksTotalCount, sortPacks} =
-        useSelector<AppRootStateType, any>((state: AppRootStateType) => state.table)
+        useSelector<AppRootStateType, InitialStateType>((state: AppRootStateType) => state.table)
 
     const onPageChanged = useCallback(
         (page: number) => {
@@ -97,7 +99,7 @@ export function PacksList() {
         dispatch(
             CreatNewPackListTC(
                 {cardsPack: {name: title, path: profile.name}},
-                {}
+                {pageCount}
             )
         )
         setTitle('')
@@ -108,7 +110,7 @@ export function PacksList() {
         dispatch(
             UpdatePackTC(
                 {cardsPack: {_id: id, name: title}},
-                {}
+                {pageCount}
             )
         )
         setTitle('')
@@ -138,7 +140,7 @@ export function PacksList() {
             )
         } else {
             setSortTitle(sortTitle)
-            profile._id && dispatch(setPacksListTC({ sortPacks: sortTitle}))
+            profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
         }
     }
     const sortHandler0 = (sortTitle: string) => {
@@ -150,19 +152,20 @@ export function PacksList() {
             )
         } else {
             setSortTitle(sortTitle)
-            profile._id && dispatch(setPacksListTC({ sortPacks: sortTitle}))
+            profile._id && dispatch(setPacksListTC({sortPacks: sortTitle}))
         }
     }
 
     //min - max
 
     const maxCardsCount = useSelector<AppRootStateType, number>(
-        (state) => state.table.cardPacksTotalCount
+        (state) => state.table.maxCardsCount
     )
-
+    console.log(maxCardsCount)
     const minCardsCount = useSelector<AppRootStateType, number>(
         (state) => state.table.minCardsCount
     )
+    console.log(minCardsCount)
 
     const [value1, setValue1] = useState<number>(minCardsCount)
     const [value2, setValue2] = useState<number>(maxCardsCount)
@@ -179,6 +182,11 @@ export function PacksList() {
     const [deletedPackId, setDeletedPackId] = useState('')
     const onCloseDelete = () => setDeletedPackId('')
     const onClose = () => setCreate(false)
+
+    const [alignment, setAlignment] = React.useState<string | null>('right');
+    const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
+        setAlignment(newAlignment);
+    };
 
     if (!isLoginIn) {
         return <Redirect to={'/login'}/>
@@ -200,9 +208,16 @@ export function PacksList() {
                 <div className={s.mainPacks}>
                     <div>
                         <p>Show packs cards</p>
-                        <div>
-                            <Button onClick={onClickSetMyFilter}>My</Button>
-                            <Button onClick={onClickSetAllFilter}>All</Button>
+                        <div className={s.toggleButton}>
+                            <ToggleButtonGroup onChange={handleAlignment} value={alignment} exclusive
+                                               aria-label="text alignment">
+                                <ToggleButton onClick={onClickSetMyFilter} value="left" aria-label="left aligned">
+                                    My
+                                </ToggleButton>
+                                <ToggleButton onClick={onClickSetAllFilter} value="right" aria-label="right aligned">
+                                    All
+                                </ToggleButton>
+                            </ToggleButtonGroup>
                         </div>
                     </div>
                     <div className={s.numberOfCards}>
@@ -255,11 +270,16 @@ export function PacksList() {
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Name <SortElement sortHandler1={sortHandler1}  sortHandler0={sortHandler0} sortTitle={"name"}/></TableCell>
-                                        <TableCell align="center">Cards<SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0}  sortTitle={"cardsCount"}/></TableCell>
+                                        <TableCell>Name <SortElement sortHandler1={sortHandler1}
+                                                                     sortHandler0={sortHandler0}
+                                                                     sortTitle={'name'}/></TableCell>
+                                        <TableCell align="center">Cards<SortElement sortHandler1={sortHandler1}
+                                                                                    sortHandler0={sortHandler0}
+                                                                                    sortTitle={'cardsCount'}/></TableCell>
                                         <TableCell align="center">
-                                            Last updated 
-                                            <SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0} sortTitle={"updated"}/>
+                                            Last updated
+                                            <SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0}
+                                                         sortTitle={'updated'}/>
                                         </TableCell>
                                         <TableCell align="center">Created by</TableCell>
                                         <TableCell align="center"> Actions</TableCell>
@@ -270,11 +290,11 @@ export function PacksList() {
                                         const getCards = () => {
                                             history.push(`/cards/${row._id}`)
                                         }
-													 const getQuestions = () => {
-														history.push(`/learnCards/${row._id}`)
-												  }
+                                        const getQuestions = () => {
+                                            history.push(`/learnCards/${row._id}`)
+                                        }
                                         return (
-                                            <TableRow key={row._id}>
+                                            <>
                                                 {updatingPackId === row._id &&
                                                 <Modal
                                                     show={updatingPackId === row._id}
@@ -293,12 +313,13 @@ export function PacksList() {
                                                     content={`Click "yes" if you want`}
                                                     footer={<tr key={row._id}>
                                                         <button
-                                                            onClick={() => dispatch(DeletePackListTC(row._id))}>Yes
+                                                            onClick={() => dispatch(DeletePackListTC(row._id, {pageCount}))}>Yes
                                                         </button>
                                                         <button onClick={onCloseDelete}>No</button>
                                                     </tr>}
                                                     onClose={onCloseDelete}
                                                 />}
+                                            <TableRow key={row._id}>
                                                 <TableCell onClick={getCards} component="th" scope="row">
                                                     {row.name}{' '}
                                                 </TableCell>
@@ -306,7 +327,7 @@ export function PacksList() {
                                                 <TableCell align="center">
                                                     {moment(row.updated).format('DD.MM.YYYY')}
                                                 </TableCell>
-                                                <TableCell align="center">{row.path}</TableCell>
+                                                <TableCell align="center">{row.user_name}</TableCell>
                                                 <TableCell align="center">
                                                     {row.user_id == profile._id ? (
                                                         <div>
@@ -323,7 +344,7 @@ export function PacksList() {
                                                                 Edit
                                                             </Button>
                                                             <Button
-                                                              onClick={getQuestions}
+                                                                onClick={getQuestions}
                                                                 variant="contained"
                                                                 color="primary"
                                                             >
@@ -331,8 +352,8 @@ export function PacksList() {
                                                             </Button>
                                                         </div>
                                                     ) : (
-                                                        <Button 
-																		  onClick={getQuestions}
+                                                        <Button
+                                                            onClick={getQuestions}
                                                             variant="contained"
                                                             color="primary"
                                                         >
@@ -341,6 +362,7 @@ export function PacksList() {
                                                     )}
                                                 </TableCell>
                                             </TableRow>
+                                            </>
                                         )
                                     })}
                                 </TableBody>

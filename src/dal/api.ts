@@ -123,6 +123,8 @@ export type CardPackType = {
     created: Date,
     updated: Date,
     __v: number
+	more_id: string
+	user_name: string
 }
 
 export type UpdateParamsType = {
@@ -139,6 +141,7 @@ export type UpdatedCardDataParamsType = {
 		answer?: string
 	}
 }
+
 
 const instance = axios.create({
 	baseURL: "http://localhost:7542/2.0/",
