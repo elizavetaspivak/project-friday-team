@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {Redirect, useParams} from 'react-router-dom'
+import {Redirect, useHistory, useParams} from 'react-router-dom'
 import {CardType} from '../dal/api'
 import {
     getCardsTC,
@@ -29,6 +29,7 @@ const getCard = (cards: CardType[]) => {
 }
 
 export const LearnCards = () => {
+    const history = useHistory()
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
     );
@@ -125,8 +126,9 @@ export const LearnCards = () => {
                                 </RadioGroup>
                             </FormControl>
                         </div>
-                        <div className={s.learnNextButton}>
-                            <button onClick={onNext}>Next</button>
+                        <div className={s.learnButton}>
+ 							<button className={s.learnCancelButton} onClick={history.goBack}>Cancel</button>
+ 							<button className={s.learnNextButton} onClick={onNext}>Next</button>
                         </div>
                     </div>
                 )}
