@@ -22,9 +22,9 @@ import {
 } from "../state/cards-reducer"
 import s from "./Cards.module.css"
 import moment from "moment"
-import { DeletePackListTC, setPacksListTC } from "../state/table-reducer"
 import { Modal } from "../Modal/Modal"
 import { Paginator } from "../components/Pagination/Pagination"
+import { SortElement } from "../components/SortElement/SortElement"
 
 export function Cards() {
 	let dispatch = useDispatch()
@@ -32,9 +32,10 @@ export function Cards() {
 	const isLoginIn = useSelector<AppRootStateType, boolean>(
 		(state) => state.login.isLoggedIn
 	)
-	let { page, pageCount, cardsTotalCount } = useSelector<AppRootStateType, any>(
-		(state) => state.cards
-	)
+	let { page, pageCount, cardsTotalCount, sortPacks } = useSelector<
+		AppRootStateType,
+		any
+	>((state) => state.cards)
 
 	const { cardsId } = useParams<{ cardsId: string }>()
 
@@ -50,9 +51,9 @@ export function Cards() {
 	const userId = useSelector<AppRootStateType, any>(
 		(state) => state.login.userId
 	)
-	const name = useSelector<AppRootStateType, any>(
-		(state) => state.table.cardPacks[0].name
-	)
+	// const name = useSelector<AppRootStateType, any>(
+	// 	(state) => state.table.cardPacks[0].name
+	// )
 
 	const useStyles = makeStyles({
 		table: {
@@ -65,7 +66,8 @@ export function Cards() {
 				getCardsTC({
 					page,
 					pageCount,
-                    cardsPack_id: cardsId
+					cardsPack_id: cardsId,
+					sortCards: sortTitle,
 				})
 			)
 		},
@@ -110,10 +112,6 @@ export function Cards() {
 
 	const classes = useStyles()
 
-	const Sort = () => {
-		userId && dispatch(setPacksListTC({ sortPacks: "1updated" }))
-	}
-
 	const [isCreate, setCreate] = useState<boolean>(false)
 	const [question, setQuestion] = useState<string>("")
 	const createQuestion = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,6 +128,20 @@ export function Cards() {
 
 	const [updatingCardId, setUpdatingCardId] = useState("")
 	const onCloseUpdate = () => setUpdatingCardId("")
+
+	//sort
+	const [sortTitle, setSortTitle] = useState(sortPacks)
+
+	const sortHandler1 = (sortTitle: string) => {
+		setSortTitle(sortTitle)
+		cardsId &&
+			dispatch(getCardsTC({ cardsPack_id: cardsId, sortCards: sortTitle }))
+	}
+	const sortHandler0 = (sortTitle: string) => {
+		setSortTitle(sortTitle)
+		cardsId &&
+			dispatch(getCardsTC({ cardsPack_id: cardsId, sortCards: sortTitle }))
+	}
 
 	if (!isLoginIn) {
 		return <Redirect to={"/login"} />
@@ -194,9 +206,21 @@ export function Cards() {
 									<TableCell>Question</TableCell>
 									<TableCell align='center'>Answer</TableCell>
 									<TableCell align='center'>
-										Last Updated<Button onClick={Sort}>ᐁ</Button>
+										Last Updated
+										<SortElement
+											sortHandler1={sortHandler1}
+											sortHandler0={sortHandler0}
+											sortTitle={"updated"}
+										/>
 									</TableCell>
-									<TableCell align='center'>Grade</TableCell>
+									<TableCell align='center'>
+										Grade
+										<SortElement
+											sortHandler1={sortHandler1}
+											sortHandler0={sortHandler0}
+											sortTitle={"grade"}
+										/>
+									</TableCell>
 									{cards.packUserId == userId ? (
 										<TableCell align='center'>Actions</TableCell>
 									) : (

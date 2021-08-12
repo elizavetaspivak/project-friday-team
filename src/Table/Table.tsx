@@ -11,6 +11,7 @@ import s from './Table.module.css'
 import {Paginator} from '../components/Pagination/Pagination';
 import SuperInputText from '../Test/h4/common/c1-SuperInputText/SuperInputText';
 import {Modal} from '../Modal/Modal';
+import { SortElement } from '../components/SortElement/SortElement';
 
 
 export function Tables() {
@@ -28,10 +29,13 @@ export function Tables() {
 
     const cardPacks = useSelector((state: AppRootStateType) => state.table.cardPacks)
 
-    const Sort = () => {
-        userId && dispatch(setPacksListTC({sortPacks: '1updated', user_id: userId}))
-    }
+    // const Sort = () => {
+    //     userId && dispatch(setPacksListTC({sortPacks: '1updated', user_id: userId}))
+    // }
 
+    const {sortPacks} = useSelector<AppRootStateType, any>(
+        (state) => state.table
+    )
     const pageCount = useSelector<AppRootStateType, number>(
         (state) => state.table.pageCount
     )
@@ -43,7 +47,7 @@ export function Tables() {
     )
     const onPageChanged = useCallback(
         (page: number) => {
-            userId && dispatch(setPacksListTC({user_id: userId, page, pageCount, packName: inputValue}))
+            userId && dispatch(setPacksListTC({user_id: userId, page, pageCount, packName: inputValue, sortPacks: sortTitle}))
         }, [page])
 
     const [inputValue, setInputValue] = useState<string>('')
@@ -69,6 +73,19 @@ export function Tables() {
         setUpdatingPackId('')
     }
 
+        //sort
+        const [sortTitle, setSortTitle] = useState(sortPacks)
+
+        const sortHandler1 = (sortTitle: string) => {
+                setSortTitle(sortTitle)
+                userId && dispatch(setPacksListTC({ user_id: userId, sortPacks: sortTitle}))
+          
+        }
+        const sortHandler0 = (sortTitle: string) => {
+                setSortTitle(sortTitle)
+                userId && dispatch(setPacksListTC({ user_id: userId, sortPacks: sortTitle}))
+           
+        }
     return (
         <div className={s.tableMain}>
             <h2>My packs list</h2>
@@ -86,9 +103,9 @@ export function Tables() {
                 <Table aria-label="simple table" className={s.tableContainer}>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="center">Cards</TableCell>
-                            <TableCell align="center">Last updated<Button onClick={Sort}>ᐁ</Button></TableCell>
+                            <TableCell>Name  <SortElement sortHandler1={sortHandler1}  sortHandler0={sortHandler0} sortTitle={"name"}/></TableCell>
+                            <TableCell align="center">Cards <SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0}  sortTitle={"cardsCount"}/></TableCell>
+                            <TableCell align="center">Last updated <SortElement sortHandler1={sortHandler1} sortHandler0={sortHandler0}  sortTitle={"updated"}/></TableCell>
                             <TableCell align="center">Created by</TableCell>
                             <TableCell align="center"> Actions</TableCell>
                             <TableCell align="center"><span>{''}</span></TableCell>
