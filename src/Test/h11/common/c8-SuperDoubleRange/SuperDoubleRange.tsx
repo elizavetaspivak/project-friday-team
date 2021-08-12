@@ -11,6 +11,7 @@ type SuperDoubleRangePropsType = {
     setValue1: (value: number) => void
     value2: number
     setValue2: (value: number) => void
+    max: number
     // min, max, step, disable, ...
 }
 
@@ -22,7 +23,8 @@ const useStyles = makeStyles({
 
 const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
     {
-        onChangeRange,value, value1, setValue1, value2, setValue2
+        onChangeRange,value, value1, setValue1, value2, setValue2,
+        max
 
         // min, max, step, disable
     }
@@ -46,7 +48,7 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
                 onChangeCommitted={onChangeCallback}
                 aria-labelledby="range-slider"
                 valueLabelDisplay="on"
-                max={value2}
+                max={max}
             />
         </div>
     );

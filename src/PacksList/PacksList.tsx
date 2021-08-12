@@ -227,6 +227,7 @@ export function PacksList() {
                             setValue1={setValue1}
                             setValue2={setValue2}
                             value2={value2}
+                            max={103}
                         />
                     </div>
                 </div>
