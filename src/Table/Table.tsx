@@ -11,6 +11,7 @@ import s from './Table.module.css'
 import {Paginator} from '../components/Pagination/Pagination';
 import SuperInputText from '../Test/h4/common/c1-SuperInputText/SuperInputText';
 import {Modal} from '../Modal/Modal';
+import TransitionsModal from '../Modal/ModalMaterial';
 
 
 export function Tables() {
@@ -107,16 +108,26 @@ export function Tables() {
                                 return (
                                     <TableRow>
                                         {updatingPackId === row._id &&
-                                        <Modal
-                                            show={updatingPackId === row._id}
-                                            title={'Enter new title'}
-                                            content={<input value={inputValue} onChange={inputHandler}/>}
-                                            footer={<tr key={row._id}>
-                                                <button onClick={() => UpdateCardPack(row._id)}>update</button>
-                                                <button onClick={onCloseUpdate}>Close</button>
-                                            </tr>}
-                                            onClose={() => setUpdatingPackId('')}
+                                        <TransitionsModal open={updatingPackId === row._id}
+                                                          title={'Enter new title'}
+                                                          content={<input value={inputValue} onChange={inputHandler}/>}
+                                                          footer={<tr key={row._id}>
+                                                              <button onClick={() => UpdateCardPack(row._id)}>update
+                                                              </button>
+                                                              <button onClick={onCloseUpdate}>Close</button>
+                                                          </tr>}
+                                                          onClose={() => setUpdatingPackId('')}
                                         />
+                                            // <Modal
+                                            // show={updatingPackId === row._id}
+                                            // title={'Enter new title'}
+                                            // content={<input value={inputValue} onChange={inputHandler}/>}
+                                            // footer={<tr key={row._id}>
+                                            // <button onClick={() => UpdateCardPack(row._id)}>update</button>
+                                            // <button onClick={onCloseUpdate}>Close</button>
+                                            // </tr>}
+                                            // onClose={() => setUpdatingPackId('')}
+                                            // />
                                         }
                                         {deletedPackId === row._id &&
                                         <Modal
@@ -125,7 +136,10 @@ export function Tables() {
                                             content={`Click "yes" if you want`}
                                             footer={<tr key={row._id}>
                                                 <button
-                                                    onClick={() => dispatch(DeletePackListTC(row._id, {user_id: userId, pageCount}))}>Yes
+                                                    onClick={() => dispatch(DeletePackListTC(row._id, {
+                                                        user_id: userId,
+                                                        pageCount
+                                                    }))}>Yes
                                                 </button>
                                                 <button onClick={onCloseDelete}>No</button>
                                             </tr>}
