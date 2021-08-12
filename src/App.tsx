@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import './App.css';
 import {Login} from './Login/Login';
 import {Register} from './Register/Register';
@@ -37,27 +37,29 @@ function App() {
             {status && <LinearProgress color="secondary"/>}
             <Switch>
                 <Route path="/login"
-                       component={Login}/>
+                       render={() => <Login/>}/>
                 <Route path="/register"
                        render={() => <Register/>}/>
-                <Route exact path="/profile"
+                <Route path="/profile"
                        render={() => <Profile/>}/>
-                <Route exact path="/recovery"
+                <Route path="/recovery"
                        render={() => <PasswordRecovery/>}/>
-                <Route exact path="/recoveryconfirmation"
+                <Route path="/recoveryconfirmation"
                        render={() => <PasswordRecoveryConfirmation/>}/>
-                <Route exact path="/newpassword/:token"
+                <Route path="/newpassword/:token"
                        render={() => <CreateNewPassword/>}/>
-                <Route exact path="/testpage"
+                <Route path="/testpage"
                        render={() => <TestPage/>}/>
-                <Route exact path="/packslist"
+                <Route path="/packslist"
                        render={() => <PacksList/>}/>
-                <Route exact path="/cards/:cardsId"
+                <Route path="/cards/:cardsId"
                        render={() => <Cards/>}/>
-                <Route exact path="/learnCards/:id"
+                <Route path="/learnCards/:id"
                        render={() => <LearnCards/>}/>
-                <Route exact path="*"
-                       render={() => <Error/>}/>
+                {/*<Route path="/404"*/}
+                {/*       render={() => <Error/>}/>*/}
+                {/*<Redirect from={ '*' } to={'/404'}/>*/}
+                <Redirect from={ '/' } to={'/profile'}/>
             </Switch>
         </div>
     );

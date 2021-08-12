@@ -170,12 +170,14 @@ export function Tables() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Paginator
-                page={page}
-                onPageChanged={onPageChanged}
-                pageCount={pageCount}
-                totalItemsCount={cardsTotalCount}
-            />
+            <div className={s.pagination}>
+                <Paginator
+                    page={page}
+                    onPageChanged={onPageChanged}
+                    pageCount={pageCount}
+                    totalItemsCount={cardsTotalCount}
+                />
+            </div>
         </div>
     );
 }
