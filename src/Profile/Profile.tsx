@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {getMeTC, logoutTC, UpdateUserData} from '../state/login-reducer';
+import {getMeTC, loginTC, logoutTC, UpdateUserData} from '../state/login-reducer';
 import {AppRootStateType} from '../state/store';
 import s from './Profile.module.css';
 import {Tables} from '../Table/Table';
@@ -18,10 +18,6 @@ export function Profile() {
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
     );
-
-    useEffect(() => {
-        dispatch(getMeTC())
-    }, [user.name, user.avatar])
 
     const logoutHandler = () => {
         dispatch(logoutTC());
