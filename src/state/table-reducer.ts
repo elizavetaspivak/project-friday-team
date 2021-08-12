@@ -37,10 +37,9 @@ export const tableReducer = (
 		case "SET_PACKS_TOTAL_COUNT": {
 			return { ...state, cardPacksTotalCount: action.count }
 		}
-		case "SET-PACK-NAME":
+		case "SET_PACK_NAME":
 			return { ...state, packName: action.packName }
-		case "SET-FILTERS":
-			// debugger
+		case "SET_SORT":
 			return { ...state, sortPacks: action.sortPacks }
 
 		default:
@@ -59,13 +58,13 @@ export const setPacksTotalCountAC = (count: number) =>
 	({ type: "SET_PACKS_TOTAL_COUNT", count } as const)
 export const setSearch = (packName: string | undefined) =>
 	({
-		type: "SET-PACK-NAME",
+		type: "SET_PACK_NAME",
 		packName,
 	} as const)
-//filter action
-export const setFiltersAC = (sortPacks: string | undefined) =>
+
+export const setSortAC = (sortPacks: string | undefined) =>
 	({
-		type: "SET-FILTERS",
+		type: "SET_SORT",
 		sortPacks,
 	} as const)
 
@@ -74,14 +73,14 @@ export type SetPacksListAT = ReturnType<typeof setPacksListAC>
 export type SetPageACT = ReturnType<typeof setPageAC>
 export type setPacksTotalCountACT = ReturnType<typeof setPacksTotalCountAC>
 export type setSearchACT = ReturnType<typeof setSearch>
-export type setFiltersACT = ReturnType<typeof setFiltersAC>
+export type setSortACT = ReturnType<typeof setSortAC>
 
 export type ActionsTableType =
 	| SetPacksListAT
 	| SetPageACT
 	| setPacksTotalCountACT
 	| setSearchACT
-	| setFiltersACT
+	| setSortACT
 
 // thunk
 
@@ -102,8 +101,7 @@ export const setPacksListTC =
 
 		dispatch(setPageAC(params.page))
 		dispatch(setSearch(params.packName))
-		dispatch(setFiltersAC(params.sortPacks))
-		dispatch(setStatusAC(true))
+		dispatch(setSortAC(params.sortPacks))
 		tableAPI.getCardsPack(cardsParamsModel).then((res) => {
 			dispatch(setPacksListAC(res.data))
 			dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
