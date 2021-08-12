@@ -33,6 +33,9 @@ import {setPacksListTC} from '../state/table-reducer';
 export function Cards() {
     let dispatch = useDispatch()
     const history = useHistory()
+    const isStatus = useSelector<AppRootStateType, boolean>(
+        (state) => state.app.status
+    )
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
     )
@@ -215,6 +218,7 @@ export function Cards() {
                                     onClick={() => setCreate(true)}
                                     variant="contained"
                                     color="primary"
+                                    disabled={isStatus}
                                 >
                                     Add card
                                 </Button>
@@ -323,6 +327,7 @@ export function Cards() {
                                                             onClick={() => setDeletedPackId(row._id)}
                                                             variant="contained"
                                                             color="secondary"
+                                                            disabled={isStatus}
                                                         >
                                                             Delete
                                                         </Button>
@@ -330,6 +335,7 @@ export function Cards() {
                                                             onClick={() => setUpdatingCardId(row._id)}
                                                             variant="contained"
                                                             color="primary"
+                                                            disabled={isStatus}
                                                         >
                                                             Edit
                                                         </Button>

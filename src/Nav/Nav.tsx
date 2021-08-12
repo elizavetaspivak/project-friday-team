@@ -8,7 +8,7 @@ export function Nav() {
     return (
         <div className={s.nav}>
             <div className={s.item + s.head}>
-                <h1>It-incubator</h1>
+               <NavLink to='/profile'><h1>It-incubator</h1></NavLink>
             </div>
             <div className={s.item}>
                 <img src={packs} alt=""/>

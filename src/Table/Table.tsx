@@ -18,6 +18,10 @@ export function Tables() {
     const history = useHistory();
     let dispatch = useDispatch()
 
+    const isStatus = useSelector<AppRootStateType, boolean>(
+        (state) => state.app.status
+    )
+
     let userId = useSelector<AppRootStateType, string>(state => state.login.user._id)
 
     useEffect(() => {
@@ -154,11 +158,14 @@ export function Tables() {
                                             <TableCell align="center">
                                                 <Button onClick={() => setDeletedPackId(row._id)}
                                                         variant="contained"
-                                                        color="secondary">Delete</Button>
+                                                        color="secondary"
+                                                        disabled={isStatus}>Delete</Button>
                                                 <Button onClick={() => setUpdatingPackId(row._id)}
                                                         variant="contained"
-                                                        color="primary">Edit</Button>
+                                                        color="primary"
+                                                        disabled={isStatus}>Edit</Button>
                                                 <Button
+                                                    disabled={isStatus}
                                                     onClick={getQuestions}
                                                     variant="contained"
                                                     color="primary">Learn</Button>

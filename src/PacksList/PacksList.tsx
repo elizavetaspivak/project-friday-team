@@ -35,6 +35,10 @@ export function PacksList() {
     const history = useHistory()
     const [filter, setFilter] = useState('all')
 
+    const isStatus = useSelector<AppRootStateType, boolean>(
+        (state) => state.app.status
+    )
+
     useEffect(() => {
         dispatch(
             setPacksListTC({
@@ -242,9 +246,6 @@ export function PacksList() {
                                 onChange={inputHandler}
                                 onSearch={onSearch}
                             />
-                            {/*<Button variant="contained" color="primary" onClick={onSearch}>*/}
-                            {/*    search*/}
-                            {/*</Button>*/}
                         </div>
                         {isCreate &&
                         <Modal
@@ -264,6 +265,7 @@ export function PacksList() {
                             variant="contained"
                             color="primary"
                             className={s.addNewPack}
+                            disabled={isStatus}
                         >
                             Add new pack
                         </Button>
@@ -339,15 +341,19 @@ export function PacksList() {
                                                                     onClick={() => setDeletedPackId(row._id)}
                                                                     variant="contained"
                                                                     color="secondary"
+                                                                    disabled={isStatus}
                                                                 >
                                                                     Delete
                                                                 </Button>
                                                                 <Button
+                                                                    disabled={isStatus}
                                                                     onClick={() => setUpdatingPackId(row._id)}
                                                                     variant="contained" color="primary">
+
                                                                     Edit
                                                                 </Button>
                                                                 <Button
+                                                                    disabled={isStatus}
                                                                     onClick={getQuestions}
                                                                     variant="contained"
                                                                     color="primary"
@@ -357,6 +363,7 @@ export function PacksList() {
                                                             </div>
                                                         ) : (
                                                             <Button
+                                                                disabled={isStatus}
                                                                 onClick={getQuestions}
                                                                 variant="contained"
                                                                 color="primary"
