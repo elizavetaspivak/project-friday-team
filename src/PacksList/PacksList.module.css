@@ -30,6 +30,14 @@
     justify-content: center;
 }
 
+.toggleBnt1{
+    width: 100px;
+}
+
+.toggleBnt2{
+    width: 100px;
+}
+
 .packTable{
     background-color: white;
     height: 750px;

@@ -6,7 +6,7 @@ import {
     TableBody,
     TableContainer,
     TableHead,
-    TableRow,
+    TableRow, TextField,
 } from '@material-ui/core'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import TableCell from '@material-ui/core/TableCell'
@@ -36,8 +36,8 @@ export function Cards() {
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
     )
-    let {page, pageCount, cardsTotalCount, sortCards, maxGrade, minGrade} = useSelector<AppRootStateType,
-        any>((state) => state.cards)
+    let {cards, page, pageCount, cardsTotalCount, sortCards, maxGrade, minGrade, packUserId} = useSelector<AppRootStateType,
+        initialStateCardsType>((state) => state.cards)
 
 
     const {cardsId} = useParams<{ cardsId: string }>()
@@ -50,8 +50,7 @@ export function Cards() {
         setCreate(false)
     }, [dispatch, cardsId])
 
-    const cards = useSelector<AppRootStateType, any>((state) => state.cards)
-    const userId = useSelector<AppRootStateType, any>(
+    const userId = useSelector<AppRootStateType, string>(
         (state) => state.login.userId
     )
 
@@ -124,7 +123,7 @@ export function Cards() {
     const onCloseUpdate = () => setUpdatingCardId('')
 
     //sort
-    const [sortTitle, setSortTitle] = useState<string>(sortCards)
+    const [sortTitle, setSortTitle] = useState<string | undefined>(sortCards)
 
     const sortHandler1 = (sortTitle: string) => {
         setSortTitle(sortTitle)
@@ -174,17 +173,23 @@ export function Cards() {
             {isCreate && (
                 <Modal
                     show={isCreate}
-                    title={'Enter title'}
+                    title={'Enter values'}
                     content={
                         <div>
-                            <input value={question} onChange={createQuestion}/>
-                            <input value={answer} onChange={createAnswer}/>
+                            <div>
+                                <TextField id="standard-basic" label="Question"
+                                           value={question} onChange={createQuestion}/>
+                            </div>
+                            <div>
+                                <TextField id="standard-basic" label="Answer"
+                                           value={answer} onChange={createAnswer}/>
+                            </div>
                         </div>
                     }
                     footer={
                         <tr>
-                            <button onClick={addCardHandler}>add</button>
-                            <button onClick={onClose}>Close</button>
+                            <Button onClick={addCardHandler}>add</Button>
+                            <Button onClick={onClose}>Close</Button>
                         </tr>
                     }
                     onClose={onClose}
@@ -200,13 +205,11 @@ export function Cards() {
                                 className={s.searchBoxInput}
                                 placeholder={'Search...'}
                                 onChange={inputHandler}
+                                onSearch={onSearch}
                             />
-                            <Button variant="contained" color="primary" onClick={onSearch}>
-                                search
-                            </Button>
                         </div>
                         <div>
-                            {cards.packUserId == userId ? (
+                            {packUserId == userId ? (
                                 <Button
                                     className={s.addCardButton}
                                     onClick={() => setCreate(true)}
@@ -242,7 +245,7 @@ export function Cards() {
                                             sortTitle={'grade'}
                                         />
                                     </TableCell>
-                                    {cards.packUserId == userId ? (
+                                    {packUserId == userId ? (
                                         <TableCell align="center">Actions</TableCell>
                                     ) : (
                                         ''
@@ -250,31 +253,34 @@ export function Cards() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {cards.cards.map((row: any) => {
+                                {cards.map((row: any) => {
                                     return (
                                         <>
                                             {updatingCardId === row._id && (
                                                 <Modal
                                                     show={updatingCardId === row._id}
-                                                    title={'Enter new title'}
+                                                    title={'Enter new values'}
                                                     content={
                                                         <div>
-                                                            <input value={answer} onChange={createAnswer}/>
-                                                            <input
-                                                                value={question}
-                                                                onChange={createQuestion}
-                                                            />
+                                                            <div>
+                                                                <TextField id="standard-basic" label="Question"
+                                                                           value={question} onChange={createQuestion}/>
+                                                            </div>
+                                                            <div>
+                                                                <TextField id="standard-basic" label="Answer"
+                                                                           value={answer} onChange={createAnswer}/>
+                                                            </div>
                                                         </div>
                                                     }
                                                     footer={
-                                                        <tr key={row._id}>
-                                                            <button
+                                                        <div key={row._id}>
+                                                            <Button
                                                                 onClick={() => updateCardHandler(row._id)}
                                                             >
                                                                 update
-                                                            </button>
-                                                            <button onClick={onCloseUpdate}>Close</button>
-                                                        </tr>
+                                                            </Button>
+                                                            <Button onClick={onCloseUpdate}>Close</Button>
+                                                        </div>
                                                     }
                                                     onClose={() => setUpdatingCardId('')}
                                                 />
@@ -286,7 +292,7 @@ export function Cards() {
                                                     content={`Click "yes" if you want`}
                                                     footer={
                                                         <tr key={row._id}>
-                                                            <button
+                                                            <Button
                                                                 onClick={() =>
                                                                     dispatch(
                                                                         removeCardTC(row._id, row.cardsPack_id)
@@ -294,8 +300,8 @@ export function Cards() {
                                                                 }
                                                             >
                                                                 Yes
-                                                            </button>
-                                                            <button onClick={onCloseDelete}>No</button>
+                                                            </Button>
+                                                            <Button onClick={onCloseDelete}>No</Button>
                                                         </tr>
                                                     }
                                                     onClose={onCloseDelete}
@@ -311,7 +317,7 @@ export function Cards() {
                                                 </TableCell>
                                                 <TableCell align="center"><Rating name="read-only" value={row.grade}
                                                                                   readOnly/></TableCell>
-                                                {cards.packUserId == userId ? (
+                                                {packUserId == userId ? (
                                                     <TableCell align="center">
                                                         <Button
                                                             onClick={() => setDeletedPackId(row._id)}

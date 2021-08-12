@@ -8,7 +8,7 @@ import {
     TableBody,
     TableContainer,
     TableHead,
-    TableRow,
+    TableRow, TextField,
 } from '@material-ui/core'
 import TableCell from '@material-ui/core/TableCell'
 import {
@@ -27,6 +27,7 @@ import {SortElement} from '../components/SortElement/SortElement'
 import {Modal} from '../Modal/Modal';
 import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
 import {UserType} from '../state/login-reducer';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 export function PacksList() {
@@ -161,11 +162,9 @@ export function PacksList() {
     const maxCardsCount = useSelector<AppRootStateType, number>(
         (state) => state.table.maxCardsCount
     )
-    console.log(maxCardsCount)
     const minCardsCount = useSelector<AppRootStateType, number>(
         (state) => state.table.minCardsCount
     )
-    console.log(minCardsCount)
 
     const [value1, setValue1] = useState<number>(minCardsCount)
     const [value2, setValue2] = useState<number>(maxCardsCount)
@@ -211,10 +210,10 @@ export function PacksList() {
                         <div className={s.toggleButton}>
                             <ToggleButtonGroup onChange={handleAlignment} value={alignment} exclusive
                                                aria-label="text alignment">
-                                <ToggleButton onClick={onClickSetMyFilter} value="left" aria-label="left aligned">
+                                <ToggleButton onClick={onClickSetMyFilter} className={s.toggleBnt1} value="left" aria-label="left aligned">
                                     My
                                 </ToggleButton>
-                                <ToggleButton onClick={onClickSetAllFilter} value="right" aria-label="right aligned">
+                                <ToggleButton onClick={onClickSetAllFilter} className={s.toggleBnt2} value="right" aria-label="right aligned">
                                     All
                                 </ToggleButton>
                             </ToggleButtonGroup>
@@ -241,19 +240,21 @@ export function PacksList() {
                                 className={s.searchBoxInput}
                                 placeholder={'Search...'}
                                 onChange={inputHandler}
+                                onSearch={onSearch}
                             />
-                            <Button variant="contained" color="primary" onClick={onSearch}>
-                                search
-                            </Button>
+                            {/*<Button variant="contained" color="primary" onClick={onSearch}>*/}
+                            {/*    search*/}
+                            {/*</Button>*/}
                         </div>
                         {isCreate &&
                         <Modal
                             show={true}
                             title={'Enter title'}
-                            content={<input value={title} onChange={createTitle}/>}
+                            content={<TextField id="standard-basic" label="Title"
+                                                value={title} onChange={createTitle}/>}
                             footer={<tr>
-                                <button onClick={CreateNewPackList}>add</button>
-                                <button onClick={onClose}>Close</button>
+                                <Button onClick={CreateNewPackList}>add</Button>
+                                <Button onClick={onClose}>Close</Button>
                             </tr>}
                             onClose={onClose}
                         />
@@ -301,10 +302,11 @@ export function PacksList() {
                                                 <Modal
                                                     show={updatingPackId === row._id}
                                                     title={'Enter new title'}
-                                                    content={<input value={title} onChange={createTitle}/>}
+                                                    content={<TextField id="standard-basic" label="Title"
+                                                                        value={title} onChange={createTitle}/>}
                                                     footer={<tr key={row._id}>
-                                                        <button onClick={() => UpdateCardPack(row._id)}>update</button>
-                                                        <button onClick={onCloseUpdate}>Close</button>
+                                                        <Button onClick={() => UpdateCardPack(row._id)}>update</Button>
+                                                        <Button onClick={onCloseUpdate}>Close</Button>
                                                     </tr>}
                                                     onClose={() => setUpdatingPackId('')}
                                                 />}
@@ -314,37 +316,46 @@ export function PacksList() {
                                                     title={'Do you want delete?'}
                                                     content={`Click "yes" if you want`}
                                                     footer={<tr key={row._id}>
-                                                        <button
+                                                        <Button
                                                             onClick={() => dispatch(DeletePackListTC(row._id, {pageCount}))}>Yes
-                                                        </button>
-                                                        <button onClick={onCloseDelete}>No</button>
+                                                        </Button>
+                                                        <Button onClick={onCloseDelete}>No</Button>
                                                     </tr>}
                                                     onClose={onCloseDelete}
                                                 />}
-                                            <TableRow key={row._id}>
-                                                <TableCell onClick={getCards} component="th" scope="row">
-                                                    {row.name}{' '}
-                                                </TableCell>
-                                                <TableCell align="center">{row.cardsCount}</TableCell>
-                                                <TableCell align="center">
-                                                    {moment(row.updated).format('DD.MM.YYYY')}
-                                                </TableCell>
-                                                <TableCell align="center">{row.user_name}</TableCell>
-                                                <TableCell align="center">
-                                                    {row.user_id == profile._id ? (
-                                                        <div>
-                                                            <Button
-                                                                onClick={() => setDeletedPackId(row._id)}
-                                                                variant="contained"
-                                                                color="secondary"
-                                                            >
-                                                                Delete
-                                                            </Button>
-                                                            <Button
-                                                                onClick={() => setUpdatingPackId(row._id)}
-                                                                variant="contained" color="primary">
-                                                                Edit
-                                                            </Button>
+                                                <TableRow key={row._id}>
+                                                    <TableCell onClick={getCards} component="th" scope="row">
+                                                        {row.name}{' '}
+                                                    </TableCell>
+                                                    <TableCell align="center">{row.cardsCount}</TableCell>
+                                                    <TableCell align="center">
+                                                        {moment(row.updated).format('DD.MM.YYYY')}
+                                                    </TableCell>
+                                                    <TableCell align="center">{row.user_name}</TableCell>
+                                                    <TableCell align="center">
+                                                        {row.user_id == profile._id ? (
+                                                            <div>
+                                                                <Button
+                                                                    onClick={() => setDeletedPackId(row._id)}
+                                                                    variant="contained"
+                                                                    color="secondary"
+                                                                >
+                                                                    Delete
+                                                                </Button>
+                                                                <Button
+                                                                    onClick={() => setUpdatingPackId(row._id)}
+                                                                    variant="contained" color="primary">
+                                                                    Edit
+                                                                </Button>
+                                                                <Button
+                                                                    onClick={getQuestions}
+                                                                    variant="contained"
+                                                                    color="primary"
+                                                                >
+                                                                    Learn
+                                                                </Button>
+                                                            </div>
+                                                        ) : (
                                                             <Button
                                                                 onClick={getQuestions}
                                                                 variant="contained"
@@ -352,18 +363,9 @@ export function PacksList() {
                                                             >
                                                                 Learn
                                                             </Button>
-                                                        </div>
-                                                    ) : (
-                                                        <Button
-                                                            onClick={getQuestions}
-                                                            variant="contained"
-                                                            color="primary"
-                                                        >
-                                                            Learn
-                                                        </Button>
-                                                    )}
-                                                </TableCell>
-                                            </TableRow>
+                                                        )}
+                                                    </TableCell>
+                                                </TableRow>
                                             </>
                                         )
                                     })}

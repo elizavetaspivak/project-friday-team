@@ -1,19 +1,19 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {getMeTC, loginTC, logoutTC, UpdateUserData} from '../state/login-reducer';
+import {logoutTC, UpdateUserData, UserType} from '../state/login-reducer';
 import {AppRootStateType} from '../state/store';
 import s from './Profile.module.css';
 import {Tables} from '../Table/Table';
 import userAva from '../common/images/UserAvatar.png'
-import {Button} from '@material-ui/core';
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import {Button, TextField} from '@material-ui/core';
+import React, {ChangeEvent, useState} from 'react';
 import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange';
 import {Modal} from '../Modal/Modal';
 
 export function Profile() {
     const dispatch = useDispatch();
 
-    let user = useSelector<AppRootStateType, any>(state => state.login.user)
+    let user = useSelector<AppRootStateType, UserType>(state => state.login.user)
 
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
@@ -36,7 +36,7 @@ export function Profile() {
     const [edit, setEdit] = useState<boolean>(false)
     const onClose = () => setEdit(false)
 
-    const [photo, setPhoto] = useState<string>(user.avatar)
+    const [photo, setPhoto] = useState<string | null | undefined>(user.avatar)
     const createNewPhoto = (e: ChangeEvent<HTMLInputElement>) => {
         setPhoto(e.currentTarget.value)
     }
@@ -63,17 +63,18 @@ export function Profile() {
                 content={<div>
                     <div>
                         <div className={s.photoProfile}>
-                            {!user.avatar ?  <img style={{width: '200px'}} src={userAva} alt=""/> : <img style={{width: '200px'}} src={user.avatar} alt=""/>}
+                            {!user.avatar ? <img style={{width: '200px'}} src={userAva} alt=""/> :
+                                <img style={{width: '200px'}} src={user.avatar} alt=""/>}
                         </div>
-                        <p>Enter url new photo</p>
-                        <input value={photo} onChange={createNewPhoto}/>
+                        <TextField id="standard-basic" label="Photo"
+                                   value={photo} onChange={createNewPhoto}/>
                     </div>
-                    <p>Enter new name</p>
-                    <input value={name} onChange={createNewName}/>
-                    </div>}
+                    <TextField id="standard-basic" label="Name"
+                               value={name} onChange={createNewName}/>
+                </div>}
                 footer={<tr>
-                    <button onClick={CreateNewUserInfo}>Save</button>
-                    <button onClick={onClose}>Close</button>
+                    <Button onClick={CreateNewUserInfo}>Save</Button>
+                    <Button onClick={onClose}>Close</Button>
                 </tr>}
                 onClose={onClose}
             />}
@@ -81,38 +82,38 @@ export function Profile() {
                 <div className={s.profileInfo}>
                     <div className={s.profileMain}>
                         <div className={s.photoProfile}>
-                            {!user.avatar ?  <img src={userAva} alt=""/> : <img src={user.avatar} alt=""/> }
+                            {!user.avatar ? <img src={userAva} alt=""/> : <img src={user.avatar} alt=""/>}
                         </div>
                         <div>
                             <p>{user.name}</p>
                         </div>
                         <div>
                             <Button onClick={() => setEdit(true)}>
-                            Edit profile
-                        </Button>
+                                Edit profile
+                            </Button>
                         </div>
                         <div>
                             <Button onClick={logoutHandler}>Sing out</Button>
                         </div>
                     </div>
-                   <div className={s.numberOfCards}>
-                       <p>Number of cards</p>
-                       <div>
-                           <SuperDoubleRange
-                               value1={value1}
-                               setValue1={setValue1}
-                               setValue2={setValue2}
-                               value2={value2}
-                               max={maxCardsCount}
-                               component={'profile'}
-                           />
-                       </div>
-                   </div>
+                    <div className={s.numberOfCards}>
+                        <p>Number of cards</p>
+                        <div>
+                            <SuperDoubleRange
+                                value1={value1}
+                                setValue1={setValue1}
+                                setValue2={setValue2}
+                                value2={value2}
+                                max={maxCardsCount}
+                                component={'profile'}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className={s.table}>
                     <Tables/>
                 </div>
-                
+
             </div>
         </div>
     );

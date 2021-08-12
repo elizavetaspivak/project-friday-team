@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import {Paper, TableBody, TableContainer, TableHead, TableRow, Table, IconButton} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
-import {DeletePackListTC, setPacksListTC, UpdatePackTC} from '../state/table-reducer';
+import {DeletePackListTC, InitialStateType, setPacksListTC, UpdatePackTC} from '../state/table-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../state/store';
 import Button from '@material-ui/core/Button';
@@ -33,7 +33,7 @@ export function Tables() {
     //     userId && dispatch(setPacksListTC({sortPacks: '1updated', user_id: userId}))
     // }
 
-    const {sortPacks} = useSelector<AppRootStateType, any>(
+    const {sortPacks} = useSelector<AppRootStateType, InitialStateType>(
         (state) => state.table
     )
     const pageCount = useSelector<AppRootStateType, number>(
@@ -94,10 +94,8 @@ export function Tables() {
                     className={s.searchBoxInput}
                     placeholder={'Search...'}
                     onChange={inputHandler}
+                    onSearch={onSearch}
                 />
-                <Button variant="contained" color="primary" onClick={onSearch}>
-                    search
-                </Button>
             </div>
             <TableContainer component={Paper} className={s.tableContainer}>
                 <Table aria-label="simple table" className={s.tableContainer}>
@@ -127,8 +125,8 @@ export function Tables() {
                                             title={'Enter new title'}
                                             content={<input value={inputValue} onChange={inputHandler}/>}
                                             footer={<tr key={row._id}>
-                                                <button onClick={() => UpdateCardPack(row._id)}>update</button>
-                                                <button onClick={onCloseUpdate}>Close</button>
+                                                <Button onClick={() => UpdateCardPack(row._id)}>update</Button>
+                                                <Button onClick={onCloseUpdate}>Close</Button>
                                             </tr>}
                                             onClose={() => setUpdatingPackId('')}
                                         />}
@@ -138,13 +136,13 @@ export function Tables() {
                                             title={'Do you want delete?'}
                                             content={`Click "yes" if you want`}
                                             footer={<tr key={row._id}>
-                                                <button
+                                                <Button
                                                     onClick={() => dispatch(DeletePackListTC(row._id, {
                                                         user_id: userId,
                                                         pageCount
                                                     }))}>Yes
-                                                </button>
-                                                <button onClick={onCloseDelete}>No</button>
+                                                </Button>
+                                                <Button onClick={onCloseDelete}>No</Button>
                                             </tr>}
                                             onClose={onCloseDelete}
                                         />}
