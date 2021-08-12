@@ -7,6 +7,7 @@ import {Tables} from '../Table/Table';
 import userAva from '../common/images/UserAvatar.png'
 import {Button} from '@material-ui/core';
 import React, {useEffect, useState} from 'react';
+import SuperDoubleRange from '../Test/h11/common/c8-SuperDoubleRange/SuperDoubleRange';
 
 export function Profile() {
     const dispatch = useDispatch();
@@ -20,6 +21,16 @@ export function Profile() {
     const logoutHandler = () => {
         dispatch(logoutTC());
     };
+
+    const maxCardsCount = useSelector<AppRootStateType, number>(
+        (state) => state.table.maxCardsCount
+    )
+    const minCardsCount = useSelector<AppRootStateType, number>(
+        (state) => state.table.minCardsCount
+    )
+
+    const [value1, setValue1] = useState<number>(minCardsCount)
+    const [value2, setValue2] = useState<number>(maxCardsCount)
 
     if (!isLoginIn) {
         return <Redirect to={'/login'}/>;
@@ -47,7 +58,14 @@ export function Profile() {
                    <div className={s.numberOfCards}>
                        <p>Number of cards</p>
                        <div>
-
+                           <SuperDoubleRange
+                               value1={value1}
+                               setValue1={setValue1}
+                               setValue2={setValue2}
+                               value2={value2}
+                               max={maxCardsCount}
+                               component={'profile'}
+                           />
                        </div>
                    </div>
                 </div>
