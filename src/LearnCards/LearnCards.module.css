@@ -49,10 +49,7 @@ h4{
 .radioButton{
    height: 20px;
 }
-/*.learnNextButton button {*/
-/*   width: 200px;*/
-/*   height: 30px;*/
-/*}*/
+
 
 .learnCheckButton button{
    width: 180px;
@@ -73,7 +70,7 @@ h4{
    justify-content: space-between;
    margin-top: 15px;
 }
-.learnNextButton button{
+.learnNextButton {
    width: 100px;
    height: 36px;
    border-radius: 30px;
