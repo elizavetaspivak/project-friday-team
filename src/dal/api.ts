@@ -144,7 +144,7 @@ export type UpdatedCardDataParamsType = {
 
 export type UpdatedUserDataType = {
 	name?: string
-	avatar?: string
+	avatar?: string | null | undefined
 }
 
 
