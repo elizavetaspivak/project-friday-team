@@ -106,29 +106,18 @@ export function Tables() {
                                     history.push(`/learnCards/${row._id}`)
                                 }
                                 return (
-                                    <TableRow>
+                                    <>
                                         {updatingPackId === row._id &&
-                                        <TransitionsModal open={updatingPackId === row._id}
-                                                          title={'Enter new title'}
-                                                          content={<input value={inputValue} onChange={inputHandler}/>}
-                                                          footer={<tr key={row._id}>
-                                                              <button onClick={() => UpdateCardPack(row._id)}>update
-                                                              </button>
-                                                              <button onClick={onCloseUpdate}>Close</button>
-                                                          </tr>}
-                                                          onClose={() => setUpdatingPackId('')}
-                                        />
-                                            // <Modal
-                                            // show={updatingPackId === row._id}
-                                            // title={'Enter new title'}
-                                            // content={<input value={inputValue} onChange={inputHandler}/>}
-                                            // footer={<tr key={row._id}>
-                                            // <button onClick={() => UpdateCardPack(row._id)}>update</button>
-                                            // <button onClick={onCloseUpdate}>Close</button>
-                                            // </tr>}
-                                            // onClose={() => setUpdatingPackId('')}
-                                            // />
-                                        }
+                                        <Modal
+                                            show={updatingPackId === row._id}
+                                            title={'Enter new title'}
+                                            content={<input value={inputValue} onChange={inputHandler}/>}
+                                            footer={<tr key={row._id}>
+                                                <button onClick={() => UpdateCardPack(row._id)}>update</button>
+                                                <button onClick={onCloseUpdate}>Close</button>
+                                            </tr>}
+                                            onClose={() => setUpdatingPackId('')}
+                                        />}
                                         {deletedPackId === row._id &&
                                         <Modal
                                             show={deletedPackId === row._id}
@@ -145,23 +134,25 @@ export function Tables() {
                                             </tr>}
                                             onClose={onCloseDelete}
                                         />}
-                                        <TableCell component="th" onClick={getCards} scope="row">{row.name} </TableCell>
-                                        <TableCell align="center">{row.cardsCount}</TableCell>
-                                        <TableCell align="center">{moment(row.updated).format('DD.MM.YYYY')}</TableCell>
-                                        <TableCell align="center">{row.path}</TableCell>
-                                        <TableCell align="center">
-                                            <Button onClick={() => setDeletedPackId(row._id)}
+                                        <TableRow>
+                                            <TableCell component="th" onClick={getCards} scope="row">{row.name} </TableCell>
+                                            <TableCell align="center">{row.cardsCount}</TableCell>
+                                            <TableCell align="center">{moment(row.updated).format('DD.MM.YYYY')}</TableCell>
+                                            <TableCell align="center">{row.path}</TableCell>
+                                            <TableCell align="center">
+                                                <Button onClick={() => setDeletedPackId(row._id)}
+                                                        variant="contained"
+                                                        color="secondary">Delete</Button>
+                                                <Button onClick={() => setUpdatingPackId(row._id)}
+                                                        variant="contained"
+                                                        color="primary">Edit</Button>
+                                                <Button
+                                                    onClick={getQuestions}
                                                     variant="contained"
-                                                    color="secondary">Delete</Button>
-                                            <Button onClick={() => setUpdatingPackId(row._id)}
-                                                    variant="contained"
-                                                    color="primary">Edit</Button>
-                                            <Button
-                                                onClick={getQuestions}
-                                                variant="contained"
-                                                color="primary">Learn</Button>
-                                        </TableCell>
-                                    </TableRow>
+                                                    color="primary">Learn</Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    </>
                                 )
                             }
                         )

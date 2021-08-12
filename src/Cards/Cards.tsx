@@ -52,9 +52,6 @@ export function Cards() {
     const userId = useSelector<AppRootStateType, any>(
         (state) => state.login.userId
     )
-    const name = useSelector<AppRootStateType, any>(
-        (state) => state.table.cardPacks[0].name
-    )
 
     const useStyles = makeStyles({
         table: {
@@ -209,11 +206,8 @@ export function Cards() {
                             </TableHead>
                             <TableBody>
                                 {cards.cards.map((row: any) => {
-                                    const removeHandler = () => {
-                                        dispatch(removeCardTC(row._id, row.cardsPack_id))
-                                    }
                                     return (
-                                        <TableRow key={row._id}>
+                                        <>
                                             {updatingCardId === row._id && (
                                                 <Modal
                                                     show={updatingCardId === row._id}
@@ -262,6 +256,7 @@ export function Cards() {
                                                     onClose={onCloseDelete}
                                                 />
                                             )}
+                                        <TableRow key={row._id}>
                                             <TableCell component="th" scope="row">
                                                 {row.question}{' '}
                                             </TableCell>
@@ -291,6 +286,7 @@ export function Cards() {
                                                 ''
                                             )}
                                         </TableRow>
+                                        </>
                                     )
                                 })}
                             </TableBody>

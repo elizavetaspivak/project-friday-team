@@ -218,9 +218,6 @@ export function PacksList() {
                                     All
                                 </ToggleButton>
                             </ToggleButtonGroup>
-
-                            {/*<Button onClick={onClickSetMyFilter}>My</Button>*/}
-                            {/*<Button onClick={onClickSetAllFilter}>All</Button>*/}
                         </div>
                     </div>
                     <div className={s.numberOfCards}>
@@ -297,7 +294,7 @@ export function PacksList() {
                                             history.push(`/learnCards/${row._id}`)
                                         }
                                         return (
-                                            <TableRow key={row._id}>
+                                            <>
                                                 {updatingPackId === row._id &&
                                                 <Modal
                                                     show={updatingPackId === row._id}
@@ -322,6 +319,7 @@ export function PacksList() {
                                                     </tr>}
                                                     onClose={onCloseDelete}
                                                 />}
+                                            <TableRow key={row._id}>
                                                 <TableCell onClick={getCards} component="th" scope="row">
                                                     {row.name}{' '}
                                                 </TableCell>
@@ -364,6 +362,7 @@ export function PacksList() {
                                                     )}
                                                 </TableCell>
                                             </TableRow>
+                                            </>
                                         )
                                     })}
                                 </TableBody>
