@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import {LoginType, ResponseLoginType, AuthAPI} from '../dal/api';
+import {LoginType, ResponseLoginType, AuthAPI, UpdatedUserDataType} from '../dal/api';
 import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from './app-reducer';
 
 // types
@@ -128,3 +128,11 @@ export const logoutTC = () => (dispatch: Dispatch) => {
             dispatch(setStatusAC(false));
         });
 };
+
+export const UpdateUserData = (updatedUserData: UpdatedUserDataType) => (dispatch: Dispatch) => {
+    dispatch(setStatusAC(true));
+    AuthAPI.updateUserInfo(updatedUserData).then(res => {
+        dispatch(setUserDataAC(res.data));
+        dispatch(setStatusAC(false));
+    })
+}

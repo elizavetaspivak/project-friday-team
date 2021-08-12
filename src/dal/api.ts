@@ -142,6 +142,11 @@ export type UpdatedCardDataParamsType = {
 	}
 }
 
+export type UpdatedUserDataType = {
+	name?: string
+	avatar?: string
+}
+
 
 const instance = axios.create({
 	baseURL: "http://localhost:7542/2.0/",
@@ -159,9 +164,11 @@ export const AuthAPI = {
 		return instance.delete<DeleteLoginResponseType>(`auth/me`, {})
 	},
 	me() {
-		// debugger
 		return instance.post<ResponseLoginType>(`auth/me`, {})
 	},
+	updateUserInfo(updatedUserData: UpdatedUserDataType){
+		return instance.put(`auth/me`, {...updatedUserData})
+	}
 }
 
 export const RestoreAPI = {

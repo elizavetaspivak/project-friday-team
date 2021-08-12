@@ -4,13 +4,14 @@ import {CreateUserThunk} from '../state/register-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {TextField} from '@material-ui/core';
 import {AppRootStateType} from '../state/store';
-import { Redirect } from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 import React from 'react';
 import {ErrorSnackbar} from '../Snackbar/ErrorSnackBar';
 
 
 export const Register: React.FC = () => {
     let dispatch = useDispatch()
+    const history = useHistory()
 
 
     let isRegister = useSelector<AppRootStateType, boolean>(state => state.register.isRegister)
@@ -101,7 +102,7 @@ export const Register: React.FC = () => {
                                                        : 'Enter the password again'
                                                }/>
                                     <div className={s.buttonBlock}>
-                                        <button className={s.cancelButton}>
+                                        <button className={s.cancelButton} onClick={history.goBack}>
                                             Cancel
                                         </button>
                                         <button className={s.registerButton} type="submit" disabled={isSubmitting}>

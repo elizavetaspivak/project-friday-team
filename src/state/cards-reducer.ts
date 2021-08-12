@@ -28,8 +28,8 @@ export type ActionsCardsType =
 const initialState = {
 	cards: [] as CardType[],
 	cardsTotalCount: 0,
-	maxGrade: 4.987525071790364,
-	minGrade: 2.0100984354076568,
+	maxGrade: 5,
+	minGrade: 0,
 	page: 1 as number | undefined,
 	pageCount: 9,
 	packUserId: "",
@@ -90,6 +90,7 @@ export const getCardsTC =
 		dispatch(setSortCardsAC(getParams.sortCards))
 		cardsAPI.getCardsCard(getParams).then((res) => {
 			dispatch(getCardsAC(res.data))
+			debugger
 			dispatch(setCardsTotalCountAC(res.data.cardsTotalCount))
 			dispatch(setStatusAC(false))
 		})

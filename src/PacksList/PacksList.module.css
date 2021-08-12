@@ -90,3 +90,77 @@
         border-radius: 0 0 25px 25px;
     }
 }
+
+@media screen and (max-width: 1050px){
+    .packContainer{
+        flex-direction: column;
+    }
+    .mainPacks{
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+        width: 900px;
+        height: 200px;
+        border-radius: 25px 25px 0 0;
+    }
+    .packTable{
+        border-radius: 0 0 25px 25px;
+        width: 900px;
+    }
+}
+
+@media screen and (max-width: 950px){
+    .packContainer{
+        flex-direction: column;
+    }
+    .mainPacks{
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+        width: 800px;
+        height: 200px;
+        border-radius: 25px 25px 0 0;
+    }
+    .packTable{
+        border-radius: 0 0 25px 25px;
+        width: 800px;
+    }
+}
+
+@media screen and (max-width: 860px){
+    .packContainer{
+        flex-direction: column;
+    }
+    .mainPacks{
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+        width: 700px;
+        height: 200px;
+        border-radius: 25px 25px 0 0;
+    }
+    .packTable{
+        border-radius: 0 0 25px 25px;
+        width: 700px;
+    }
+}
+
+
+@media screen and (max-width: 760px){
+    .packContainer{
+        flex-direction: column;
+    }
+    .mainPacks{
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+        width: 600px;
+        height: 200px;
+        border-radius: 25px 25px 0 0;
+    }
+    .packTable{
+        border-radius: 0 0 25px 25px;
+        width: 600px;
+        height: 100%;
+    }
+}
