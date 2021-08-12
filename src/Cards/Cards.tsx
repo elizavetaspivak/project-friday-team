@@ -26,6 +26,7 @@ import moment from 'moment'
 import {DeletePackListTC, setPacksListTC} from '../state/table-reducer'
 import {Modal} from '../Modal/Modal'
 import {Paginator} from '../components/Pagination/Pagination'
+import {Rating} from '@material-ui/lab';
 
 export function Cards() {
     let dispatch = useDispatch()
@@ -268,7 +269,7 @@ export function Cards() {
                                             <TableCell align="center">
                                                 {moment(row.updated).format('DD.MM.YYYY')}
                                             </TableCell>
-                                            <TableCell align="center">{row.grade}</TableCell>
+                                            <TableCell align="center"><Rating name="read-only" value={row.grade} readOnly /></TableCell>
                                             {cards.packUserId == userId ? (
                                                 <TableCell align="center">
                                                     <Button
