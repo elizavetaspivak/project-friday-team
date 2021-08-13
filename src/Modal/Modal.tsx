@@ -17,19 +17,6 @@ export const Modal = ({
     show
                       }: ModalProps) => {
 
-    const onKeydown = ({key}: KeyboardEvent) => {
-        switch (key) {
-            case 'Escape':
-                onClose()
-                break
-        }
-    }
-
-    useEffect(() => {
-        document.addEventListener('keydown', onKeydown)
-        return () => document.removeEventListener('keydown', onKeydown)
-    })
-
     if (!show) return null;
 
     return (
