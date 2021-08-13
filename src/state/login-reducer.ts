@@ -133,7 +133,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 export const UpdateUserData = (updatedUserData: UpdatedUserDataType) => (dispatch: Dispatch) => {
     dispatch(setStatusAC(true));
     AuthAPI.updateUserInfo(updatedUserData).then(res => {
-        dispatch(setUserDataAC(res.data));
+        dispatch(setUserDataAC(res.data.updatedUser));
         dispatch(setStatusAC(false));
     })
 }
