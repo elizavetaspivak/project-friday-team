@@ -39,14 +39,14 @@ export function Cards() {
     const isLoginIn = useSelector<AppRootStateType, boolean>(
         (state) => state.login.isLoggedIn
     )
-    let {cards, page, pageCount, cardsTotalCount, sortCards, maxGrade, minGrade, packUserId} = useSelector<AppRootStateType,
+    let {cards, page, pageCount, cardsTotalCount, sortCards, packUserId} = useSelector<AppRootStateType,
         initialStateCardsType>((state) => state.cards)
 
 
     const {cardsId} = useParams<{ cardsId: string }>()
 
     useEffect(() => {
-        dispatch(getCardsTC({cardsPack_id: cardsId, pageCount: 6, max: maxGrade, min: minGrade, sortCards}))
+        dispatch(getCardsTC({cardsPack_id: cardsId, pageCount: 6, sortCards}))
         setQuestion('')
         setAnswer('')
         setUpdatingCardId('')
@@ -61,7 +61,6 @@ export function Cards() {
         (page: number) => {
             dispatch(
                 getCardsTC({
-                    max: maxGrade, min: minGrade,
                     page,
                     pageCount,
                     cardsPack_id: cardsId,
@@ -135,9 +134,7 @@ export function Cards() {
             cardsPack_id: cardsId,
             sortCards: sortTitle,
             page,
-            pageCount,
-            max: maxGrade,
-            min: minGrade
+            pageCount
         }))
     }
 
@@ -148,9 +145,7 @@ export function Cards() {
             cardsPack_id: cardsId,
             sortCards: sortTitle,
             page,
-            pageCount,
-            max: maxGrade,
-            min: minGrade
+            pageCount
         }))
     }
 
@@ -163,9 +158,7 @@ export function Cards() {
         cardsPack_id: cardsId,
         sortCards: sortTitle,
         page,
-        pageCount,
-        max: maxGrade,
-        min: minGrade
+        pageCount
     }))
 
     if (!isLoginIn) {
